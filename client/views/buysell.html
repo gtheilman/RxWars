@@ -1,0 +1,37 @@
+<template name="buysell">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-2">Name</div>
+            <div class="col-md-1">Schedule</div>
+            <div class="col-md-1">Inventory</div>
+            <div class="col-md-1">Pharmacy Price</div>
+            <div class="col-md-1">Relative Risk of Arrest Buying</div>
+            <div class="col-md-1">Buy</div>
+            <div class="col-md-1">Calculated Risk of Arrest Buying</div>
+            <div class="col-md-1">Street Price</div>
+            <div class="col-md-1">Risk of Arrest Selling</div>
+        </div>
+        {{#each drugs}}
+            <div class="row">
+
+                <div class="col-md-2">{{name}}</div>
+                <div class="col-md-1">{{schedule}}</div>
+                <div class="col-md-1">{{inventory}}</div>
+                <div class="col-md-1">{{awp}}</div>
+                <div class="col-md-2">{{buyRisk}}</div>
+                <div class="col-md-1">
+                    <form>
+                        <input type="text" size="3" id="quantity_{{drug_id}}" name="quantity"/>
+                        <button id="buyButton_{{drug_id}}">Buy</button>
+                        <input type="hidden" id="drug_id_{{drug_id}}" name="drug_id" value="{{drug_id}}">
+                    </form>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-1">{{price}}</div>
+                <div class="col-md-1">{{sellRisk}}</div>
+
+            </div>
+        {{/each}}
+    </div>
+</template>
