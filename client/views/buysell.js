@@ -33,8 +33,48 @@ Template.buysell.helpers({
     },
     dollarFormat: function (amount) {
         return "$" + amount.toFixed(2)
+    },
+    teamName: function () {
+        return Meteor.user().username;
+    },
+
+
+    teamCash: function () {
+
+        if (!Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}})) {
+            Transactions.insert({
+                time: new Date,
+                teamCash: 0,
+                teamDebt: 0,
+                drug_id: ''
+            });
+        }
+        var teamCash = Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}}).teamCash;
+
+        if (teamCash) {
+            return "$" + teamCash.toFixed(2)
+        } else
+            return "$0.00"
+
+    },
+    teamDebt: function () {
+
+        if (!Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}})) {
+            Transactions.insert({
+                time: new Date,
+                teamCash: 0,
+                teamDebt: 0,
+                drug_id: ''
+            });
+        }
+        var teamDebt = Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}}).teamDebt;
+
+        if (teamDebt) {
+            return "$" + teamDebt.toFixed(2)
+        } else
+            return "$0.00"
+
     }
 
 
 });
-

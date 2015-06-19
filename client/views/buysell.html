@@ -2,6 +2,26 @@
     <div class="container-fluid">
 
         <div class="row">
+            <div class="col-md-5">
+                <h3>{{teamName}}</h3>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-5">
+                Cash:  {{teamCash}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                Debt:  {{teamDebt}}
+            </div>
+        </div>
+
+
+        <div class="row">
             <div class="col-md-1">Name</div>
             <div class="col-md-1">Schedule</div>
             <div class="col-md-2">Inventory</div>
@@ -25,7 +45,6 @@
                     {{#autoForm collection="Transactions" id=makeUniqueID type="insert" validation="submit"  }}
                         {{> afFieldInput name='buyQuantity'  template="bootstrap3-inline"  style="width:50px"}}
                         {{> afFieldInput name="drug_id" value= this.drug_id type="hidden"}}
-                        {{> afFieldInput name="team_id" value=this.team_id type="hidden"}}
                         {{> afFieldInput name="buyPrice" value=this.awp type="hidden"}}
                         <button type="submit" class="btn btn-primary  btn-xs">Buy</button>
                     {{/autoForm}}
@@ -37,7 +56,6 @@
                     {{#autoForm collection="Transactions" id=makeUniqueID type="insert"}}
                         {{> afFieldInput name='sellQuantity' template="bootstrap3-inline" style="width:50px"}}
                         {{> afFieldInput name="drug_id" value= this.drug_id type="hidden"}}
-                        {{> afFieldInput name="team_id" value=this.team_id type="hidden"}}
                         {{> afFieldInput name="sellPrice" value=this.price type="hidden"}}
                         <button type="submit" class="btn btn-primary  btn-xs">Sell</button>
                     {{/autoForm}}
@@ -45,5 +63,28 @@
 
             </div>
         {{/each}}
+
+
+
+        <div class="row">
+            <div class="col-md-5">
+                Loan Shark
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                Borrow: $
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-5">
+                Repay: $
+            </div>
+        </div>
+
+
     </div>
 </template>
