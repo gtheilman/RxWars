@@ -61,7 +61,6 @@ Template.buysell.helpers({
 
         if (!Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}})) {
             Transactions.insert({
-                time: new Date,
                 teamCash: 0,
                 teamDebt: 0,
                 drug_id: ''
@@ -76,5 +75,66 @@ Template.buysell.helpers({
 
     }
 
+});
+
+
+Template.buysell.events({
+    "submit #borrowForm": function (event, template) {
+        event.preventDefault();
+        var borrowAmount = event.target.borrowAmount.value;
+
+        var current = Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}});
+
+        var teamCash = current.teamCash + parseInt(borrowAmount);
+        var teamDebt = current.teamDebt + parseInt(borrowAmount);
+
+        Transactions.insert({
+            teamCash: teamCash,
+            teamDebt: teamDebt
+        });
+    },
+    "submit #repayForm": function (event, template) {
+        event.preventDefault();
+        var repayAmount = parseInt(event.target.repayAmount.value);
+
+        var current = Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}});
+
+        if (repayAmount > current.teamCash) {
+            repayAmount = current.teamCash;
+        }
+        if (repayAmount > current.teamDebt) {
+            repayAmount = current.teamDebt;
+        }
+
+        var teamCash = current.teamCash - parseInt(repayAmount);
+        var teamDebt = current.teamDebt - parseInt(repayAmount);
+
+        Transactions.insert({
+            teamCash: teamCash,
+            teamDebt: teamDebt
+        });
+    },
+
+    "click #repayAllButton": function (event, template) {
+        event.preventDefault();
+
+
+        var current = Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}});
+
+        if (current.teamDebt > current.teamCash) {
+            var repayAmount = current.teamCash;
+        } else {
+            var repayAmount = current.teamDebt;
+        }
+
+        var teamCash = current.teamCash - parseInt(repayAmount);
+        var teamDebt = current.teamDebt - parseInt(repayAmount);
+
+        Transactions.insert({
+            teamCash: teamCash,
+            teamDebt: teamDebt
+        });
+    }
 
 });
+

@@ -68,23 +68,56 @@
 
         <div class="row">
             <div class="col-md-5">
-                Loan Shark
+                <h4>Loan Shark</h4>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-5">
-                Borrow: $
+                <form class="form-inline" id="borrowForm">
+                    <div class="form-group">
+                        <label class="sr-only" for="borrowAmount">Amount (in dollars)</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="text" class="form-control" name="borrowAmount" id="borrowAmount"
+                                   placeholder="Amount">
+
+                            <div class="input-group-addon">.00</div>
+                        </div>
+                    </div>
+                    <button type="submit" id="borrowButton" class="btn btn-primary">Borrow</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                &nbsp;
             </div>
         </div>
 
 
         <div class="row">
+            <div class="col-md-3">
+                <form class="form-inline" id="repayForm">
+                    <div class="form-group">
+                        <label class="sr-only" for="repayAmount">Amount (in dollars)</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="text" class="form-control" id="repayAmount" placeholder="Amount">
+
+                            <div class="input-group-addon">.00</div>
+                        </div>
+                    </div>
+                    <button type="submit" id="repayButton" class="btn btn-primary">Repay</button>
+                </form>
+            </div>
             <div class="col-md-5">
-                Repay: $
+                <button type="submit" id="repayAllButton" class="btn btn-primary form-inline">Repay All</button>
             </div>
         </div>
-
-
     </div>
+
 </template>
