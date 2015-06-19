@@ -12,6 +12,8 @@ Template.buysell.helpers({
             }
 
             var entry = {
+                team_id: Meteor.userId(),
+                drug_id: drug._id,
                 name: drug.name,
                 schedule: drug.schedule,
                 awp: drug.awp,
@@ -25,16 +27,12 @@ Template.buysell.helpers({
         });
 
         return TeamBuySell.find({});
-    }
+    },
+
+
 });
 
-Template.buysell.events({
-    'click #buyButton': function (event, template) {
-        event.preventDefault();
-        console.log(this.drug_id);
-        console.log(this.quantity);
-    }
-});
+Template.buysell.events({});
 
 
 

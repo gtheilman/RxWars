@@ -6,9 +6,9 @@
             <div class="col-md-1">Schedule</div>
             <div class="col-md-1">Inventory</div>
             <div class="col-md-1">Pharmacy Price</div>
-            <div class="col-md-1">Relative Risk of Arrest Buying</div>
-            <div class="col-md-1">Buy</div>
-            <div class="col-md-1">Calculated Risk of Arrest Buying</div>
+            <div class="col-md-2">Relative Risk of Arrest (Buying)</div>
+            <div class="col-md-2">Buy</div>
+            <div class="col-md-1">Calculated Risk of Arrest (Selling)</div>
             <div class="col-md-1">Street Price</div>
             <div class="col-md-1">Risk of Arrest Selling</div>
         </div>
@@ -20,12 +20,14 @@
                 <div class="col-md-1">{{inventory}}</div>
                 <div class="col-md-1">{{awp}}</div>
                 <div class="col-md-2">{{buyRisk}}</div>
-                <div class="col-md-1">
-                    <form>
-                        <input type="text" size="3" id="quantity_{{drug_id}}" name="quantity"/>
-                        <button id="buyButton_{{drug_id}}">Buy</button>
-                        <input type="hidden" id="drug_id_{{drug_id}}" name="drug_id" value="{{drug_id}}">
-                    </form>
+                <div class="col-md-2">
+                    {{#autoForm collection="Transactions" id=this.drug_id type="insert"}}
+                        {{> afQuickField name='buyQuantity'}}
+                        {{> afFieldInput name="drug_id" value= this.drug_id type="hidden"}}
+                        {{> afFieldInput name="team_id" value=this.team_id type="hidden"}}
+                        {{> afFieldInput name="buyPrice" value=this.price type="hidden"}}
+                        <button type="submit" class="btn btn-primary">Buy</button>
+                    {{/autoForm}}
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-1">{{price}}</div>
