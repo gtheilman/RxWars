@@ -1,37 +1,43 @@
 <template name="buysell">
-    <div class="container">
+    <div class="container-fluid">
 
         <div class="row">
-            <div class="col-md-2">Name</div>
-            <div class="col-md-1">Schedule</div>
+            <div class="col-md-1">Name</div>
             <div class="col-md-1">Inventory</div>
             <div class="col-md-1">Pharmacy Price</div>
-            <div class="col-md-2">Relative Risk of Arrest (Buying)</div>
-            <div class="col-md-2">Buy</div>
-            <div class="col-md-1">Calculated Risk of Arrest (Selling)</div>
+            <div class="col-md-2">Risk of Arrest (Buying)</div>
+            <div class="col-md-1">Buy</div>
             <div class="col-md-1">Street Price</div>
             <div class="col-md-1">Risk of Arrest Selling</div>
+            <div class="col-md-1">Sell</div>
         </div>
         {{#each drugs}}
             <div class="row">
 
-                <div class="col-md-2">{{name}}</div>
-                <div class="col-md-1">{{schedule}}</div>
+                <div class="col-md-1">{{name}} ({{schedule}})</div>
                 <div class="col-md-1">{{inventory}}</div>
                 <div class="col-md-1">{{awp}}</div>
                 <div class="col-md-2">{{buyRisk}}</div>
-                <div class="col-md-2">
-                    {{#autoForm collection="Transactions" id=this.drug_id type="insert"}}
-                        {{> afQuickField name='buyQuantity'}}
+                <div class="col-md-1">
+                    {{#autoForm collection="Transactions" id=makeUniqueID type="insert"  }}
+                        {{> afFieldInput name='buyQuantity' template="plain" style="width:50px"}}
                         {{> afFieldInput name="drug_id" value= this.drug_id type="hidden"}}
                         {{> afFieldInput name="team_id" value=this.team_id type="hidden"}}
-                        {{> afFieldInput name="buyPrice" value=this.price type="hidden"}}
-                        <button type="submit" class="btn btn-primary">Buy</button>
+                        {{> afFieldInput name="buyPrice" value=this.awp type="hidden"}}
+                        <button type="submit" class="btn btn-primary  btn-xs">Buy</button>
                     {{/autoForm}}
                 </div>
-                <div class="col-md-1"></div>
                 <div class="col-md-1">{{price}}</div>
                 <div class="col-md-1">{{sellRisk}}</div>
+                <div class="col-md-1">
+                    {{#autoForm collection="Transactions" id=makeUniqueID type="insert"}}
+                        {{> afFieldInput name='sellQuantity' template="plain" style="width:50px"}}
+                        {{> afFieldInput name="drug_id" value= this.drug_id type="hidden"}}
+                        {{> afFieldInput name="team_id" value=this.team_id type="hidden"}}
+                        {{> afFieldInput name="sellPrice" value=this.price type="hidden"}}
+                        <button type="submit" class="btn btn-primary  btn-xs">Sell</button>
+                    {{/autoForm}}
+                </div>
 
             </div>
         {{/each}}

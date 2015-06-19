@@ -28,6 +28,9 @@ Template.buysell.helpers({
 
         return TeamBuySell.find({});
     },
+    makeUniqueID: function () {
+        return "Form_" + parseInt(Math.random() * 1000000);
+    }
 
 
 });
