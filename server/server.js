@@ -2,15 +2,40 @@ if (Meteor.isServer) Meteor.methods({
 
 
     'updatePrices': function () {
-        Drugs.find().forEach(function (drug) {
+
+
+        Drugs.find({active: true}).forEach(function (drug) {
+            var numberAvailable = 1;
+            var numberPlayers = 0;
+            var price = 0;
+
+            // https://github.com/mizzao/meteor-user-status
+            Meteor.users.find({"status.online": true}).forEach(function (player) {
+                console.log(player._id);
+                console.log(player.username);
+                numberPlayers = numberPlayers + 1;
+
+                var transaction = Transactions.findOne({
+                    team_id: player._id,
+                    drug_id: drug._id
+                }, {sort: {epoch: -1}});
+
+                numberAvailable = numberAvailable + parseInt(transaction.inventoryForward);
+            });
+
+            price = parseFloat(drug.awp) * parseFloat(drug.demandMultiplier) * 100 * numberPlayers / numberAvailable;
+
             entry = {
                 time: new Date(),
                 drug_id: drug._id,
-                price: Math.round(drug.awp * Math.random() * 100) / 10,
-                numberAvailable: parseInt(1000 * Math.random())
+                price: price,
+                numberAvailable: numberAvailable
             };
             DrugPrice.insert(entry);
-        })
+
+
+        });
     }
+
 });
 

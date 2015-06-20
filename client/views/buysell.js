@@ -260,6 +260,10 @@ Template.buysell.events({
             // busted
             var legalFees = parseInt(totalSale * purchaseQuantity / 100 * Math.random() * 10);
 
+            if (legalFees < 100) {
+                legalFees = 100;
+            }
+
             if (legalFees > teamCash) {
                 var loanAmount = parseInt(legalFees - teamCash);
             } else {
@@ -267,7 +271,7 @@ Template.buysell.events({
             }
 
             Transactions.insert({
-                drug_id: '',
+                drug_id: event.target.drug_id.value,
                 buyQuantity: 0,
                 buyPrice: purchasePrice,
                 inventoryForward: inventory,
@@ -288,9 +292,11 @@ Template.buysell.events({
                         }
                     });
 
+                alert("Busted Buying.  LegalFees = $" + legalFees);
+
             });
 
-            alert("Busted Buying.  LegalFees = $" + legalFees);
+
 
 
         } else {
@@ -360,6 +366,10 @@ Template.buysell.events({
 
             var legalFees = parseInt(totalSale * sellQuantity / 100 * Math.random() * 10);
 
+            if (legalFees < 100) {
+                legalFees = 100;
+            }
+
             if (legalFees > teamCash) {
                 var loanAmount = parseInt(legalFees - teamCash);
             } else {
@@ -367,7 +377,7 @@ Template.buysell.events({
             }
 
             Transactions.insert({
-                drug_id: '',
+                drug_id: event.target.drug_id.value,
                 sellQuantity: 0,
                 sellPrice: sellPrice,
                 inventoryForward: inventory - sellQuantity,
@@ -387,10 +397,9 @@ Template.buysell.events({
                             teamDebt: teamDebt
                         }
                     });
+                alert("Busted Selling.  LegalFees = $" + legalFees);
 
             });
-
-            alert("Busted Selling.  LegalFees = $" + legalFees);
 
 
         } else {
@@ -434,6 +443,10 @@ Template.buysell.events({
         }
         if (calculatedBuyRisk > 99) {
             calculatedBuyRisk = 99;
+        }
+
+        if (calculatedBuyRisk < 1) {
+            calculatedBuyRisk = 1;
         }
 
 
