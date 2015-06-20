@@ -110,6 +110,8 @@ Template.buysell.events({
 
         });
 
+        $('#loanAmount').val('');
+
 
     },
 
@@ -143,6 +145,8 @@ Template.buysell.events({
                 });
 
         });
+        
+        $('#loanPayment').val('');
 
 
     },
