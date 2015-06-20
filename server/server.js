@@ -20,10 +20,12 @@ if (Meteor.isServer) Meteor.methods({
                     drug_id: drug._id
                 }, {sort: {epoch: -1}});
 
-                numberAvailable = numberAvailable + parseInt(transaction.inventoryForward);
+                if (transaction) {
+                    numberAvailable = numberAvailable + parseInt(transaction.inventoryForward);
+                }
             });
 
-            price = parseFloat(drug.awp) * parseFloat(drug.demandMultiplier) * 100 * numberPlayers / numberAvailable;
+            price = parseFloat(drug.awp) * parseFloat(drug.demandMultiplier) * 150 * numberPlayers / numberAvailable;
 
             entry = {
                 time: new Date(),

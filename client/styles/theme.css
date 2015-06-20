@@ -33,3 +33,7 @@ button {
     background: #eee;
     padding: 10px 20px;
 }
+
+.buySellHeader {
+    font-weight: bold;
+}

@@ -9,33 +9,33 @@
 
 
         <div class="row">
-            <div class="col-md-5">
+            <div class="alert alert-success col-md-2" role="alert">
                 Cash:  {{teamCash}}
             </div>
-        </div>
+            <div class="col-md-1"></div>
 
-        <div class="row">
-            <div class="col-md-5">
+            <div class="alert alert-danger col-md-2" role="alert">
                 Debt:  {{teamDebt}}
             </div>
         </div>
 
 
         <div class="row">
-            <div class="col-md-1">Name</div>
-            <div class="col-md-1">Schedule</div>
-            <div class="col-md-2">Inventory</div>
-            <div class="col-md-1">Pharmacy Price</div>
-            <div class="col-md-1">Risk of Arrest (Buying)</div>
-            <div class="col-md-1">Buy</div>
-            <div class="col-md-1"></div>
-            <div class="col-md-1">Street Price</div>
-            <div class="col-md-1">Risk of Arrest Selling</div>
-            <div class="col-md-1">Sell</div>
+            <div class="col-md-1 buySellHeader">Name</div>
+            <div class="col-md-1 buySellHeader">Schedule</div>
+            <div class="col-md-2 buySellHeader">Inventory</div>
+            <div class="col-md-1 buySellHeader">Pharmacy Price</div>
+            <div class="col-md-1 buySellHeader">Risk of Arrest (Buying)</div>
+            <div class="col-md-1 buySellHeader">Buy</div>
+            <div class="col-md-1 buySellHeader"></div>
+            <div class="col-md-1 buySellHeader">Street Price</div>
+            <div class="col-md-1 buySellHeader">Risk of Arrest Selling</div>
+            <div class="col-md-1 buySellHeader">Sell</div>
+            <hr>
         </div>
+        <div class="row">&nbsp;</div>
         {{#each drugs}}
             <div class="row">
-
                 <div class="col-md-1">{{name}}</div>
                 <div class="col-md-1">{{schedule}}</div>
                 <div class="col-md-2">{{inventory}}</div>
@@ -66,6 +66,7 @@
                 </div>
 
             </div>
+            <hr>
         {{/each}}
 
 
