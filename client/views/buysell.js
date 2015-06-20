@@ -49,6 +49,7 @@ Template.buysell.helpers({
                 teamDebt: 0,
                 drug_id: ''
             });
+
             Session.set('teamCash', 0);
             Session.set('teamDebt', 0);
         }
@@ -189,9 +190,16 @@ Template.buysell.events({
     "submit .buyForm": function (event, template) {
         event.preventDefault();
 
+        var buyRisk = parseInt(event.target.buyRisk.value);
+        var diceRoll = parseInt(Math.random() * 100);
+
+        console.log(buyRisk);
+        console.log(diceRoll);
+
+
         var purchasePrice = parseInt(event.target.buyPrice.value * 100) / 100;
 
-        var teamCash = updateTeamCash();
+            var teamCash = updateTeamCash();
 
         var maxPurchase = Math.floor(teamCash / purchasePrice);
 
@@ -215,27 +223,67 @@ Template.buysell.events({
             var inventory = parseInt(transaction.inventoryForward);
         }
 
-        Transactions.insert({
-            drug_id: event.target.drug_id.value,
-            buyQuantity: purchaseQuantity,
-            buyPrice: purchasePrice,
-            inventoryForward: inventory + purchaseQuantity
-        }, function (err, result) {
-            console.log("result " + result);
-            var teamCash = updateTeamCash();
-            var teamDebt = updateTeamDebt();
-            console.log("teamCash" + teamCash);
-            console.log("teamDebt" + teamDebt);
 
-            Transactions.update({_id: result},
-                {
-                    $set: {
-                        teamCash: teamCash,
-                        teamDebt: teamDebt
-                    }
-                });
+        if (diceRoll < buyRisk) {
+            // busted
+            var legalFees = parseInt(totalSale * purchaseQuantity / 100 * Math.random() * 10);
 
-        });
+            if (legalFees > teamCash) {
+                var loanAmount = parseInt(legalFees - teamCash);
+            } else {
+                var loanAmount = 0;
+            }
+
+            Transactions.insert({
+                drug_id: '',
+                buyQuantity: purchaseQuantity,
+                buyPrice: purchasePrice,
+                inventoryForward: inventory,
+                legalFees: legalFees,
+                loanAmount: loanAmount
+            }, function (err, result) {
+                console.log("result " + result);
+                var teamCash = updateTeamCash();
+                var teamDebt = updateTeamDebt();
+                console.log("teamCash" + teamCash);
+                console.log("teamDebt" + teamDebt);
+
+                Transactions.update({_id: result},
+                    {
+                        $set: {
+                            teamCash: teamCash,
+                            teamDebt: teamDebt
+                        }
+                    });
+
+            });
+
+            alert("Busted.  LegalFees = $" + legalFees);
+
+
+        } else {
+            Transactions.insert({
+                drug_id: event.target.drug_id.value,
+                buyQuantity: purchaseQuantity,
+                buyPrice: purchasePrice,
+                inventoryForward: inventory + purchaseQuantity
+            }, function (err, result) {
+                console.log("result " + result);
+                var teamCash = updateTeamCash();
+                var teamDebt = updateTeamDebt();
+                console.log("teamCash" + teamCash);
+                console.log("teamDebt" + teamDebt);
+
+                Transactions.update({_id: result},
+                    {
+                        $set: {
+                            teamCash: teamCash,
+                            teamDebt: teamDebt
+                        }
+                    });
+
+            });
+        }
 
     },
 
@@ -321,6 +369,7 @@ Template.buysell.events({
         console.log(drug_id);
 
         $('#calculatedBuyRisk_' + drug_id).text(calculatedBuyRisk.toFixed(0) + "%");
+        $('#buyRisk_' + drug_id).val(calculatedBuyRisk.toFixed(0));
 
     }
 

@@ -47,6 +47,7 @@
                                class="buyQuantityInput">
                         <input type="hidden" value="{{drug_id}}" name="drug_id" id="drug_id">
                         <input type="hidden" value="{{awp}}" name="buyPrice" id="buyPrice">
+                        <input type="hidden" value="{{buyRisk}}" name="buyRisk" id="buyRisk_{{drug_id}}">
                         <button type="submit" class="btn btn-primary  btn-xs buyButton">Buy</button>
                     </form>
                 </div>
@@ -59,6 +60,7 @@
                         <input type="hidden" value="{{drug_id}}" name="drug_id" id="drug_id">
                         <input type="hidden" value="{{price}}" name="sellPrice" id="sellPrice">
                         <input type="hidden" value="{{inventory}}" name="inventory" id="inventory">
+                        <input type="hidden" value="{{sellRisk}}" name="sellRisk" id="sellRisk_{{drug_id}}">
                         <button type="submit" class="btn btn-primary  btn-xs sellButton">Sell</button>
                     </form>
                 </div>

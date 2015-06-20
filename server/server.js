@@ -6,7 +6,7 @@ if (Meteor.isServer) Meteor.methods({
             entry = {
                 time: new Date(),
                 drug_id: drug._id,
-                price: Math.round(drug.awp * Math.random() * 100) / 100,
+                price: Math.round(drug.awp * Math.random() * 100) / 10,
                 numberAvailable: parseInt(1000 * Math.random())
             };
             DrugPrice.insert(entry);

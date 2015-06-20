@@ -21,6 +21,10 @@ if (!Meteor.isClient) {
                 teamCash = teamCash - transaction.legalFees;
             }
         });
+
+        if (teamCash < 0) {
+            teamCash = 0;
+        }
         console.log("TeamCash: " + teamCash);
         Session.set('teamCash', teamCash);
         return teamCash
@@ -40,6 +44,11 @@ if (!Meteor.isClient) {
                 teamDebt = teamDebt - transaction.loanPayment;
             }
         });
+
+
+        if (teamDebt < 0) {
+            teamDebt = 0;
+        }
         console.log("teamDebt: " + teamDebt);
         Session.set('teamDebt', teamDebt);
         return teamDebt
