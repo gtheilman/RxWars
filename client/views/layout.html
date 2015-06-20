@@ -22,6 +22,16 @@
             {{> yield}}
         {{/if}}
     </div>
+
+    {{#if currentUser}}
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-4">
+                {{> scoreboard}}
+            </div>
+        </div>
+    {{/if}}
+
     </body>
     <footer>
         {{> footer}}

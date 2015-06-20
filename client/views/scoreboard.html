@@ -1,0 +1,18 @@
+<template name="scoreboard">
+
+    <div class="panel panel-info">
+        <div class="row">
+            <div class="col-md-4"><h4>Gang</h4></div>
+            <div class="col-md-4"><h4>Net Profits</h4></div>
+        </div>
+
+
+        {{#each teamScores}}
+            <div class="row">
+                <div class="col-md-4">{{username}}</div>
+                <div class="col-md-4 {{profitLoss teamNet}}">${{addCommas teamNet}}</div>
+            </div>
+        {{/each}}
+    </div>
+
+</template>

@@ -69,9 +69,7 @@ Template.buysell.helpers({
     makeUniqueID: function () {
         return "Form_" + parseInt(Math.random() * 1000000);
     },
-    dollarFormat: function (amount) {
-        return "$" + amount.toFixed(2)
-    },
+
     teamName: function () {
         return Meteor.user().username;
     },

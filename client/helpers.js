@@ -79,4 +79,8 @@ if (!Meteor.isClient) {
     Template.registerHelper('updateTeamDebt', updateTeamDebt);
 
 
+    Template.registerHelper('dollarFormat', function (amount) {
+        return "$" + amount.toFixed(2)
+    });
+
 }
