@@ -6,12 +6,12 @@ if (Meteor.isClient) {
 
         if (teamDebt > 0) {
 
-            var loanInterest = 0.1 * teamDebt;
+            var loanInterest = 0.05 * teamDebt;
 
             Transactions.insert({
                 loanInterest: loanInterest
             }, function (err, result) {
-                console.log("result " + result);
+                // console.log("result " + result);
 
                 var teamCash = updateTeamCash();
                 var teamDebt = updateTeamDebt();
@@ -127,12 +127,12 @@ Template.buysell.events({
         Transactions.insert({
             loanAmount: loanAmount
         }, function (err, result) {
-            console.log("result " + result);
+            // console.log("result " + result);
 
             var teamCash = updateTeamCash();
             var teamDebt = updateTeamDebt();
-            console.log("teamCash" + teamCash);
-            console.log("teamDebt" + teamDebt);
+            // console.log("teamCash" + teamCash);
+            // console.log("teamDebt" + teamDebt);
 
             Transactions.update({_id: result},
                 {
@@ -163,12 +163,12 @@ Template.buysell.events({
         Transactions.insert({
             loanPayment: loanPayment
         }, function (err, result) {
-            console.log("result " + result);
+            // console.log("result " + result);
 
             var teamCash = updateTeamCash();
             var teamDebt = updateTeamDebt();
-            console.log("teamCash" + teamCash);
-            console.log("teamDebt" + teamDebt);
+            // console.log("teamCash" + teamCash);
+            // console.log("teamDebt" + teamDebt);
 
             Transactions.update({_id: result},
                 {
@@ -199,12 +199,12 @@ Template.buysell.events({
         Transactions.insert({
             loanPayment: loanPayment
         }, function (err, result) {
-            console.log("result " + result);
+            // console.log("result " + result);
 
             var teamCash = updateTeamCash();
             var teamDebt = updateTeamDebt();
-            console.log("teamCash" + teamCash);
-            console.log("teamDebt" + teamDebt);
+            // console.log("teamCash" + teamCash);
+            // console.log("teamDebt" + teamDebt);
 
             Transactions.update({_id: result},
                 {
@@ -225,8 +225,8 @@ Template.buysell.events({
         var buyRisk = parseInt(event.target.buyRisk.value);
         var diceRoll = parseInt(Math.random() * 100);
 
-        console.log(buyRisk);
-        console.log(diceRoll);
+        // console.log(buyRisk);
+        // console.log(diceRoll);
 
 
         var purchasePrice = parseInt(event.target.buyPrice.value * 100) / 100;
@@ -268,17 +268,17 @@ Template.buysell.events({
 
             Transactions.insert({
                 drug_id: '',
-                buyQuantity: purchaseQuantity,
+                buyQuantity: 0,
                 buyPrice: purchasePrice,
                 inventoryForward: inventory,
                 legalFees: legalFees,
                 loanAmount: loanAmount
             }, function (err, result) {
-                console.log("result " + result);
+                // console.log("result " + result);
                 var teamCash = updateTeamCash();
                 var teamDebt = updateTeamDebt();
-                console.log("teamCash" + teamCash);
-                console.log("teamDebt" + teamDebt);
+                // console.log("teamCash" + teamCash);
+                // console.log("teamDebt" + teamDebt);
 
                 Transactions.update({_id: result},
                     {
@@ -290,7 +290,7 @@ Template.buysell.events({
 
             });
 
-            alert("Busted.  LegalFees = $" + legalFees);
+            alert("Busted Buying.  LegalFees = $" + legalFees);
 
 
         } else {
@@ -300,11 +300,11 @@ Template.buysell.events({
                 buyPrice: purchasePrice,
                 inventoryForward: inventory + purchaseQuantity
             }, function (err, result) {
-                console.log("result " + result);
+                // console.log("result " + result);
                 var teamCash = updateTeamCash();
                 var teamDebt = updateTeamDebt();
-                console.log("teamCash" + teamCash);
-                console.log("teamDebt" + teamDebt);
+                // console.log("teamCash" + teamCash);
+                // console.log("teamDebt" + teamDebt);
 
                 Transactions.update({_id: result},
                     {
@@ -323,15 +323,21 @@ Template.buysell.events({
     "submit .sellForm": function (event, template) {
         event.preventDefault();
 
+        var sellRisk = parseInt(event.target.sellRisk.value);
+        var diceRoll = parseInt(Math.random() * 100);
+
+        console.log(sellRisk);
+        console.log(diceRoll);
+
         var sellPrice = parseInt(event.target.sellPrice.value * 100) / 100;
 
         var teamCash = updateTeamCash();
 
         if (parseInt(event.target.sellQuantity.value) > parseInt(event.target.inventory.value)) {
-            console.log("oversell");
+            // console.log("oversell");
             var sellQuantity = parseInt((event.target.inventory.value));
         } else {
-            console.log("undersell");
+            // console.log("undersell");
             var sellQuantity = parseInt(event.target.sellQuantity.value);
         }
 
@@ -349,28 +355,67 @@ Template.buysell.events({
         } else {
             var inventory = parseInt(transaction.inventoryForward);
         }
+        if (diceRoll < sellRisk) {
+            // busted
 
-        Transactions.insert({
-            drug_id: event.target.drug_id.value,
-            sellQuantity: sellQuantity,
-            sellPrice: sellPrice,
-            inventoryForward: inventory - sellQuantity
-        }, function (err, result) {
-            console.log("result " + result);
-            var teamCash = updateTeamCash();
-            var teamDebt = updateTeamDebt();
-            console.log("teamCash" + teamCash);
-            console.log("teamDebt" + teamDebt);
+            var legalFees = parseInt(totalSale * sellQuantity / 100 * Math.random() * 10);
 
-            Transactions.update({_id: result},
-                {
-                    $set: {
-                        teamCash: teamCash,
-                        teamDebt: teamDebt
-                    }
-                });
+            if (legalFees > teamCash) {
+                var loanAmount = parseInt(legalFees - teamCash);
+            } else {
+                var loanAmount = 0;
+            }
 
-        });
+            Transactions.insert({
+                drug_id: '',
+                sellQuantity: 0,
+                sellPrice: sellPrice,
+                inventoryForward: inventory - sellQuantity,
+                legalFees: legalFees,
+                loanAmount: loanAmount
+            }, function (err, result) {
+                // console.log("result " + result);
+                var teamCash = updateTeamCash();
+                var teamDebt = updateTeamDebt();
+                // console.log("teamCash" + teamCash);
+                // console.log("teamDebt" + teamDebt);
+
+                Transactions.update({_id: result},
+                    {
+                        $set: {
+                            teamCash: teamCash,
+                            teamDebt: teamDebt
+                        }
+                    });
+
+            });
+
+            alert("Busted Selling.  LegalFees = $" + legalFees);
+
+
+        } else {
+            Transactions.insert({
+                drug_id: event.target.drug_id.value,
+                sellQuantity: sellQuantity,
+                sellPrice: sellPrice,
+                inventoryForward: inventory - sellQuantity
+            }, function (err, result) {
+                // console.log("result " + result);
+                var teamCash = updateTeamCash();
+                var teamDebt = updateTeamDebt();
+                // console.log("teamCash" + teamCash);
+                // console.log("teamDebt" + teamDebt);
+
+                Transactions.update({_id: result},
+                    {
+                        $set: {
+                            teamCash: teamCash,
+                            teamDebt: teamDebt
+                        }
+                    });
+
+            });
+        }
 
     },
 
@@ -396,9 +441,9 @@ Template.buysell.events({
             calculatedBuyRisk = buyRisk;
         }
 
-        console.log(buyQuantity);
-        console.log(calculatedBuyRisk);
-        console.log(drug_id);
+        // console.log(buyQuantity);
+        // console.log(calculatedBuyRisk);
+        // console.log(drug_id);
 
         $('#calculatedBuyRisk_' + drug_id).text(calculatedBuyRisk.toFixed(0) + "%");
         $('#buyRisk_' + drug_id).val(calculatedBuyRisk.toFixed(0));
