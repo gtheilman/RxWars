@@ -32,7 +32,7 @@ if (Meteor.isClient) {
                 }
             });
             console.log(ScoreBoard);
-            return ScoreBoard.find({});
+            return ScoreBoard.find({}).sort({teamNet: -1});
         },
         profitLoss: function (teamNet) {
             if (teamNet >= 0) {
