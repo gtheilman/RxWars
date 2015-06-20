@@ -42,12 +42,12 @@
                 <div class="col-md-1">{{dollarFormat awp}}</div>
                 <div class="col-md-1"><span id="calculatedBuyRisk"></span>%</div>
                 <div class="col-md-1">
-                    {{#autoForm collection="Transactions" id=makeUniqueID type="insert" validation="submit"  }}
-                        {{> afFieldInput name='buyQuantity'  template="bootstrap3-inline"  style="width:50px"}}
-                        {{> afFieldInput name="drug_id" value= this.drug_id type="hidden"}}
-                        {{> afFieldInput name="buyPrice" value=this.awp type="hidden"}}
-                        <button type="submit" class="btn btn-primary  btn-xs">Buy</button>
-                    {{/autoForm}}
+                    <form id="form_{{name}}" name="form_{{name}}" class="form-inline buyForm">
+                        <input type="text" style="width:50px" name="buyQuantity" id="buyQuantity">
+                        <input type="hidden" value="{{drug_id}}" name="drug_id" id="drug_id">
+                        <input type="hidden" value="{{awp}}" name="buyPrice" id="buyPrice">
+                        <button type="submit" class="btn btn-primary  btn-xs buyButton">Buy</button>
+                    </form>
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-1">{{dollarFormat price}}</div>

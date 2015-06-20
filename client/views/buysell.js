@@ -4,9 +4,10 @@ Template.buysell.helpers({
         TeamBuySell.remove({});
 
         Drugs.find({active: true}).forEach(function (drug) {
-            var inventoryForward = 0;
-            if (inventoryForward) {
-                var inventory = inventoryForward;
+
+            var transaction = Transactions.findOne({team_id: Meteor.userId(), drug_id: drug._id}, {sort: {epoch: -1}});
+            if (transaction) {
+                var inventory = parseInt(transaction.inventoryForward);
             } else {
                 var inventory = 0;
             }
@@ -23,7 +24,7 @@ Template.buysell.helpers({
                 price: DrugPrice.findOne({drug_id: drug._id}, {sort: {time: -1}}).price,
                 inventory: inventory
             };
-            TeamBuySell.insert(entry);
+            TeamBuySell.insert(entry);  //local, non-permanent db
         });
 
         return TeamBuySell.find({});
@@ -145,7 +146,7 @@ Template.buysell.events({
                 });
 
         });
-        
+
         $('#loanPayment').val('');
 
 
@@ -182,7 +183,67 @@ Template.buysell.events({
 
         });
 
+    },
+
+
+    "submit .buyForm": function (event, template) {
+        event.preventDefault();
+
+        var form = event.currentTarget;
+        console.log(form.id);
+
+        console.log(event.target);
+
+        var purchasePrice = parseInt(event.target.buyPrice.value * 100) / 100;
+
+        var teamCash = updateTeamCash();
+
+        var maxPurchase = Math.floor(teamCash / purchasePrice);
+
+        if (event.target.buyQuantity.value > maxPurchase) {
+            var purchaseQuantity = maxPurchase;
+        } else {
+            var purchaseQuantity = parseInt(event.target.buyQuantity.value);
+        }
+
+        var totalSale = purchaseQuantity * purchasePrice;
+
+        var teamCash = Session.get('teamCash') - totalSale;
+
+        var transaction = Transactions.findOne({
+            team_id: Meteor.userId(),
+            drug_id: event.target.drug_id.value
+        }, {sort: {epoch: -1}});
+        if (!transaction) {
+            var inventory = 0;
+        } else {
+            var inventory = parseInt(transaction.inventoryForward);
+        }
+
+        Transactions.insert({
+            drug_id: event.target.drug_id.value,
+            buyQuantity: purchaseQuantity,
+            buyPrice: purchasePrice,
+            inventoryForward: inventory + purchaseQuantity
+        }, function (err, result) {
+            console.log("result " + result);
+            var teamCash = updateTeamCash();
+            var teamDebt = updateTeamDebt();
+            console.log("teamCash" + teamCash);
+            console.log("teamDebt" + teamDebt);
+
+            Transactions.update({_id: result},
+                {
+                    $set: {
+                        teamCash: teamCash,
+                        teamDebt: teamDebt
+                    }
+                });
+
+        });
+
     }
+
 
 });
 
