@@ -292,8 +292,37 @@ Template.buysell.events({
 
         });
 
-    }
+    },
 
+
+    'keyup input.buyQuantityInput': function (event, template) {
+
+        var drug_id = event.currentTarget.id.replace('buyQuantity_', '');
+
+        var buyQuantity = parseInt(event.currentTarget.value);
+        var buyRisk = Drugs.findOne({_id: drug_id}).buyRisk;
+
+        if (buyQuantity <= 100) {
+            var calculatedBuyRisk = buyQuantity / 100 * buyRisk;
+        } else {
+            var calculatedBuyRisk = buyQuantity / 100 * buyRisk * buyQuantity / 100;
+        }
+        if (calculatedBuyRisk > 99) {
+            calculatedBuyRisk = 99;
+        }
+
+
+        if (calculatedBuyRisk == NaN) {
+            calculatedBuyRisk = buyRisk;
+        }
+
+        console.log(buyQuantity);
+        console.log(calculatedBuyRisk);
+        console.log(drug_id);
+
+        $('#calculatedBuyRisk_' + drug_id).text(calculatedBuyRisk.toFixed(0) + "%");
+
+    }
 
 });
 

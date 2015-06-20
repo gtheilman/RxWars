@@ -40,10 +40,11 @@
                 <div class="col-md-1">{{schedule}}</div>
                 <div class="col-md-2">{{inventory}}</div>
                 <div class="col-md-1">{{dollarFormat awp}}</div>
-                <div class="col-md-1"><span id="calculatedBuyRisk"></span>%</div>
+                <div class="col-md-1"><span id="calculatedBuyRisk_{{drug_id}}">{{buyRisk}}%</span></div>
                 <div class="col-md-1">
-                    <form id="form_{{name}}" name="form_{{name}}" class="form-inline buyForm">
-                        <input type="text" style="width:50px" name="buyQuantity" id="buyQuantity">
+                    <form id="{{drug_id}}" name="{{drug_id}}" class="form-inline buyForm">
+                        <input type="text" style="width:50px" name="buyQuantity" id="buyQuantity_{{drug_id}}"
+                               class="buyQuantityInput">
                         <input type="hidden" value="{{drug_id}}" name="drug_id" id="drug_id">
                         <input type="hidden" value="{{awp}}" name="buyPrice" id="buyPrice">
                         <button type="submit" class="btn btn-primary  btn-xs buyButton">Buy</button>
