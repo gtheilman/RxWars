@@ -48,8 +48,11 @@ Template.buysell.helpers({
                 teamDebt: 0,
                 drug_id: ''
             });
+            Session.set('teamCash', 0);
+            Session.set('teamDebt', 0);
         }
-        var teamCash = Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}}).teamCash;
+
+        var teamCash = Session.get('teamCash');
 
         if (teamCash) {
             return "$" + teamCash.toFixed(2)
@@ -65,8 +68,11 @@ Template.buysell.helpers({
                 teamDebt: 0,
                 drug_id: ''
             });
+            Session.set('teamCash', 0);
+            Session.set('teamDebt', 0);
         }
-        var teamDebt = Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}}).teamDebt;
+
+        var teamDebt = Session.get('teamDebt');
 
         if (teamDebt) {
             return "$" + teamDebt.toFixed(2)
@@ -82,45 +88,96 @@ Template.buysell.events({
     "submit #borrowForm": function (event, template) {
         event.preventDefault();
 
+        var loanAmount = parseInt(event.target.loanAmount.value);
+
         Transactions.insert({
-            loanAmount: parseInt(event.target.loanAmount.value)
+            loanAmount: loanAmount
+        }, function (err, result) {
+            console.log("result " + result);
+
+            var teamCash = updateTeamCash();
+            var teamDebt = updateTeamDebt();
+            console.log("teamCash" + teamCash);
+            console.log("teamDebt" + teamDebt);
+
+            Transactions.update({_id: result},
+                {
+                    $set: {
+                        teamCash: teamCash,
+                        teamDebt: teamDebt
+                    }
+                });
+
         });
+
+
     },
 
 
     "submit #repayForm": function (event, template) {
         event.preventDefault();
+
         var loanPayment = parseInt(event.target.loanPayment.value);
 
-        var current = Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}});
+        if (Session.get('teamDebt') < loanPayment) {
+            var loanPayment = Session.get('teamDebt');
+        }
 
-        if (loanPayment > current.teamCash) {
-            loanPayment = current.teamCash;
-        }
-        if (loanPayment > current.teamDebt) {
-            loanPayment = current.teamDebt;
-        }
 
         Transactions.insert({
             loanPayment: loanPayment
+        }, function (err, result) {
+            console.log("result " + result);
+
+            var teamCash = updateTeamCash();
+            var teamDebt = updateTeamDebt();
+            console.log("teamCash" + teamCash);
+            console.log("teamDebt" + teamDebt);
+
+            Transactions.update({_id: result},
+                {
+                    $set: {
+                        teamCash: teamCash,
+                        teamDebt: teamDebt
+                    }
+                });
+
         });
+
+
     },
 
 
     "click #repayAllButton": function (event, template) {
         event.preventDefault();
 
-        var current = Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}});
 
-        if (current.teamDebt > current.teamCash) {
-            var loanPayment = current.teamCash;
+        if (Session.get('teamDebt') > Session.get('teamCash')) {
+            var loanPayment = Session.get('teamCash');
         } else {
-            var loanPayment = current.teamDebt;
+            var loanPayment = Session.get('teamDebt');
         }
 
         Transactions.insert({
             loanPayment: loanPayment
+        }, function (err, result) {
+            console.log("result " + result);
+
+            var teamCash = updateTeamCash();
+            var teamDebt = updateTeamDebt();
+            console.log("teamCash" + teamCash);
+            console.log("teamDebt" + teamDebt);
+
+            Transactions.update({_id: result},
+                {
+                    $set: {
+                        teamCash: teamCash,
+                        teamDebt: teamDebt
+                    }
+                });
+
         });
+
     }
 
 });
