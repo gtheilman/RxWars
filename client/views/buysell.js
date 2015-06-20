@@ -189,11 +189,6 @@ Template.buysell.events({
     "submit .buyForm": function (event, template) {
         event.preventDefault();
 
-        var form = event.currentTarget;
-        console.log(form.id);
-
-        console.log(event.target);
-
         var purchasePrice = parseInt(event.target.buyPrice.value * 100) / 100;
 
         var teamCash = updateTeamCash();
@@ -225,6 +220,61 @@ Template.buysell.events({
             buyQuantity: purchaseQuantity,
             buyPrice: purchasePrice,
             inventoryForward: inventory + purchaseQuantity
+        }, function (err, result) {
+            console.log("result " + result);
+            var teamCash = updateTeamCash();
+            var teamDebt = updateTeamDebt();
+            console.log("teamCash" + teamCash);
+            console.log("teamDebt" + teamDebt);
+
+            Transactions.update({_id: result},
+                {
+                    $set: {
+                        teamCash: teamCash,
+                        teamDebt: teamDebt
+                    }
+                });
+
+        });
+
+    },
+
+
+    "submit .sellForm": function (event, template) {
+        event.preventDefault();
+
+        var sellPrice = parseInt(event.target.sellPrice.value * 100) / 100;
+
+        var teamCash = updateTeamCash();
+
+        if (parseInt(event.target.sellQuantity.value) > parseInt(event.target.inventory.value)) {
+            console.log("oversell");
+            var sellQuantity = parseInt((event.target.inventory.value));
+        } else {
+            console.log("undersell");
+            var sellQuantity = parseInt(event.target.sellQuantity.value);
+        }
+
+        var totalSale = sellQuantity * sellPrice;
+
+        var teamCash = Session.get('teamCash') + totalSale;
+
+        var transaction = Transactions.findOne({
+            team_id: Meteor.userId(),
+            drug_id: event.target.drug_id.value
+        }, {sort: {epoch: -1}});
+
+        if (!transaction) {
+            var inventory = 0;
+        } else {
+            var inventory = parseInt(transaction.inventoryForward);
+        }
+
+        Transactions.insert({
+            drug_id: event.target.drug_id.value,
+            sellQuantity: sellQuantity,
+            sellPrice: sellPrice,
+            inventoryForward: inventory - sellQuantity
         }, function (err, result) {
             console.log("result " + result);
             var teamCash = updateTeamCash();
