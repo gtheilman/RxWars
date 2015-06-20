@@ -11,17 +11,19 @@ if (Meteor.isServer) Meteor.methods({
 
             // https://github.com/mizzao/meteor-user-status
             Meteor.users.find({"status.online": true}).forEach(function (player) {
-                console.log(player._id);
-                console.log(player.username);
-                numberPlayers = numberPlayers + 1;
+                if (player.username != 'admin') {
+                    console.log(player._id);
+                    console.log(player.username);
+                    numberPlayers = numberPlayers + 1;
 
-                var transaction = Transactions.findOne({
-                    team_id: player._id,
-                    drug_id: drug._id
-                }, {sort: {epoch: -1}});
+                    var transaction = Transactions.findOne({
+                        team_id: player._id,
+                        drug_id: drug._id
+                    }, {sort: {epoch: -1}});
 
-                if (transaction) {
-                    numberAvailable = numberAvailable + parseInt(transaction.inventoryForward);
+                    if (transaction) {
+                        numberAvailable = numberAvailable + parseInt(transaction.inventoryForward);
+                    }
                 }
             });
 
