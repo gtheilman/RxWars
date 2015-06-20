@@ -121,15 +121,15 @@ Template.buysell.helpers({
     enterExit: function () {
         Meteor.users.find({"status.online": true}).observe({
             added: function (id) {
-                sAlert.success(id.username + ' has just joined the game.', {
-                    effect: 'scale', position: 'top-right',
-                    timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+                sAlert.success(id.username + ' has joined the game.', {
+                    effect: 'scale', position: 'bottom-right',
+                    timeout: '4000', onRouteClose: false, stack: true, offset: '0px'
                 });
             },
             removed: function (id) {
                 sAlert.error(id.username + ' has left the game.', {
-                    effect: 'scale', position: 'top-right',
-                    timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+                    effect: 'scale', position: 'bottom-right',
+                    timeout: '4000', onRouteClose: false, stack: true, offset: '0px'
                 });
             }
         });
