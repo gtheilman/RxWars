@@ -57,7 +57,7 @@ Template.buysell.helpers({
         var teamCash = Session.get('teamCash');
 
         if (teamCash) {
-            return "$" + teamCash.toFixed(2)
+            return "$" + addCommas(teamCash.toFixed(0))
         } else
             return "$0.00"
 
@@ -77,7 +77,7 @@ Template.buysell.helpers({
         var teamDebt = Session.get('teamDebt');
 
         if (teamDebt) {
-            return "$" + teamDebt.toFixed(2)
+            return "$" + addCommas(teamDebt.toFixed(0))
         } else
             return "$0.00"
 
