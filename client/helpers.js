@@ -60,6 +60,9 @@ if (!Meteor.isClient) {
             if (transaction.loanPayment) {
                 teamDebt = teamDebt - transaction.loanPayment;
             }
+            if (transaction.loanInterest) {
+                teamDebt = teamDebt + transaction.loanInterest;
+            }
         });
 
 

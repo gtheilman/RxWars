@@ -1,3 +1,35 @@
+if (Meteor.isClient) {
+    // add interest from loan shark
+    Meteor.setInterval(function () {
+
+        var teamDebt = Session.get('teamDebt');
+
+        if (teamDebt > 0) {
+
+            var loanInterest = 0.1 * teamDebt;
+
+            Transactions.insert({
+                loanInterest: loanInterest
+            }, function (err, result) {
+                console.log("result " + result);
+
+                var teamCash = updateTeamCash();
+                var teamDebt = updateTeamDebt();
+                Transactions.update({_id: result},
+                    {
+                        $set: {
+                            teamCash: teamCash,
+                            teamDebt: teamDebt
+                        }
+                    });
+            });
+
+        }
+
+    }, 15000);
+}
+
+
 Template.buysell.helpers({
     drugs: function () {
 
