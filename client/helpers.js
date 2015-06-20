@@ -42,7 +42,7 @@ if (!Meteor.isClient) {
         } else {
             teamCash = parseInt(teamCash);
         }
-        console.log("TeamCash: " + teamCash);
+        //console.log("TeamCash: " + teamCash);
         Session.set('teamCash', teamCash);
         return teamCash
     };
@@ -71,7 +71,7 @@ if (!Meteor.isClient) {
         } else {
             teamDebt = parseInt(teamDebt);
         }
-        console.log("teamDebt: " + teamDebt);
+        // console.log("teamDebt: " + teamDebt);
         Session.set('teamDebt', teamDebt);
         return teamDebt
     };

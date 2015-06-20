@@ -24,6 +24,11 @@ if (Meteor.isClient) {
                     });
             });
 
+            sAlert.warning('You owe money to the loanshark!! Pay it off quickly before the interest gets too high...', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
+
         }
 
     }, 15000);
@@ -127,7 +132,8 @@ Template.buysell.events({
         Transactions.insert({
             loanAmount: loanAmount
         }, function (err, result) {
-            // console.log("result " + result);
+            console.log("result " + result);
+            console.log("err " + err);
 
             var teamCash = updateTeamCash();
             var teamDebt = updateTeamDebt();

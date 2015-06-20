@@ -8,8 +8,13 @@ Meteor.publish('drugprice', function () {
 });
 
 
+
 Meteor.publish('transactions', function () {
-    return Transactions.find({});
+    if (Roles.userIsInRole(this.userId, 'admin')) {
+        return Transactions.find();
+    } else {
+        return Transactions.find({team_id: this.userId})
+    }
 });
 
 

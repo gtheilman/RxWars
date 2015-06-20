@@ -25,13 +25,11 @@
             <div class="col-md-1 buySellHeader">Name</div>
             <div class="col-md-1 buySellHeader">Schedule</div>
             <div class="col-md-2 buySellHeader">Inventory</div>
-            <div class="col-md-1 buySellHeader">Pharmacy Price</div>
-            <div class="col-md-1 buySellHeader">Risk of Arrest (Buying)</div>
-            <div class="col-md-1 buySellHeader">Buy</div>
+            <div class="col-md-2 buySellHeader">Pharmacy Price</div>
+            <div class="col-md-2 buySellHeader">Risk of Arrest Buying</div>
             <div class="col-md-1 buySellHeader"></div>
             <div class="col-md-1 buySellHeader">Street Price</div>
-            <div class="col-md-1 buySellHeader">Risk of Arrest Selling</div>
-            <div class="col-md-1 buySellHeader">Sell</div>
+            <div class="col-md-2 buySellHeader">Risk of Arrest Selling</div>
             <hr>
         </div>
         <div class="row">&nbsp;</div>
@@ -40,7 +38,7 @@
                 <div class="col-md-1">{{name}}</div>
                 <div class="col-md-1">{{schedule}}</div>
                 <div class="col-md-2">{{inventory}}</div>
-                <div class="col-md-1">{{dollarFormat awp}}</div>
+                <div class="col-md-2">{{dollarFormat awp}}</div>
                 <div class="col-md-1"><span id="calculatedBuyRisk_{{drug_id}}">{{buyRisk}}%</span></div>
                 <div class="col-md-1">
                     <form id="{{drug_id}}" name="{{drug_id}}" class="form-inline buyForm">
