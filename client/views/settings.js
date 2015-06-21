@@ -71,5 +71,9 @@ Template.settings.events({
         }
 
 
+    },
+    "click #goDatabasePage": function () {
+        Router.go('/admin');
+
     }
 });
