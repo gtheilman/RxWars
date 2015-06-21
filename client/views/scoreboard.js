@@ -20,6 +20,12 @@ if (Meteor.isClient) {
                         var teamNet = 0;
                     }
 
+                    if (teamNet < 0) {
+                        teamNet = "-$" + addCommas(-1 * teamNet);
+                    } else {
+                        teamNet = "$" + addCommas(teamNet);
+                    }
+
                     // console.log(player._id);
                     // console.log(player.username);
                     // console.log(teamNet);
@@ -31,13 +37,13 @@ if (Meteor.isClient) {
                     });
                 }
             });
-            console.log(ScoreBoard);
+            //  console.log(ScoreBoard);
             return ScoreBoard.find({}, {sort: {teamNet: -1}})
         },
 
 
         profitLoss: function (teamNet) {
-            if (teamNet >= 0) {
+            if (teamNet.indexOf("-") == -1) {
                 return "netPositive"
             } else {
                 return "netNegative"
@@ -68,7 +74,7 @@ if (Meteor.isClient) {
                 snitchFee: snitchFee,
                 loanAmount: loanAmount
             }, function (err, result) {
-                console.log("result " + result);
+                // console.log("result " + result);
                 var teamCash = updateTeamCash();
                 var teamDebt = updateTeamDebt();
 

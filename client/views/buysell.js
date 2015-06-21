@@ -148,8 +148,8 @@ Template.buysell.events({
         Transactions.insert({
             loanAmount: loanAmount
         }, function (err, result) {
-            console.log("result " + result);
-            console.log("err " + err);
+            //  console.log("result " + result);
+            //  console.log("err " + err);
 
             var teamCash = updateTeamCash();
             var teamDebt = updateTeamDebt();
@@ -259,8 +259,8 @@ Template.buysell.events({
         }
 
 
-        console.log(buyRisk);
-        console.log(diceRoll);
+        // console.log(buyRisk);
+        // console.log(diceRoll);
 
 
         var purchasePrice = parseInt(event.target.buyPrice.value * 100) / 100;

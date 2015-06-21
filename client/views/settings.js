@@ -20,7 +20,7 @@ Template.settings.events({
                 if (error) {
                     console.log("Error: " + error);
                 } else {
-                    console.log("Result: " + result);
+                    // console.log("Result: " + result);
                     sAlert.success('Transactions and Market History Reset', {
                         effect: 'scale', position: 'top-right',
                         timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
