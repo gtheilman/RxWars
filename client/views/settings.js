@@ -174,5 +174,37 @@ Template.settings.events({
         });
 
 
+    },
+
+    "click #increaseUnscheduledBuyRisk": function () {
+
+        Meteor.call('increaseUnscheduledBuyRisk', function (error, result) {
+            if (result) {
+                sAlert.success('Risk of being arrested when buying unscheduled drugs has been increased to ' + result + "%.", {
+                    effect: 'scale', position: 'top-right',
+                    timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+                });
+            } else {
+                console.log("Error: " + error);
+            }
+        });
+
+
+    },
+
+    "click #decreaseUnscheduledBuyRisk": function () {
+
+        Meteor.call('decreaseUnscheduledBuyRisk', function (error, result) {
+            if (result) {
+                sAlert.success('Risk of being arrested when buying unscheduled drugs has been decreased to ' + result + "%.", {
+                    effect: 'scale', position: 'top-right',
+                    timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+                });
+            } else {
+                console.log("Error: " + error);
+            }
+        });
+
+
     }
 });

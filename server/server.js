@@ -45,7 +45,12 @@ if (Meteor.isServer) Meteor.methods({
         });
     },
     'increaseScheduleIIBuyRisk': function () {
-        var buyRisk = Drugs.findOne({schedule: 'II'}).buyRisk;
+        var drug = Drugs.findOne({schedule: 'II'});
+        if (!drug) {
+            var buyRisk = 5;
+        } else {
+            var buyRisk = drug.buyRisk;
+        }
         Drugs.update({schedule: 'II'},
             {
                 $set: {
@@ -58,7 +63,12 @@ if (Meteor.isServer) Meteor.methods({
     },
 
     'decreaseScheduleIIBuyRisk': function () {
-        var buyRisk = Drugs.findOne({schedule: 'II'}).buyRisk;
+        var drug = Drugs.findOne({schedule: 'II'});
+        if (!drug) {
+            var buyRisk = 5;
+        } else {
+            var buyRisk = drug.buyRisk;
+        }
         Drugs.update({schedule: 'II'},
             {
                 $set: {
@@ -70,12 +80,17 @@ if (Meteor.isServer) Meteor.methods({
         return buyRisk - 5;
     },
     'increaseScheduleIII_VBuyRisk': function () {
-        var buyRisk = Drugs.findOne({schedule: 'III'}).buyRisk;
-        if (!buyRisk) {
-            var buyRisk = Drugs.findOne({schedule: 'IV'}).buyRisk;
+        var drug = Drugs.findOne({schedule: 'III'});
+        if (!drug) {
+            var drug = Drugs.findOne({schedule: 'IV'});
         }
-        if (!buyRisk) {
-            var buyRisk = Drugs.findOne({schedule: 'V'}).buyRisk;
+        if (!drug) {
+            var drug = Drugs.findOne({schedule: 'V'});
+        }
+        if (!drug) {
+            var buyRisk = 5;
+        } else {
+            var buyRisk = drug.buyRisk;
         }
 
         Drugs.update({schedule: 'III'},
@@ -104,12 +119,17 @@ if (Meteor.isServer) Meteor.methods({
     },
 
     'decreaseScheduleIII_VBuyRisk': function () {
-        var buyRisk = Drugs.findOne({schedule: 'III'}).buyRisk;
-        if (!buyRisk) {
-            var buyRisk = Drugs.findOne({schedule: 'IV'}).buyRisk;
+        var drug = Drugs.findOne({schedule: 'III'});
+        if (!drug) {
+            var drug = Drugs.findOne({schedule: 'IV'});
         }
-        if (!buyRisk) {
-            var buyRisk = Drugs.findOne({schedule: 'V'}).buyRisk;
+        if (!drug) {
+            var drug = Drugs.findOne({schedule: 'V'});
+        }
+        if (!drug) {
+            var buyRisk = 10;
+        } else {
+            var buyRisk = drug.buyRisk;
         }
 
         Drugs.update({schedule: 'III'},
@@ -127,6 +147,41 @@ if (Meteor.isServer) Meteor.methods({
             },
             {multi: true});
         Drugs.update({schedule: 'V'},
+            {
+                $set: {
+                    buyRisk: buyRisk - 5
+                }
+            },
+            {multi: true});
+
+        return buyRisk - 5;
+    },
+    'increaseUnscheduledBuyRisk': function () {
+        var drug = Drugs.findOne({schedule: 'unscheduled'});
+        if (!drug) {
+            var buyRisk = 5;
+        } else {
+            var buyRisk = drug.buyRisk;
+        }
+        Drugs.update({schedule: 'unscheduled'},
+            {
+                $set: {
+                    buyRisk: buyRisk + 5
+                }
+            },
+            {multi: true});
+
+        return buyRisk + 5;
+    },
+
+    'decreaseUnscheduledBuyRisk': function () {
+        var drug = Drugs.findOne({schedule: 'unscheduled'});
+        if (!drug) {
+            var buyRisk = 5;
+        } else {
+            var buyRisk = drug.buyRisk;
+        }
+        Drugs.update({schedule: 'unscheduled'},
             {
                 $set: {
                     buyRisk: buyRisk - 5
@@ -193,6 +248,8 @@ if (Meteor.isServer) Meteor.methods({
             demandMultiplier: 0.5,
             active: true
         });
+
+
         Drugs.insert({
             name: 'oxycodone',
             schedule: 'II',
@@ -203,13 +260,14 @@ if (Meteor.isServer) Meteor.methods({
             active: true
         });
 
+
         Drugs.insert({
             name: 'trazodone',
-            schedule: 'N/A',
+            schedule: 'unscheduled',
             awp: 1,
-            buyRisk: 5,
-            sellRisk: 5,
-            demandMultiplier: 0.5,
+            buyRisk: 10,
+            sellRisk: 10,
+            demandMultiplier: 0.1,
             active: true
         });
 
