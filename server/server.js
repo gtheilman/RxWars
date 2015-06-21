@@ -191,7 +191,41 @@ if (Meteor.isServer) Meteor.methods({
 
         return buyRisk - 5;
     },
+    'increaseSellRisk': function () {
+        var drug = Drugs.findOne({});
+        if (!drug) {
+            var sellRisk = 5;
+        } else {
+            var sellRisk = drug.sellRisk;
+        }
+        Drugs.update({},
+            {
+                $set: {
+                    sellRisk: sellRisk + 5
+                }
+            },
+            {multi: true});
 
+        return sellRisk + 5;
+    },
+
+    'decreaseSellRisk': function () {
+        var drug = Drugs.findOne({});
+        if (!drug) {
+            var sellRisk = 5;
+        } else {
+            var sellRisk = drug.sellRisk;
+        }
+        Drugs.update({},
+            {
+                $set: {
+                    sellRisk: sellRisk - 5
+                }
+            },
+            {multi: true});
+
+        return sellRisk - 5;
+    },
     'decriminalize': function () {
         Drugs.update({},
             {
@@ -200,7 +234,15 @@ if (Meteor.isServer) Meteor.methods({
                 }
             }, {multi: true})
     },
-
+    'gangster': function () {
+        Drugs.update({},
+            {
+                $set: {
+                    buyRisk: 0,
+                    sellRisk: 0
+                }
+            }, {multi: true})
+    },
     'resetMarket': function () {
         Transactions.remove({});
         DrugPrice.remove({});

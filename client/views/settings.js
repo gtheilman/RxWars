@@ -112,6 +112,17 @@ Template.settings.events({
         }
     },
 
+    "click #gangster": function () {
+        if (confirm("Are you sure you really want to set risk of arrest to zero?")) {
+            Meteor.call('gangster');
+            sAlert.success('Law enforcement is off.', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
+        }
+    },
+
+
     "click #increaseScheduleIIBuyRisk": function () {
 
         Meteor.call('increaseScheduleIIBuyRisk', function (error, result) {
@@ -197,6 +208,38 @@ Template.settings.events({
         Meteor.call('decreaseUnscheduledBuyRisk', function (error, result) {
             if (result) {
                 sAlert.success('Risk of being arrested when buying unscheduled drugs has been decreased to ' + result + "%.", {
+                    effect: 'scale', position: 'top-right',
+                    timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+                });
+            } else {
+                console.log("Error: " + error);
+            }
+        });
+
+
+    },
+
+    "click #increaseSellRisk": function () {
+
+        Meteor.call('increaseSellRisk', function (error, result) {
+            if (result) {
+                sAlert.success('Risk of being arrested when selling drugs has been increased to ' + result + "%.", {
+                    effect: 'scale', position: 'top-right',
+                    timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+                });
+            } else {
+                console.log("Error: " + error);
+            }
+        });
+
+
+    },
+
+    "click #decreaseSellRisk": function () {
+
+        Meteor.call('decreaseSellRisk', function (error, result) {
+            if (result) {
+                sAlert.success('Risk of being arrested when selling drugs has been decreased to ' + result + "%.", {
                     effect: 'scale', position: 'top-right',
                     timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
                 });
