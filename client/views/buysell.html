@@ -47,7 +47,9 @@
                         <input type="hidden" value="{{drug_id}}" name="drug_id" id="drug_id">
                         <input type="hidden" value="{{awp}}" name="buyPrice" id="buyPrice">
                         <input type="hidden" value="{{buyRisk}}" name="buyRisk" id="buyRisk_{{drug_id}}">
+                        {{#if getIntervalId}}
                         <button type="submit" class="btn btn-primary  btn-xs buyButton">Buy</button>
+                        {{/if}}
                     </form>
                 </div>
                 <div class="col-md-1"></div>
@@ -60,7 +62,9 @@
                         <input type="hidden" value="{{price}}" name="sellPrice" id="sellPrice">
                         <input type="hidden" value="{{inventory}}" name="inventory" id="inventory">
                         <input type="hidden" value="{{sellRisk}}" name="sellRisk" id="sellRisk_{{drug_id}}">
+                        {{#if getIntervalId}}
                         <button type="submit" class="btn btn-primary  btn-xs sellButton">Sell</button>
+                        {{/if}}
                     </form>
                 </div>
 
@@ -90,7 +94,9 @@
                             <div class="input-group-addon">.00</div>
                         </div>
                     </div>
-                    <button type="submit" id="borrowButton" class="btn btn-primary">Borrow</button>
+                    {{#if getIntervalId}}
+                        <button type="submit" id="borrowButton" class="btn btn-primary">Borrow</button>
+                    {{/if}}
                 </form>
             </div>
         </div>
@@ -115,11 +121,15 @@
                             <div class="input-group-addon">.00</div>
                         </div>
                     </div>
+                    {{#if getIntervalId}}
                     <button type="submit" id="repayButton" class="btn btn-primary">Repay</button>
+                    {{/if}}
                 </form>
             </div>
             <div class="col-md-5">
+                {{#if getIntervalId}}
                 <button type="submit" id="repayAllButton" class="btn btn-primary form-inline">Repay All</button>
+                {{/if}}
             </div>
         </div>
     <hr>

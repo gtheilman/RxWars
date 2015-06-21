@@ -39,7 +39,13 @@ if (Meteor.isServer) Meteor.methods({
 
 
         });
-    }
+    },
+
+    'resetMarket': function () {
+        Transactions.remove({});
+        DrugPrice.remove({});
+    },
+
 
 });
 

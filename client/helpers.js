@@ -15,7 +15,6 @@ if (!Meteor.isClient) {
     Template.registerHelper('addCommas', addCommas);
 
 
-
     this.updateTeamCash = function () {
 
         var teamCash = 0;
@@ -78,6 +77,16 @@ if (!Meteor.isClient) {
 
     Template.registerHelper('updateTeamDebt', updateTeamDebt);
 
+    this.getIntervalId = function () {
+        var serverSession = ServerSession.findOne({});
+        if (serverSession.setIntervalId) {
+            return serverSession.setIntervalId
+        } else {
+            return false
+        }
+    };
+
+    Template.registerHelper('getIntervalId', getIntervalId);
 
     Template.registerHelper('dollarFormat', function (amount) {
         return "$" + amount.toFixed(2)

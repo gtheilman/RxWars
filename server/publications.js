@@ -23,6 +23,10 @@ Meteor.publish("userStatus", function () {
 });
 
 
+Meteor.publish('serversession', function () {
+    return ServerSession.find({});
+});
+
 /*
 
 
