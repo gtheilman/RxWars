@@ -282,12 +282,14 @@ Template.buysell.events({
             // busted
             var legalFees = parseInt(totalSale * purchaseQuantity / 100 * Math.random() * 10);
 
-            if (legalFees < 100) {
-                legalFees = 100;
+            if (legalFees < 1000) {
+                legalFees = 1000;
+            } else if (legalFees == NaN) {
+                legalFees = 1000;
             }
 
             if (legalFees > teamCash) {
-                var loanAmount = parseInt(legalFees - teamCash);
+                var loanAmount = parseInt(legalFees) - parseInt(teamCash);
             } else {
                 var loanAmount = 0;
             }
@@ -314,7 +316,7 @@ Template.buysell.events({
                         }
                     });
 
-                alert("Busted Buying.  LegalFees = $" + legalFees);
+                alert("Busted Buying.  LegalFees = $" + addCommas(legalFees));
 
             });
 
@@ -386,12 +388,14 @@ Template.buysell.events({
 
             var legalFees = parseInt(totalSale * sellQuantity / 100 * Math.random() * 10);
 
-            if (legalFees < 100) {
-                legalFees = 100;
+            if (legalFees < 1000) {
+                legalFees = 1000;
+            } else if (legalFees == NaN) {
+                legalFees = 1000;
             }
 
             if (legalFees > teamCash) {
-                var loanAmount = parseInt(legalFees - teamCash);
+                var loanAmount = parseInt(legalFees) - parseInt(teamCash);
             } else {
                 var loanAmount = 0;
             }
@@ -417,7 +421,7 @@ Template.buysell.events({
                             teamDebt: teamDebt
                         }
                     });
-                alert("Busted Selling.  LegalFees = $" + legalFees);
+                alert("Busted Selling.  LegalFees = $" + addCommas(legalFees));
 
             });
 
