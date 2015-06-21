@@ -1,34 +1,35 @@
 if (Meteor.isClient) {
     // add interest from loan shark
     Meteor.setInterval(function () {
+        if (getIntervalId()) {
+            var teamDebt = Session.get('teamDebt');
 
-        var teamDebt = Session.get('teamDebt');
+            if (teamDebt > 0) {
 
-        if (teamDebt > 0) {
+                var loanInterest = 0.05 * teamDebt;
 
-            var loanInterest = 0.05 * teamDebt;
+                Transactions.insert({
+                    loanInterest: loanInterest
+                }, function (err, result) {
+                    // console.log("result " + result);
 
-            Transactions.insert({
-                loanInterest: loanInterest
-            }, function (err, result) {
-                // console.log("result " + result);
+                    var teamCash = updateTeamCash();
+                    var teamDebt = updateTeamDebt();
+                    Transactions.update({_id: result},
+                        {
+                            $set: {
+                                teamCash: teamCash,
+                                teamDebt: teamDebt
+                            }
+                        });
+                });
 
-                var teamCash = updateTeamCash();
-                var teamDebt = updateTeamDebt();
-                Transactions.update({_id: result},
-                    {
-                        $set: {
-                            teamCash: teamCash,
-                            teamDebt: teamDebt
-                        }
-                    });
-            });
+                sAlert.warning('You owe money to the loanshark!! Pay it off quickly before the interest gets too high...', {
+                    effect: 'scale', position: 'top-right',
+                    timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+                });
 
-            sAlert.warning('You owe money to the loanshark!! Pay it off quickly before the interest gets too high...', {
-                effect: 'scale', position: 'top-right',
-                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
-            });
-
+            }
         }
 
     }, 15000);
@@ -252,7 +253,7 @@ Template.buysell.events({
 
         var purchasePrice = parseInt(event.target.buyPrice.value * 100) / 100;
 
-            var teamCash = updateTeamCash();
+        var teamCash = updateTeamCash();
 
         var maxPurchase = Math.floor(teamCash / purchasePrice);
 
@@ -316,8 +317,6 @@ Template.buysell.events({
                 alert("Busted Buying.  LegalFees = $" + legalFees);
 
             });
-
-
 
 
         } else {
