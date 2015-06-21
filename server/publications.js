@@ -27,6 +27,11 @@ Meteor.publish('serversession', function () {
     return ServerSession.find({});
 });
 
+Meteor.publish('snitches', function () {
+    return Snitches.find({team_id: this.userId});
+});
+
+
 /*
 
 

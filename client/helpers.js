@@ -34,6 +34,9 @@ if (!Meteor.isClient) {
             if (transaction.legalFees) {
                 teamCash = teamCash - transaction.legalFees;
             }
+            if (transaction.snitchFee) {
+                teamCash = teamCash - transaction.snitchFee;
+            }
         });
 
         if (teamCash < 0) {

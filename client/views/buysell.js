@@ -245,10 +245,22 @@ Template.buysell.events({
         event.preventDefault();
 
         var buyRisk = parseInt(event.target.buyRisk.value);
-        var diceRoll = parseInt(Math.random() * 100);
 
-        // console.log(buyRisk);
-        // console.log(diceRoll);
+        var snitch = Snitches.findOne({});
+        if (snitch) {
+            var diceRoll = -1;
+            Snitches.remove({_id: snitch._id});
+            sAlert.error('Someone snitched on you!', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
+        } else {
+            var diceRoll = parseInt(Math.random() * 100);
+        }
+
+
+        console.log(buyRisk);
+        console.log(diceRoll);
 
 
         var purchasePrice = parseInt(event.target.buyPrice.value * 100) / 100;
@@ -352,10 +364,18 @@ Template.buysell.events({
         event.preventDefault();
 
         var sellRisk = parseInt(event.target.sellRisk.value);
-        var diceRoll = parseInt(Math.random() * 100);
+        var snitch = Snitches.findOne({});
+        if (snitch) {
+            var diceRoll = -1;
+            Snitches.remove({_id: snitch._id});
+            sAlert.error('Someone snitched on you!', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
+        } else {
+            var diceRoll = parseInt(Math.random() * 100);
+        }
 
-        console.log(sellRisk);
-        console.log(diceRoll);
 
         var sellPrice = parseInt(event.target.sellPrice.value * 100) / 100;
 

@@ -11,8 +11,19 @@
             <div class="row">
                 <div class="col-md-4">{{username}}</div>
                 <div class="col-md-4 {{profitLoss teamNet}}">${{addCommas teamNet}}</div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary  btn-xs snitchButton" id="snitchButton_{{team_id}}">
+                        Snitch
+                    </button>
+                </div>
             </div>
         {{/each}}
     </div>
+    <div class="row">
+        <div class="col-md-12"><i>For $2,500, you can pay someone to snitch on one of the other teams. This will
+            guarantee that they will be busted during their next transaction!</i>
+        </div>
+    </div>
+
 
 </template>

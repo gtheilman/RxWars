@@ -8,3 +8,4 @@ Transactions.permit(['insert', 'update']).apply();
 // Transactions.permit(['insert', 'update', 'remove']).never().apply();
 
 ServerSession.permit(['insert', 'update', 'remove']).ifHasRole('admin').apply();
+Snitches.permit(['insert', 'update', 'remove']).apply();
