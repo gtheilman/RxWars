@@ -148,14 +148,8 @@ Template.buysell.events({
         Transactions.insert({
             loanAmount: loanAmount
         }, function (err, result) {
-            //  console.log("result " + result);
-            //  console.log("err " + err);
-
             var teamCash = updateTeamCash();
             var teamDebt = updateTeamDebt();
-            // console.log("teamCash" + teamCash);
-            // console.log("teamDebt" + teamDebt);
-
             Transactions.update({_id: result},
                 {
                     $set: {
@@ -163,9 +157,7 @@ Template.buysell.events({
                         teamDebt: teamDebt
                     }
                 });
-
         });
-
         $('#loanAmount').val('');
 
 

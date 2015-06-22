@@ -39,12 +39,24 @@ if (!Meteor.isClient) {
             }
         });
         console.log("TeamCash: " + teamCash);
-        if (teamCash < 0 && teamCash > -1) {
-            teamCash = 0;
-        } else {
-            teamCash = parseInt(teamCash);
+        if (teamCash < 0) {
+            var loanAmount = ( -1 * teamCash);
+            Transactions.insert({
+                loanAmount: loanAmount
+            }, function (err, result) {
+                var teamCash = teamCash + loanAmount;
+                var teamDebt = teamDebt + loanAmount;
+                Transactions.update({_id: result},
+                    {
+                        $set: {
+                            teamCash: teamCash,
+                            teamDebt: teamDebt
+                        }
+                    });
+            });
         }
-        //console.log("TeamCash: " + teamCash);
+        teamCash = parseInt(teamCash);
+        console.log("TeamCash: " + teamCash);
         Session.set('teamCash', teamCash);
         return teamCash
     };
