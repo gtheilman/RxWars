@@ -70,8 +70,18 @@ if (Meteor.isServer) Meteor.methods({
             }
         });
 
+        var teamCash = Math.floor(parseInt(teamCash));
 
-        return parseInt(teamCash);
+        Meteor.users.update({_id: Meteor.userId()},
+            {
+                $set: {
+                    teamCash: teamCash
+                }
+            }
+        );
+
+
+        return teamCash
 
     },
 
@@ -91,7 +101,17 @@ if (Meteor.isServer) Meteor.methods({
             }
         });
 
-        return Math.floor(parseInt(teamDebt));
+        var teamDebt = Math.floor(parseInt(teamDebt));
+
+        Meteor.users.update({_id: Meteor.userId()},
+            {
+                $set: {
+                    teamDebt: teamDebt
+                }
+            }
+        );
+
+        return teamDebt
 
 
     },

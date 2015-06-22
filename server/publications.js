@@ -31,15 +31,7 @@ Meteor.publish('snitches', function () {
     return Snitches.find({team_id: this.userId});
 });
 
+Meteor.publish('scoreboard', function () {
+    return ScoreBoard.find({});
+});
 
-/*
-
-
- Meteor.publish('drugprice', function () {
- //returns empty set if not logged in or not in these roles
-
- if (Roles.userIsInRole(this.userId, 'admin') || Roles.userIsInRole(this.userId, 'grader')) {
- return Consults.find();
- }
- });
- */

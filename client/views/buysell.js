@@ -14,6 +14,8 @@ if (Meteor.isClient) {
                     teamCash: Session.get('teamCash')
                 });
 
+                var updateScoreBoard = updateScoreBoard();
+
                 sAlert.warning('You owe money to the loanshark!! Pay it off quickly before the interest gets too high...', {
                     effect: 'scale', position: 'top-right',
                     timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
@@ -98,6 +100,7 @@ Template.buysell.helpers({
 
             Session.set('teamCash', 0);
             Session.set('teamDebt', 0);
+            var updateScoreBoard = updateScoreBoard();
         }
 
         var teamCash = Math.floor(Session.get('teamCash'));
@@ -118,6 +121,7 @@ Template.buysell.helpers({
             });
             Session.set('teamCash', 0);
             Session.set('teamDebt', 0);
+            var updateScoreBoard = updateScoreBoard();
         }
 
 
@@ -163,6 +167,8 @@ Template.buysell.events({
             teamCash: Session.get('teamCash')
         });
 
+        var updateScoreBoard = updateScoreBoard();
+
         $('#loanAmount').val('');
 
 
@@ -193,6 +199,7 @@ Template.buysell.events({
             teamCash: Session.get('teamCash')
 
         });
+        var updateScoreBoard = updateScoreBoard();
 
 
         $('#loanPayment').val('');
@@ -221,6 +228,8 @@ Template.buysell.events({
             teamDebt: Session.get('teamDebt'),
             teamCash: Session.get('teamCash')
         });
+
+        var updateScoreBoard = updateScoreBoard();
 
     },
 
@@ -321,7 +330,7 @@ Template.buysell.events({
                 teamDebt: Session.get('teamDebt'),
                 teamCash: Session.get('teamCash')
             });
-
+            var updateScoreBoard = updateScoreBoard();
             alert("Busted Buying.  LegalFees = $" + addCommas(legalFees));
 
 
@@ -338,6 +347,7 @@ Template.buysell.events({
             console.log(buySummary);
 
             Transactions.insert(buySummary);
+            var updateScoreBoard = updateScoreBoard();
         }
 
     },
@@ -424,7 +434,7 @@ Template.buysell.events({
             console.log(sellSummary);
 
             Transactions.insert(sellSummary);
-
+            var updateScoreBoard = updateScoreBoard();
             alert("Busted Selling.  LegalFees = $" + addCommas(legalFees));
 
 
@@ -440,6 +450,7 @@ Template.buysell.events({
                 teamCash: Session.get('teamCash'),
                 teamDebt: Session.get('teamDebt')
             });
+            var updateScoreBoard = updateScoreBoard();
         }
 
     },

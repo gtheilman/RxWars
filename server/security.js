@@ -9,3 +9,4 @@ Transactions.permit(['insert', 'update']).apply();
 
 ServerSession.permit(['insert', 'update', 'remove']).ifHasRole('admin').apply();
 Snitches.permit(['insert', 'update', 'remove']).apply();
+ScoreBoard.permit(['insert', 'update', 'remove']).apply();
