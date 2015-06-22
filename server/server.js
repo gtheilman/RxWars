@@ -69,32 +69,35 @@ if (Meteor.isServer) Meteor.methods({
                 teamCash = teamCash - transaction.snitchFee;
             }
         });
-        // console.log("TeamCash: " + teamCash);
 
-        /*
-         if (teamCash < 0) {
-         var loanAmount = ( -1 * teamCash);
-         Transactions.insert({
-         loanAmount: loanAmount
-         }, function (err, result) {
-         var teamCash = teamCash + loanAmount;
-         var teamDebt = teamDebt + loanAmount;
-         Transactions.update({_id: result},
-         {
-         $set: {
-         teamCash: teamCash,
-         teamDebt: teamDebt
-         }
-         });
-         });
-         }
 
-         */
+        return parseInt(teamCash);
 
-        teamCash = parseInt(teamCash);
-
-        return teamCash
     },
+
+
+    'updateTeamDebt': function () {
+
+        var teamDebt = 0;
+        Transactions.find({team_id: Meteor.userId()}, {sort: {epoch: 1}}).forEach(function (transaction) {
+            if (transaction.loanAmount) {
+                teamDebt = teamDebt + transaction.loanAmount;
+            }
+            if (transaction.loanPayment) {
+                teamDebt = teamDebt - transaction.loanPayment;
+            }
+            if (transaction.loanInterest) {
+                teamDebt = teamDebt + transaction.loanInterest;
+            }
+        });
+
+        return Math.floor(parseInt(teamDebt));
+
+
+    },
+
+
+
 
 
     'getTeamScores': function (team_id) {
@@ -109,11 +112,7 @@ if (Meteor.isServer) Meteor.methods({
             var teamNet = 0;
         }
 
-        if (teamNet < 0) {
-            teamNet = "-$" + addCommas(-1 * teamNet);
-        } else {
-            teamNet = "$" + addCommas(teamNet);
-        }
+
         return teamNet
     }
 

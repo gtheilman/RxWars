@@ -30,7 +30,6 @@ Template.buysell.helpers({
     drugs: function () {
 
         // if no cash debt in session, create it
-
         if (!Session.get('teamCash')) {
             Meteor.call('updateTeamCash', function (error, result) {
                 if (result) {
@@ -40,9 +39,14 @@ Template.buysell.helpers({
                 }
             });
         }
-
         if (!Session.get('teamDebt')) {
-            Session.set('teamDebt', 0);
+            Meteor.call('updateTeamDebt', function (error, result) {
+                if (result) {
+                    Session.set('teamDebt', result);
+                } else {
+                    Session.set('teamDebt', 0);
+                }
+            });
         }
 
         TeamBuySell.remove({});
