@@ -54,18 +54,18 @@ if (Meteor.isClient) {
             Snitches.insert({
                 team_id: team_id
             });
-            var snitchFee = 2500;
+            var snitchFee = 5000;
 
 
             if (snitchFee > Session.get('teamCash')) {
-                var loanAmount = parseInt(snitchFee) - Session.get('teamCash');
+                alert("You don't have enough money to pay the snitch.");
+                return
             } else {
-                var loanAmount = 0;
+                Session.set('teamCash', Session.get('teamCash') - snitchFee);
             }
 
             Transactions.insert({
                 snitchFee: snitchFee,
-                loanAmount: loanAmount,
                 teamCash: Session.get('teamCash'),
                 teamDebt: Session.get('teamDebt')
             });
