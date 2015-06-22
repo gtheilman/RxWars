@@ -236,7 +236,7 @@ Template.buysell.events({
     "submit .buyForm": function (event, template) {
         event.preventDefault();
 
-        var buyRisk = parseInt(event.target.buyRisk.value);
+        var calculatedBuyRisk = parseInt(event.target.buyRisk.value);
 
         var snitch = Snitches.findOne({});
         if (snitch) {
@@ -250,18 +250,16 @@ Template.buysell.events({
             var diceRoll = parseInt(Math.random() * 100);
         }
 
-
-        // console.log(buyRisk);
-        // console.log(diceRoll);
-
-
         var purchasePrice = parseInt(event.target.buyPrice.value * 100) / 100;
 
         var teamCash = updateTeamCash();
 
         var maxPurchase = Math.floor(teamCash / purchasePrice);
 
-        if (event.target.buyQuantity.value > maxPurchase) {
+        if (!event.target.buyQuantity.value) {
+            var purchaseQuantity = maxPurchase;
+            calculatedBuyRisk = buyRisk(purchaseQuantity, event.target.drug_id.value);
+        } else if (event.target.buyQuantity.value > maxPurchase) {
             var purchaseQuantity = maxPurchase;
         } else {
             var purchaseQuantity = parseInt(event.target.buyQuantity.value);
@@ -282,7 +280,7 @@ Template.buysell.events({
         }
 
 
-        if (diceRoll < buyRisk) {
+        if (diceRoll < calculatedBuyRisk) {
             // busted
             var legalFees = parseInt(totalSale * purchaseQuantity / 100 * Math.random() * 10);
 
@@ -373,7 +371,14 @@ Template.buysell.events({
 
         var teamCash = updateTeamCash();
 
-        if (parseInt(event.target.sellQuantity.value) > parseInt(event.target.inventory.value)) {
+
+        console.log("Inventory: " + parseInt(event.target.inventory.value));
+
+
+        if (!parseInt(event.target.sellQuantity.value)) {
+            var sellQuantity = parseInt((event.target.inventory.value));
+        }
+        else if (parseInt(event.target.sellQuantity.value) > parseInt(event.target.inventory.value)) {
             // console.log("oversell");
             var sellQuantity = parseInt((event.target.inventory.value));
         } else {
@@ -470,29 +475,9 @@ Template.buysell.events({
         var drug_id = event.currentTarget.id.replace('buyQuantity_', '');
 
         var buyQuantity = parseInt(event.currentTarget.value);
-        var buyRisk = Drugs.findOne({_id: drug_id}).buyRisk;
 
-        if (buyQuantity <= 100) {
-            var calculatedBuyRisk = buyQuantity / 100 * buyRisk;
-        } else {
-            var calculatedBuyRisk = buyQuantity / 100 * buyRisk * buyQuantity / 100;
-        }
-        if (calculatedBuyRisk > 99) {
-            calculatedBuyRisk = 99;
-        }
+        var calculatedBuyRisk = buyRisk(buyQuantity, drug_id);
 
-        if (calculatedBuyRisk < 1) {
-            calculatedBuyRisk = 1;
-        }
-
-
-        if (calculatedBuyRisk == NaN) {
-            calculatedBuyRisk = buyRisk;
-        }
-
-        // console.log(buyQuantity);
-        // console.log(calculatedBuyRisk);
-        // console.log(drug_id);
 
         $('#calculatedBuyRisk_' + drug_id).text(calculatedBuyRisk.toFixed(0) + "%");
         $('#buyRisk_' + drug_id).val(calculatedBuyRisk.toFixed(0));

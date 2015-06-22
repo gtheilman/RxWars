@@ -107,4 +107,31 @@ if (!Meteor.isClient) {
         return "$" + amount.toFixed(2)
     });
 
+    this.buyRisk = function (buyQuantity, drug_id) {
+
+        var buyRisk = Drugs.findOne({_id: drug_id}).buyRisk;
+
+        if (buyQuantity <= 100) {
+            var calculatedBuyRisk = buyQuantity / 100 * buyRisk;
+        } else {
+            var calculatedBuyRisk = buyQuantity / 100 * buyRisk * buyQuantity / 100;
+        }
+        if (calculatedBuyRisk > 99) {
+            calculatedBuyRisk = 99;
+        }
+
+        if (calculatedBuyRisk < 1) {
+            calculatedBuyRisk = 1;
+        }
+
+
+        if (calculatedBuyRisk == NaN) {
+            calculatedBuyRisk = buyRisk;
+        }
+        return calculatedBuyRisk
+
+    };
+
+    //  Template.registerHelper('buyRisk', buyRisk);
 }
+
