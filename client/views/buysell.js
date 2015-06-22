@@ -14,7 +14,7 @@ if (Meteor.isClient) {
                     teamCash: Session.get('teamCash')
                 });
 
-                var updateScoreBoard = updateScoreBoard();
+                updateScoreBoard();
 
                 sAlert.warning('You owe money to the loanshark!! Pay it off quickly before the interest gets too high...', {
                     effect: 'scale', position: 'top-right',
@@ -100,7 +100,7 @@ Template.buysell.helpers({
 
             Session.set('teamCash', 0);
             Session.set('teamDebt', 0);
-            var updateScoreBoard = updateScoreBoard();
+            updateScoreBoard();
         }
 
         var teamCash = Math.floor(Session.get('teamCash'));
@@ -121,7 +121,7 @@ Template.buysell.helpers({
             });
             Session.set('teamCash', 0);
             Session.set('teamDebt', 0);
-            var updateScoreBoard = updateScoreBoard();
+            updateScoreBoard();
         }
 
 
@@ -145,6 +145,7 @@ Template.buysell.helpers({
                     effect: 'scale', position: 'bottom-right',
                     timeout: '4000', onRouteClose: false, stack: true, offset: '0px'
                 });
+                Meteor.call('removeTeam', id.username);
             }
         });
     }
@@ -167,7 +168,7 @@ Template.buysell.events({
             teamCash: Session.get('teamCash')
         });
 
-        var updateScoreBoard = updateScoreBoard();
+        updateScoreBoard();
 
         $('#loanAmount').val('');
 
@@ -199,7 +200,7 @@ Template.buysell.events({
             teamCash: Session.get('teamCash')
 
         });
-        var updateScoreBoard = updateScoreBoard();
+        updateScoreBoard();
 
 
         $('#loanPayment').val('');
@@ -214,14 +215,17 @@ Template.buysell.events({
 
         if (Session.get('teamDebt') > Session.get('teamCash')) {
             var loanPayment = Session.get('teamCash');
+            Session.set('teamCash', 0);
+            Session.set('teamDebt', Session.get('teamDebt') - loanPayment);
         } else {
             var loanPayment = Session.get('teamDebt');
+            Session.set('teamCash', Session.get('teamCash') - loanPayment);
+            Session.set('teamDebt', 0);
         }
 
         console.log("loanpayment: " + loanPayment);
 
-        Session.set('teamCash', Session.get('teamCash') - loanPayment);
-        Session.set('teamDebt', Session.get('teamDebt') - loanPayment);
+
 
         Transactions.insert({
             loanPayment: loanPayment,
@@ -229,7 +233,7 @@ Template.buysell.events({
             teamCash: Session.get('teamCash')
         });
 
-        var updateScoreBoard = updateScoreBoard();
+        updateScoreBoard();
 
     },
 
@@ -330,7 +334,7 @@ Template.buysell.events({
                 teamDebt: Session.get('teamDebt'),
                 teamCash: Session.get('teamCash')
             });
-            var updateScoreBoard = updateScoreBoard();
+            updateScoreBoard();
             alert("Busted Buying.  LegalFees = $" + addCommas(legalFees));
 
 
@@ -347,7 +351,7 @@ Template.buysell.events({
             console.log(buySummary);
 
             Transactions.insert(buySummary);
-            var updateScoreBoard = updateScoreBoard();
+            updateScoreBoard();
         }
 
     },
@@ -434,7 +438,7 @@ Template.buysell.events({
             console.log(sellSummary);
 
             Transactions.insert(sellSummary);
-            var updateScoreBoard = updateScoreBoard();
+            updateScoreBoard();
             alert("Busted Selling.  LegalFees = $" + addCommas(legalFees));
 
 
@@ -450,7 +454,7 @@ Template.buysell.events({
                 teamCash: Session.get('teamCash'),
                 teamDebt: Session.get('teamDebt')
             });
-            var updateScoreBoard = updateScoreBoard();
+            updateScoreBoard();
         }
 
     },

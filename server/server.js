@@ -2,6 +2,7 @@ if (Meteor.isServer) Meteor.methods({
 
 
     'updatePrices': function () {
+        this.unblock;
         Drugs.find({active: true}).forEach(function (drug) {
             var numberAvailable = 1;
             var numberPlayers = 0;
@@ -47,7 +48,7 @@ if (Meteor.isServer) Meteor.methods({
     },
 
     'updateTeamCash': function () {
-
+        this.unblock;
         var teamCash = 0;
         Transactions.find({team_id: Meteor.userId()}, {sort: {epoch: 1}}).forEach(function (transaction) {
             if (transaction.buyPrice) {
@@ -87,7 +88,7 @@ if (Meteor.isServer) Meteor.methods({
 
 
     'updateTeamDebt': function () {
-
+        this.unblock;
         var teamDebt = 0;
         Transactions.find({team_id: Meteor.userId()}, {sort: {epoch: 1}}).forEach(function (transaction) {
             if (transaction.loanAmount) {
@@ -121,7 +122,7 @@ if (Meteor.isServer) Meteor.methods({
 
 
     'getTeamScores': function (team_id) {
-
+        this.unblock;
         var transaction = Transactions.findOne({
             team_id: team_id
         }, {sort: {epoch: -1}});
@@ -134,6 +135,20 @@ if (Meteor.isServer) Meteor.methods({
 
 
         return teamNet
+    },
+    'updateScoreBoard': function (teamNet) {
+        this.unblock;
+        ScoreBoard.update({team_id: Meteor.userId()}, {
+                $set: {
+                    team_id: Meteor.userId(),
+                    teamNet: parseInt(teamNet),
+                    username: Meteor.user().username
+                }
+            }, {upsert: true}
+        )
+    },
+    'removeTeam': function (username) {
+        ScoreBoard.remove({username: username});
     }
 
 

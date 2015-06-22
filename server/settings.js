@@ -1,6 +1,7 @@
 if (Meteor.isServer) Meteor.methods({
 
     'increaseScheduleIIBuyRisk': function () {
+        this.unblock;
         var drug = Drugs.findOne({schedule: 'II'});
         if (!drug) {
             var buyRisk = 5;
@@ -19,6 +20,7 @@ if (Meteor.isServer) Meteor.methods({
     },
 
     'decreaseScheduleIIBuyRisk': function () {
+        this.unblock;
         var drug = Drugs.findOne({schedule: 'II'});
         if (!drug) {
             var buyRisk = 5;
@@ -36,6 +38,7 @@ if (Meteor.isServer) Meteor.methods({
         return buyRisk - 5;
     },
     'increaseScheduleIII_VBuyRisk': function () {
+        this.unblock;
         var drug = Drugs.findOne({schedule: 'III'});
         if (!drug) {
             var drug = Drugs.findOne({schedule: 'IV'});
@@ -75,6 +78,7 @@ if (Meteor.isServer) Meteor.methods({
     },
 
     'decreaseScheduleIII_VBuyRisk': function () {
+        this.unblock;
         var drug = Drugs.findOne({schedule: 'III'});
         if (!drug) {
             var drug = Drugs.findOne({schedule: 'IV'});
@@ -113,6 +117,7 @@ if (Meteor.isServer) Meteor.methods({
         return buyRisk - 5;
     },
     'increaseUnscheduledBuyRisk': function () {
+        this.unblock;
         var drug = Drugs.findOne({schedule: 'unscheduled'});
         if (!drug) {
             var buyRisk = 5;
@@ -131,6 +136,7 @@ if (Meteor.isServer) Meteor.methods({
     },
 
     'decreaseUnscheduledBuyRisk': function () {
+        this.unblock;
         var drug = Drugs.findOne({schedule: 'unscheduled'});
         if (!drug) {
             var buyRisk = 5;
@@ -148,6 +154,7 @@ if (Meteor.isServer) Meteor.methods({
         return buyRisk - 5;
     },
     'increaseSellRisk': function () {
+        this.unblock;
         var drug = Drugs.findOne({});
         if (!drug) {
             var sellRisk = 5;
@@ -166,6 +173,7 @@ if (Meteor.isServer) Meteor.methods({
     },
 
     'decreaseSellRisk': function () {
+        this.unblock;
         var drug = Drugs.findOne({});
         if (!drug) {
             var sellRisk = 5;
@@ -183,6 +191,7 @@ if (Meteor.isServer) Meteor.methods({
         return sellRisk - 5;
     },
     'decriminalize': function () {
+        this.unblock;
         Drugs.update({},
             {
                 $set: {
@@ -191,6 +200,7 @@ if (Meteor.isServer) Meteor.methods({
             }, {multi: true})
     },
     'gangster': function () {
+        this.unblock;
         Drugs.update({},
             {
                 $set: {
@@ -205,7 +215,7 @@ if (Meteor.isServer) Meteor.methods({
     },
 
     'resetDrugs': function () {
-
+        this.unblock;
         Drugs.remove({});
 
         Drugs.insert({
@@ -272,6 +282,7 @@ if (Meteor.isServer) Meteor.methods({
 
     },
     'resetPlayers': function () {
+        this.unblock;
         Meteor.users.remove({username: {$not: /^admin.*/}});
     }
 

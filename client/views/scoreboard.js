@@ -5,9 +5,25 @@ if (Meteor.isClient) {
             return ScoreBoard.find({}, {sort: {username: 1}})
         },
 
+        teamNetFormatted: function (teamNet) {
+            if (teamNet < 0) {
+                var text = "-$" + addCommas(-1 * teamNet);
+            } else {
+                var text = "$" + addCommas(teamNet);
+            }
+            return text
+        },
+
 
         profitLoss: function (teamNet) {
-            if (teamNet.indexOf("-") == -1) {
+            if (teamNet < 0) {
+                var text = "-$" + addCommas(teamNet);
+            } else {
+                var text = "$" + addCommas(teamNet);
+            }
+
+
+            if (text.indexOf("-") == -1) {
                 return "netPositive"
             } else {
                 return "netNegative"

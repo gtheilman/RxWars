@@ -132,21 +132,11 @@ if (!Meteor.isClient) {
 
     };
 
-
     this.updateScoreBoard = function () {
-
         var teamNet = Session.get('teamCash') - Session.get('teamDebt');
-        ScoreBoard.update({team_id: Meteor.userId()}, {
-                $set: {
-                    team_id: Meteor.userId(),
-                    teamNet: teamNet,
-                    username: Meteor.user.username
-                }
-            }, {upsert: true}
-        )
-
+        Meteor.call('updateScoreBoard', teamNet);
     };
 
-    //  Template.registerHelper('buyRisk', buyRisk);
+    Template.registerHelper('updateScoreBoard', updateScoreBoard);
 }
 
