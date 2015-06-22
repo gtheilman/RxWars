@@ -125,7 +125,7 @@ if (!Meteor.isClient) {
         }
 
 
-        if (calculatedBuyRisk == NaN) {
+        if (isNaN(calculatedBuyRisk)) {
             calculatedBuyRisk = buyRisk;
         }
         return calculatedBuyRisk

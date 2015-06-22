@@ -236,7 +236,7 @@ Template.buysell.events({
             // Buy as much as the money they have
             var buyQuantity = maxPurchase;
             console.log("Not:" + buyQuantity);
-        } else if (parseInt(event.target.buyQuantity.value) == NaN) {
+        } else if (isNaN(parseInt(event.target.buyQuantity.value))) {
             // Buy as much as the money they have
             console.log("NaN");
             return
@@ -295,7 +295,7 @@ Template.buysell.events({
 
             if (legalFees < 1000) {
                 legalFees = 1000;
-            } else if (legalFees == NaN) {
+            } else if (isNaN(legalFees)) {
                 legalFees = 1000;
             }
 
@@ -386,36 +386,41 @@ Template.buysell.events({
         if (diceRoll < sellRisk) {
             // busted
 
-            //lose the money you were trying to spend
-            var totalSale = sellQuantity * sellPrice;
-            Session.set('teamCash', Session.get('teamCash') - totalSale);
 
-            var legalFees = parseInt(totalSale * sellQuantity / 100 * Math.random() * 10);
+            var legalFees = parseInt(sellPrice * sellQuantity / 100 * Math.random() * 10);
 
             if (legalFees < 1000) {
                 legalFees = 1000;
-            } else if (legalFees == NaN) {
+            } else if (isNaN(legalFees)) {
                 legalFees = 1000;
             }
 
             if (legalFees > Session.get('teamCash')) {
                 Session.set('teamDebt', legalFees - Session.get('teamCash'));
                 Session.set('teamCash', 0);
+                var loanAmount = legalFees - Session.get('teamCash');
             } else {
                 Session.set('teamCash', Session.get('teamCash') - legalFees);
+                var loanAmount = 0;
             }
 
+            var inventoryForward = inventory - sellQuantity;
 
-            Transactions.insert({
+            var sellSummary = {
                 drug_id: drug_id,
                 sellQuantity: 0,
                 sellPrice: sellPrice,
-                inventoryForward: inventory - sellQuantity,
+                inventoryForward: inventoryForward,
                 legalFees: legalFees,
                 loanAmount: loanAmount,
                 teamCash: Session.get('teamCash'),
                 teamDebt: Session.get('teamDebt')
-            });
+            };
+
+            console.log(sellSummary);
+
+            Transactions.insert(sellSummary);
+
             alert("Busted Selling.  LegalFees = $" + addCommas(legalFees));
 
 
