@@ -41,7 +41,7 @@ Template.buysell.helpers({
 
         TeamBuySell.remove({});
 
-        Drugs.find({active: true}).forEach(function (drug) {
+        Drugs.find({active: true}, {sort: {name: 1}}).forEach(function (drug) {
 
             var transaction = Transactions.findOne({team_id: Meteor.userId(), drug_id: drug._id}, {sort: {epoch: -1}});
             if (transaction) {

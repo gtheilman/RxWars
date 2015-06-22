@@ -38,7 +38,7 @@ if (Meteor.isClient) {
                 }
             });
             //  console.log(ScoreBoard);
-            return ScoreBoard.find({}, {sort: {teamNet: -1}})
+            return ScoreBoard.find({}, {sort: {username: 1}})
         },
 
 

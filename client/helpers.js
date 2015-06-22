@@ -38,8 +38,8 @@ if (!Meteor.isClient) {
                 teamCash = teamCash - transaction.snitchFee;
             }
         });
-
-        if (teamCash < 0) {
+        console.log("TeamCash: " + teamCash);
+        if (teamCash < 0 && teamCash > -1) {
             teamCash = 0;
         } else {
             teamCash = parseInt(teamCash);
@@ -68,7 +68,7 @@ if (!Meteor.isClient) {
         });
 
 
-        if (teamDebt < 0) {
+        if (teamDebt < 0 && teamDebt > -1) {
             teamDebt = 0;
         } else {
             teamDebt = parseInt(teamDebt);
