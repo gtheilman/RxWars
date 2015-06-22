@@ -2,26 +2,16 @@ if (Meteor.isClient) {
     // add interest from loan shark
     Meteor.setInterval(function () {
         if (getIntervalId()) {
-            var teamDebt = Session.get('teamDebt');
 
-            if (teamDebt > 0) {
 
-                var loanInterest = 0.05 * teamDebt;
+            if (Session.get('teamDebt') > 0) {
+                var loanInterest = 0.05 * Session.get('teamDebt');
+                Session.set('teamDebt', Session.get('teamDebt') + loanInterest);
 
                 Transactions.insert({
-                    loanInterest: loanInterest
-                }, function (err, result) {
-                    // console.log("result " + result);
-
-                    var teamCash = updateTeamCash();
-                    var teamDebt = updateTeamDebt();
-                    Transactions.update({_id: result},
-                        {
-                            $set: {
-                                teamCash: teamCash,
-                                teamDebt: teamDebt
-                            }
-                        });
+                    loanInterest: loanInterest,
+                    teamDebt: Session.get('teamDebt'),
+                    teamCash: Session.get('teamCash')
                 });
 
                 sAlert.warning('You owe money to the loanshark!! Pay it off quickly before the interest gets too high...', {
@@ -32,12 +22,28 @@ if (Meteor.isClient) {
             }
         }
 
-    }, 15000);
+    }, 30000);
 }
 
 
 Template.buysell.helpers({
     drugs: function () {
+
+        // if no cash debt in session, create it
+
+        if (!Session.get('teamCash')) {
+            Meteor.call('updateTeamCash', function (error, result) {
+                if (result) {
+                    Session.set('teamCash', result);
+                } else {
+                    Session.set('teamCash', 0);
+                }
+            });
+        }
+
+        if (!Session.get('teamDebt')) {
+            Session.set('teamDebt', 0);
+        }
 
         TeamBuySell.remove({});
 
@@ -90,7 +96,7 @@ Template.buysell.helpers({
             Session.set('teamDebt', 0);
         }
 
-        var teamCash = Session.get('teamCash');
+        var teamCash = Math.floor(Session.get('teamCash'));
 
         if (teamCash) {
             return "$" + addCommas(teamCash.toFixed(0))
@@ -110,10 +116,9 @@ Template.buysell.helpers({
             Session.set('teamDebt', 0);
         }
 
-        var teamDebt = Session.get('teamDebt');
 
-        if (teamDebt) {
-            return "$" + addCommas(teamDebt.toFixed(0))
+        if (Session.get('teamDebt')) {
+            return "$" + addCommas(Session.get('teamDebt').toFixed(0))
         } else
             return "$0.00"
 
@@ -144,20 +149,16 @@ Template.buysell.events({
         event.preventDefault();
 
         var loanAmount = parseInt(event.target.loanAmount.value);
+        Session.set('teamCash', Session.get('teamCash') + loanAmount);
+        Session.set('teamDebt', Session.get('teamDebt') + loanAmount);
+
 
         Transactions.insert({
-            loanAmount: loanAmount
-        }, function (err, result) {
-            var teamCash = updateTeamCash();
-            var teamDebt = updateTeamDebt();
-            Transactions.update({_id: result},
-                {
-                    $set: {
-                        teamCash: teamCash,
-                        teamDebt: teamDebt
-                    }
-                });
+            loanAmount: loanAmount,
+            teamDebt: Session.get('teamDebt'),
+            teamCash: Session.get('teamCash')
         });
+
         $('#loanAmount').val('');
 
 
@@ -167,32 +168,28 @@ Template.buysell.events({
     "submit #repayForm": function (event, template) {
         event.preventDefault();
 
+        if (!event.target.loanPayment.value) {
+            return
+        }
+
         var loanPayment = parseInt(event.target.loanPayment.value);
 
+
+        // trying to return more than they borrowed
         if (Session.get('teamDebt') < loanPayment) {
             var loanPayment = Session.get('teamDebt');
         }
 
+        Session.set('teamCash', Session.get('teamCash') - loanPayment);
+        Session.set('teamDebt', Session.get('teamDebt') - loanPayment);
 
         Transactions.insert({
-            loanPayment: loanPayment
-        }, function (err, result) {
-            // console.log("result " + result);
-
-            var teamCash = updateTeamCash();
-            var teamDebt = updateTeamDebt();
-            // console.log("teamCash" + teamCash);
-            // console.log("teamDebt" + teamDebt);
-
-            Transactions.update({_id: result},
-                {
-                    $set: {
-                        teamCash: teamCash,
-                        teamDebt: teamDebt
-                    }
-                });
+            loanPayment: loanPayment,
+            teamDebt: Session.get('teamDebt'),
+            teamCash: Session.get('teamCash')
 
         });
+
 
         $('#loanPayment').val('');
 
@@ -210,24 +207,15 @@ Template.buysell.events({
             var loanPayment = Session.get('teamDebt');
         }
 
+        console.log("loanpayment: " + loanPayment);
+
+        Session.set('teamCash', Session.get('teamCash') - loanPayment);
+        Session.set('teamDebt', Session.get('teamDebt') - loanPayment);
+
         Transactions.insert({
-            loanPayment: loanPayment
-        }, function (err, result) {
-            // console.log("result " + result);
-
-            var teamCash = updateTeamCash();
-            var teamDebt = updateTeamDebt();
-            // console.log("teamCash" + teamCash);
-            // console.log("teamDebt" + teamDebt);
-
-            Transactions.update({_id: result},
-                {
-                    $set: {
-                        teamCash: teamCash,
-                        teamDebt: teamDebt
-                    }
-                });
-
+            loanPayment: loanPayment,
+            teamDebt: Session.get('teamDebt'),
+            teamCash: Session.get('teamCash')
         });
 
     },
@@ -236,44 +224,43 @@ Template.buysell.events({
     "submit .buyForm": function (event, template) {
         event.preventDefault();
 
-        var calculatedBuyRisk = parseInt(event.target.buyRisk.value);
 
-        var snitch = Snitches.findOne({});
-        if (snitch) {
-            var diceRoll = -1;
-            Snitches.remove({_id: snitch._id});
-            sAlert.error('Someone snitched on you!', {
-                effect: 'scale', position: 'top-right',
-                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
-            });
-        } else {
-            var diceRoll = parseInt(Math.random() * 100);
-        }
+        var buyPrice = parseInt(event.target.buyPrice.value * 100) / 100;
 
-        var purchasePrice = parseInt(event.target.buyPrice.value * 100) / 100;
+        var drug_id = event.target.drug_id.value;
 
-        var teamCash = updateTeamCash();
 
-        var maxPurchase = Math.floor(teamCash / purchasePrice);
+        var maxPurchase = Math.floor(Session.get('teamCash') / buyPrice);
 
         if (!event.target.buyQuantity.value) {
-            var purchaseQuantity = maxPurchase;
-            calculatedBuyRisk = buyRisk(purchaseQuantity, event.target.drug_id.value);
+            // Buy as much as the money they have
+            var buyQuantity = maxPurchase;
+            console.log("Not:" + buyQuantity);
+        } else if (parseInt(event.target.buyQuantity.value) == NaN) {
+            // Buy as much as the money they have
+            console.log("NaN");
+            return
+            console.log("NaN:" + buyQuantity);
         } else if (event.target.buyQuantity.value > maxPurchase) {
-            var purchaseQuantity = maxPurchase;
+            // asked to buy more than the money they had.  REduce quantity bought
+            var buyQuantity = maxPurchase;
+            console.log("Reduce quantity:" + buyQuantity);
         } else {
-            var purchaseQuantity = parseInt(event.target.buyQuantity.value);
+            // buy what they asked for
+            var buyQuantity = parseInt(event.target.buyQuantity.value);
         }
 
-        console.log("purchaseQuantity: " + purchaseQuantity);
 
-        var totalSale = purchaseQuantity * purchasePrice;
+        console.log("buyQuantity: " + buyQuantity);
 
-        var teamCash = Session.get('teamCash') - totalSale;
+        // busted or not, you lose the money
+        var totalSale = buyQuantity * buyPrice;
+        Session.set('teamCash', Session.get('teamCash') - totalSale);
+
 
         var transaction = Transactions.findOne({
             team_id: Meteor.userId(),
-            drug_id: event.target.drug_id.value
+            drug_id: drug_id
         }, {sort: {epoch: -1}});
         if (!transaction) {
             var inventory = 0;
@@ -282,80 +269,12 @@ Template.buysell.events({
         }
 
 
-        if (diceRoll < calculatedBuyRisk) {
-            // busted
-            var legalFees = parseInt(totalSale * purchaseQuantity / 100 * Math.random() * 10);
+        // Busted?
 
-            if (legalFees < 1000) {
-                legalFees = 1000;
-            } else if (legalFees == NaN) {
-                legalFees = 1000;
-            }
-
-            if (legalFees > teamCash) {
-                var loanAmount = parseInt(legalFees) - parseInt(teamCash);
-            } else {
-                var loanAmount = 0;
-            }
-
-            Transactions.insert({
-                drug_id: event.target.drug_id.value,
-                buyQuantity: 0,
-                buyPrice: purchasePrice,
-                inventoryForward: inventory,
-                legalFees: legalFees,
-                loanAmount: loanAmount
-            }, function (err, result) {
-                // console.log("result " + result);
-                var teamCash = updateTeamCash();
-                var teamDebt = updateTeamDebt();
-                // console.log("teamCash" + teamCash);
-                // console.log("teamDebt" + teamDebt);
-
-                Transactions.update({_id: result},
-                    {
-                        $set: {
-                            teamCash: teamCash,
-                            teamDebt: teamDebt
-                        }
-                    });
-
-                alert("Busted Buying.  LegalFees = $" + addCommas(legalFees));
-
-            });
+        var calculatedBuyRisk = buyRisk(buyQuantity, drug_id);
+        console.log("Buy Risk: " + calculatedBuyRisk);
 
 
-        } else {
-            Transactions.insert({
-                drug_id: event.target.drug_id.value,
-                buyQuantity: purchaseQuantity,
-                buyPrice: purchasePrice,
-                inventoryForward: inventory + purchaseQuantity
-            }, function (err, result) {
-                // console.log("result " + result);
-                var teamCash = updateTeamCash();
-                var teamDebt = updateTeamDebt();
-                // console.log("teamCash" + teamCash);
-                // console.log("teamDebt" + teamDebt);
-
-                Transactions.update({_id: result},
-                    {
-                        $set: {
-                            teamCash: teamCash,
-                            teamDebt: teamDebt
-                        }
-                    });
-
-            });
-        }
-
-    },
-
-
-    "submit .sellForm": function (event, template) {
-        event.preventDefault();
-
-        var sellRisk = parseInt(event.target.sellRisk.value);
         var snitch = Snitches.findOne({});
         if (snitch) {
             var diceRoll = -1;
@@ -369,13 +288,64 @@ Template.buysell.events({
         }
 
 
+
+        if (diceRoll < calculatedBuyRisk) {
+            // busted
+            var legalFees = parseInt(totalSale * buyQuantity / 100 * Math.random() * 10);
+
+            if (legalFees < 1000) {
+                legalFees = 1000;
+            } else if (legalFees == NaN) {
+                legalFees = 1000;
+            }
+
+            if (legalFees > Session.get('teamCash')) {
+                Session.set('teamDebt', legalFees - Session.get('teamCash'));
+                Session.set('teamCash', 0);
+            } else {
+                Session.set('teamCash', Session.get('teamCash') - legalFees);
+            }
+
+
+            Transactions.insert({
+                drug_id: drug_id,
+                buyQuantity: 0,
+                buyPrice: buyPrice,
+                inventoryForward: inventory,
+                legalFees: legalFees,
+                loanAmount: loanAmount,
+                teamDebt: Session.get('teamDebt'),
+                teamCash: Session.get('teamCash')
+            });
+
+            alert("Busted Buying.  LegalFees = $" + addCommas(legalFees));
+
+
+        } else {
+            var buySummary = {
+                drug_id: drug_id,
+                buyQuantity: buyQuantity,
+                buyPrice: buyPrice,
+                inventoryForward: inventory + buyQuantity,
+                teamDebt: Session.get('teamDebt'),
+                teamCash: Session.get('teamCash')
+            };
+
+            console.log(buySummary);
+
+            Transactions.insert(buySummary);
+        }
+
+    },
+
+
+    "submit .sellForm": function (event, template) {
+        event.preventDefault();
+
+        var drug_id = event.target.drug_id.value;
         var sellPrice = parseInt(event.target.sellPrice.value * 100) / 100;
 
-        var teamCash = updateTeamCash();
-
-
         console.log("Inventory: " + parseInt(event.target.inventory.value));
-
 
         if (!parseInt(event.target.sellQuantity.value)) {
             var sellQuantity = parseInt((event.target.inventory.value));
@@ -388,13 +358,9 @@ Template.buysell.events({
             var sellQuantity = parseInt(event.target.sellQuantity.value);
         }
 
-        var totalSale = sellQuantity * sellPrice;
-
-        var teamCash = Session.get('teamCash') + totalSale;
-
         var transaction = Transactions.findOne({
             team_id: Meteor.userId(),
-            drug_id: event.target.drug_id.value
+            drug_id: drug_id
         }, {sort: {epoch: -1}});
 
         if (!transaction) {
@@ -402,8 +368,27 @@ Template.buysell.events({
         } else {
             var inventory = parseInt(transaction.inventoryForward);
         }
+
+
+        var snitch = Snitches.findOne({});
+        if (snitch) {
+            var diceRoll = -1;
+            Snitches.remove({_id: snitch._id});
+            sAlert.error('Someone snitched on you!', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
+        } else {
+            var diceRoll = parseInt(Math.random() * 100);
+        }
+
+        var sellRisk = parseInt(event.target.sellRisk.value);
         if (diceRoll < sellRisk) {
             // busted
+
+            //lose the money you were trying to spend
+            var totalSale = sellQuantity * sellPrice;
+            Session.set('teamCash', Session.get('teamCash') - totalSale);
 
             var legalFees = parseInt(totalSale * sellQuantity / 100 * Math.random() * 10);
 
@@ -413,59 +398,38 @@ Template.buysell.events({
                 legalFees = 1000;
             }
 
-            if (legalFees > teamCash) {
-                var loanAmount = parseInt(legalFees) - parseInt(teamCash);
+            if (legalFees > Session.get('teamCash')) {
+                Session.set('teamDebt', legalFees - Session.get('teamCash'));
+                Session.set('teamCash', 0);
             } else {
-                var loanAmount = 0;
+                Session.set('teamCash', Session.get('teamCash') - legalFees);
             }
 
+
             Transactions.insert({
-                drug_id: event.target.drug_id.value,
+                drug_id: drug_id,
                 sellQuantity: 0,
                 sellPrice: sellPrice,
                 inventoryForward: inventory - sellQuantity,
                 legalFees: legalFees,
-                loanAmount: loanAmount
-            }, function (err, result) {
-                // console.log("result " + result);
-                var teamCash = updateTeamCash();
-                var teamDebt = updateTeamDebt();
-                // console.log("teamCash" + teamCash);
-                // console.log("teamDebt" + teamDebt);
-
-                Transactions.update({_id: result},
-                    {
-                        $set: {
-                            teamCash: teamCash,
-                            teamDebt: teamDebt
-                        }
-                    });
-                alert("Busted Selling.  LegalFees = $" + addCommas(legalFees));
-
+                loanAmount: loanAmount,
+                teamCash: Session.get('teamCash'),
+                teamDebt: Session.get('teamDebt')
             });
+            alert("Busted Selling.  LegalFees = $" + addCommas(legalFees));
 
 
         } else {
+            var totalSale = sellQuantity * sellPrice;
+            Session.set('teamCash', Session.get('teamCash') + totalSale);
+
             Transactions.insert({
-                drug_id: event.target.drug_id.value,
+                drug_id: drug_id,
                 sellQuantity: sellQuantity,
                 sellPrice: sellPrice,
-                inventoryForward: inventory - sellQuantity
-            }, function (err, result) {
-                // console.log("result " + result);
-                var teamCash = updateTeamCash();
-                var teamDebt = updateTeamDebt();
-                // console.log("teamCash" + teamCash);
-                // console.log("teamDebt" + teamDebt);
-
-                Transactions.update({_id: result},
-                    {
-                        $set: {
-                            teamCash: teamCash,
-                            teamDebt: teamDebt
-                        }
-                    });
-
+                inventoryForward: inventory - sellQuantity,
+                teamCash: Session.get('teamCash'),
+                teamDebt: Session.get('teamDebt')
             });
         }
 

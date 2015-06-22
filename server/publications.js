@@ -13,8 +13,8 @@ Meteor.publish('transactions', function () {
     if (Roles.userIsInRole(this.userId, 'admin')) {
         return Transactions.find();
     } else {
-        // return Transactions.find({team_id: this.userId})
-        return Transactions.find();
+        return Transactions.find({team_id: this.userId})
+        //return Transactions.find();
     }
 });
 

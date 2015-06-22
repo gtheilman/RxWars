@@ -8,36 +8,19 @@ if (Meteor.isClient) {
             // https://github.com/mizzao/meteor-user-status
             Meteor.users.find({"status.online": true}).forEach(function (player) {
                 if (player.username != 'admin') {
+                    Meteor.call('getTeamScores', player_id, function (error, results) {
+
+                        ScoreBoard.insert({
+                            team_id: player._id,
+                            username: player.username,
+                            teamNet: teamNet
+                        });
 
 
-                    var transaction = Transactions.findOne({
-                        team_id: player._id
-                    }, {sort: {epoch: -1}});
-
-                    if (transaction) {
-                        var teamNet = parseInt(transaction.teamCash) - parseInt(transaction.teamDebt);
-                    } else {
-                        var teamNet = 0;
-                    }
-
-                    if (teamNet < 0) {
-                        teamNet = "-$" + addCommas(-1 * teamNet);
-                    } else {
-                        teamNet = "$" + addCommas(teamNet);
-                    }
-
-                    // console.log(player._id);
-                    // console.log(player.username);
-                    // console.log(teamNet);
-
-                    ScoreBoard.insert({
-                        team_id: player._id,
-                        username: player.username,
-                        teamNet: teamNet
                     });
                 }
             });
-            //  console.log(ScoreBoard);
+
             return ScoreBoard.find({}, {sort: {username: 1}})
         },
 
@@ -61,35 +44,23 @@ if (Meteor.isClient) {
             });
             var snitchFee = 2500;
 
-            var teamCash = updateTeamCash();
 
-
-            if (snitchFee > teamCash) {
-                var loanAmount = parseInt(snitchFee) - parseInt(teamCash);
+            if (snitchFee > Session.get('teamCash')) {
+                var loanAmount = parseInt(snitchFee) - Session.get('teamCash');
             } else {
                 var loanAmount = 0;
             }
 
             Transactions.insert({
                 snitchFee: snitchFee,
-                loanAmount: loanAmount
-            }, function (err, result) {
-                // console.log("result " + result);
-                var teamCash = updateTeamCash();
-                var teamDebt = updateTeamDebt();
-
-                Transactions.update({_id: result},
-                    {
-                        $set: {
-                            teamCash: teamCash,
-                            teamDebt: teamDebt
-                        }
-                    });
-
-                alert("You paid $" + addCommas(snitchFee) + " to have someone snitch on " + Meteor.users.findOne({_id: team_id}).username + "!!");
-
-
+                loanAmount: loanAmount,
+                teamCash: Session.get('teamCash'),
+                teamDebt: Session.get('teamDebt')
             });
+
+            alert("You paid $" + addCommas(snitchFee) + " to have someone snitch on " + Meteor.users.findOne({_id: team_id}).username + "!!");
+
+
         }
     });
 
