@@ -265,6 +265,8 @@ Template.buysell.events({
             var purchaseQuantity = parseInt(event.target.buyQuantity.value);
         }
 
+        console.log("purchaseQuantity: " + purchaseQuantity);
+
         var totalSale = purchaseQuantity * purchasePrice;
 
         var teamCash = Session.get('teamCash') - totalSale;
