@@ -170,6 +170,17 @@ Template.buysell.events({
 
         $('#loanAmount').val('');
 
+        var randomalert = Math.floor(Math.random() * 4) + 1;
+
+        if (randomalert == 1) {
+            alert('Big John loaned you $' + loanAmount + '  The interest rate is astronomical.   You need to make a big sale in a hurry so you can pay him back.');
+        } else if (randomalert == 2) {
+            alert('Against your better judgement, you borrow $' + loanAmount + ' from the loan shark.  If you do not pay him back soon, he is going to break your legs.  Keep an eye on your debt and pay it back as soon you can.');
+        } else if (randomalert == 3) {
+            alert('You promised Larry the Lizard you would have his $' + loanAmount + ' repaid as soon as you make your first sale.   He looked skeptical and told you to take your time.  He probably wants you to run up as much in interest charges as possible.');
+        } else {
+            alert('You have borrowed $' + loanAmount + ' from the loan shark.  The interest rate is very high.   Keep an eye on your debt and pay it back as soon as possible.');
+        }
 
     },
 
@@ -243,6 +254,7 @@ Template.buysell.events({
         var buyPrice = parseInt(event.target.buyPrice.value * 100) / 100;
 
         var drug_id = event.target.drug_id.value;
+        var drug_name = event.target.name.value;
 
 
         var maxPurchase = Math.floor(Session.get('teamCash') / buyPrice);
@@ -335,8 +347,22 @@ Template.buysell.events({
                 teamCash: Session.get('teamCash')
             });
             updateScoreBoard();
-            alert("Busted Buying.  LegalFees = $" + addCommas(legalFees));
 
+            var randomalert = Math.floor(Math.random() * 5) + 1;
+
+            if (randomalert == 1) {
+                alert('Someone snitched!  The police were waiting for your buyer when they left the pharmacy with the ' + drug_name + '.  Your legal costs were $' + addCommas(legalFees));
+            } else if (randomalert == 2) {
+                alert('The pharmacist was suspicious of a prescription for so many ' + drug_name + '.  After you got lawyered-up, your legal costs were $' + addCommas(legalFees));
+            } else if (randomalert == 3) {
+                alert('The Board of Pharmacy had sent out an alert about the stolen prescription pad you were using to get ' + drug_name + '.  The pharmacist noticed it and called the police.  Your legal costs were $' + addCommas(legalFees));
+            } else if (randomalert == 4) {
+                alert('Your buyer acted very nervous and the pharmacist became suspicious.   When the buyer could not explain what the ' + drug_name + ' was for, the police were alerted.  Your legal costs were $' + addCommas(legalFees));
+            } else if (randomalert == 5) {
+                alert('The pharmacist recognized your buyer as someone who had come in earlier in the month with a different prescription for ' + drug_name + '.  The police were called and an arrest was made.  Your legal costs were $' + addCommas(legalFees));
+            } else {
+                alert('Your minion was arrested while trying to pass a fake prescription for ' + drug_name + ' at the pharmacy.  Your legal costs were $' + addCommas(legalFees));
+            }
 
         } else {
             var buySummary = {
@@ -359,7 +385,7 @@ Template.buysell.events({
 
     "submit .sellForm": function (event, template) {
         event.preventDefault();
-
+        var drug_name = event.target.name.value;
         var drug_id = event.target.drug_id.value;
         var sellPrice = parseInt(event.target.sellPrice.value * 100) / 100;
 
@@ -440,7 +466,23 @@ Template.buysell.events({
 
             Transactions.insert(sellSummary);
             updateScoreBoard();
-            alert("Busted Selling.  LegalFees = $" + addCommas(legalFees));
+
+            var randomalert = Math.floor(Math.random() * 5) + 1;
+
+            if (randomalert == 1) {
+                alert('A rival pill mill tipped the police off and they caught you trying to sell the ' + drug_name + '.  Your legal costs were $' + addCommas(legalFees));
+            } else if (randomalert == 2) {
+                alert('An customer ratted you out to the police in return for immunity from prosecution.  They took away your ' + drug_name + ' and fined you $' + addCommas(legalFees));
+            } else if (randomalert == 3) {
+                alert('Your courier was mugged!   They stole the ' + drug_name + ' as well as the $' + addCommas(legalFees) + ' that he was carrying.');
+            } else if (randomalert == 4) {
+                alert('Your minion took a handfull of the ' + drug_name + ' you told him to sell.   While tripping, he tried to sell the rest to a uniformed police officer.  It cost $' + addCommas(legalFees) + ' to get him out of jail.');
+            } else if (randomalert == 5) {
+                alert('Your not-very-bright minion tried to sell the ' + drug_name + ' back to the pharmacist who dispensed it.  The police were called and bail was set at $' + addCommas(legalFees));
+            } else {
+                alert('Your minion was caught while trying to sell ' + drug_name + ' to an undercover police officer.  Your legal costs were $' + addCommas(legalFees));
+            }
+
 
 
         } else {
@@ -477,66 +519,3 @@ Template.buysell.events({
 
 });
 
-
-/*
-
-
- var randomalert = Math.floor(Math.random() * 5) + 1 ;
-
- if (randomalert == 1) {
- alert('Someone snitched!  The police were waiting for your buyer when they left the pharmacy with the ' +   $("##drugname_#i#").text()   + '.  Your legal costs were $' +  ReplaceNumberWithCommas(fine) );
- } else if (randomalert == 2) {
- alert('The pharmacist was suspicious of a prescription for so many ' +   $("##drugname_#i#").text()   + '.  After you got lawyered-up, your legal costs were $' +  ReplaceNumberWithCommas(fine) );
- } else if (randomalert == 3) {
- alert('The Board of Pharmacy had sent out an alert about the stolen prescription pad you were using to get ' +   $("##drugname_#i#").text()   + '.  The pharmacist noticed it and called the police.  Your legal costs were $' +  ReplaceNumberWithCommas(fine) );
- } else if (randomalert == 4) {
- alert('Your buyer acted very nervous and the pharmacist became suspicious.   When the buyer could not explain what the ' +   $("##drugname_#i#").text()   + ' was for, the police were alerted.  Your legal costs were $' +  ReplaceNumberWithCommas(fine) );
- } else if (randomalert == 5) {
- alert('The pharmacist recognized your buyer as someone who had come in earlier in the month with a different prescription for ' +   $("##drugname_#i#").text()   + '.  The police were called and an arrest was made.  Your legal costs were $' +  ReplaceNumberWithCommas(fine) );
- } else   {
- alert('Your minion was arrested while trying to pass a fake prescription for ' +   $("##drugname_#i#").text()   + ' at the pharmacy.  Your legal costs were $' +  ReplaceNumberWithCommas(fine) );
- }
-
-
- var currentcash = Number($("##cash").text().substring(1) );
-
- if (currentcash == 0) {
- alert('You do not have any cash.  Try visiting the loan shark.');
- } else {
-
- var randomalert = Math.floor(Math.random() * 5) + 1 ;
-
- if (randomalert == 1) {
- alert('A rival pill mill tipped the police off and they caught you trying to sell the ' + $("##drugname_#i#").text() + '.  Your legal costs were $' +  ReplaceNumberWithCommas(fine));
- } else if (randomalert == 2) {
- alert('An customer ratted you out to the police in return for immunity from prosecution.  They took away your ' + $("##drugname_#i#").text() + ' and fined you $' +  ReplaceNumberWithCommas(fine));
- } else if (randomalert == 3) {
- alert('Your courier was mugged!   They stole the ' + $("##drugname_#i#").text() + ' as well as $' +  ReplaceNumberWithCommas(fine) + ' that he was carrying.');
- } else if (randomalert == 4) {
- alert('Your minion took a handfull of the ' + $("##drugname_#i#").text() + ' you told him to sell.   While tripping, he tried to sell the rest to a uniformed police officer.  It cost $' +  ReplaceNumberWithCommas(fine) + ' to get him out of jail.');
- } else if (randomalert == 5) {
- alert('Your not-very-bright minion tried to sell the ' + $("##drugname_#i#").text() + ' back to the pharmacist who dispensed it.  The police were called and bail was set at $' +  ReplaceNumberWithCommas(fine));
- } else   {
- alert('Your minion was caught while trying to sell ' + $("##drugname_#i#").text() + ' to an undercover police officer.  Your legal costs were $' +  ReplaceNumberWithCommas(fine));
- }
-
-
- var randomalert = Math.floor(Math.random() * 4) + 1 ;
-
- if (randomalert == 1) {
- alert('Big John loaned you $' + $("##borrowbox").val() + '  The interest rate is astronomical.   You need to make a big sale in a hurry so you can pay him back.');
- } else if (randomalert == 2) {
- alert('Against your better judgement, you borrow $' + $("##borrowbox").val() + ' from the loan shark.  If you do not pay him back soon, he is going to break your legs.  Keep an eye on your debt and pay it back as soon you can.');
- } else if (randomalert == 3) {
- alert('You promised Larry the Lizard you would have his $' + $("##borrowbox").val() + ' repaid as soon as you make your first sale.   He looked skeptical and told you to take your time.  He probably wants you to run up as much in interest charges as possible.');
- } else   {
- alert('You have borrowed $' + $("##borrowbox").val() + ' from the loan shark.  The interest rate is very high.   Keep an eye on your debt and pay it back as soon as possible.');
- };
-
-
-
-
-
- });
-
- */
