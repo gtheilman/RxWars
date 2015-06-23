@@ -133,8 +133,16 @@ if (!Meteor.isClient) {
     };
 
     this.updateScoreBoard = function () {
-        var teamNet = Session.get('teamCash') - Session.get('teamDebt');
-        Meteor.call('updateScoreBoard', teamNet);
+        if (Meteor.user().username != 'admin') {
+            if (Session.get('teamCash') < 0) {
+                Session.set('teamCash', 0);
+            } else if (Session.get.teamDebt < 0) {
+                Session.set('teamDebt', 0);
+            }
+
+            var teamNet = Session.get('teamCash') - Session.get('teamDebt');
+            Meteor.call('updateScoreBoard', teamNet);
+        }
     };
 
     Template.registerHelper('updateScoreBoard', updateScoreBoard);

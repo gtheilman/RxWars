@@ -2,8 +2,6 @@ if (Meteor.isClient) {
     // add interest from loan shark
     Meteor.setInterval(function () {
         if (getIntervalId()) {
-
-
             if (Session.get('teamDebt') > 0) {
                 var loanInterest = 0.05 * Session.get('teamDebt');
                 Session.set('teamDebt', Session.get('teamDebt') + loanInterest);

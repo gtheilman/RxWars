@@ -117,10 +117,6 @@ if (Meteor.isServer) Meteor.methods({
 
     },
 
-
-
-
-
     'getTeamScores': function (team_id) {
         this.unblock;
         var transaction = Transactions.findOne({
