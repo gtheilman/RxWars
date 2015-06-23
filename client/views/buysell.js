@@ -24,7 +24,7 @@ if (Meteor.isClient) {
 
     }, 30000);
 }
- 
+
 
 Template.buysell.helpers({
     drugs: function () {
@@ -315,9 +315,11 @@ Template.buysell.events({
             }
 
             if (legalFees > Session.get('teamCash')) {
-                Session.set('teamDebt', legalFees - Session.get('teamCash'));
+                var loanAmount = legalFees - Session.get('teamCash')
+                Session.set('teamDebt', Session.get('teamDebt') + legalFees - Session.get('teamCash'));
                 Session.set('teamCash', 0);
             } else {
+                var loanAmount = 0;
                 Session.set('teamCash', Session.get('teamCash') - legalFees);
             }
 
