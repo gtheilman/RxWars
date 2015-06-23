@@ -3,16 +3,32 @@
     <div class="row">
         <div class="col-md-4"><h2>Settings</h2></div>
     </div>
+    <div class="row">
+        <div class="col-md-2">
+            <p>&nbsp;</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-default" id="goDatabasePage">Switch to Database View</button>
+        </div>
+    </div>
+
+    <hr>
 
 
     <div class="row">
+        <div class="col-md-4">
+            Pause and unpause game-play. Useful if you want to stop and explain how a scenario is about to change.
+        </div>
         <div class="col-md-2">
             <button type="button" class="btn btn-default" id="startStopMarketButton">{{startStopMarketButton}}</button>
         </div>
-        <div class="col-md-4">
-            Starts/Stops market updates
-        </div>
     </div>
+
+    <hr>
+
 
     <div class="row">
         <div class="col-md-2">
@@ -22,118 +38,150 @@
 
     <div class="row">
         <div class="col-md-2">
-            <button type="button" class="btn btn-default" id="goDatabasePage">Database Page</button>
-        </div>
-        <div class="col-md-4">
-            View the page where you can edit individual database items.
+            <h4>Game Settings</h4>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-8">
+            Remember you can still go to the database page to change settings for individual drugs.
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4">
+            Risk of being arrested when buying Schedule II drugs.
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="increaseScheduleIIBuyRisk">Increase 5%</button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="decreaseScheduleIIBuyRisk">Decrease 5%</button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4">
+            Risk of being arrested when buying Schedule III-V drugs.
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="increaseScheduleIII_VBuyRisk">Increase 5%</button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="decreaseScheduleIII_VBuyRisk">Decrease 5%</button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4">
+            Risk of being arrested when buying unscheduled drugs.
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="increaseUnscheduledBuyRisk">Increase 5%</button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="decreaseUnscheduledBuyRisk">Decrease 5%</button>
+        </div>
+    </div>
+
+    <hr>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            Risk of being arrested when selling. Since police don't know what's being sold before gang member is
+            caught, this changes the risk for all drugs at the same time.
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="increaseSellRisk">Increase 5%</button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="increaseSellRisk">Decrease 5%</button>
+        </div>
+    </div>
+
+    <hr>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            If arrested while trying to pass a forged prescription, player always loses the money they were trying to
+            spend (<i>totalSale</i>).
+            They also get a "fine" (at least $1000) that is calculated as <i>totalSale x multiplier</i>.<br>
+            The <i>multiplier</i> is currently <b>ZZ</b>.
+
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="increaseBuyLegalFees">Increase by 1</button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="decreaseBuyLegalFees">Decrease by 1</button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4">
+            If arrested while trying to sell drugs on the street, player always loses the number of drugs they were
+            trying to sell (<i>numberOfDrugs</i>)..
+            They also get a "fine" (at least $1000) that is calculated as <i>numberOfDrugs x streetPrice x
+            multiplier</i>.<br>
+            The <i>multiplier</i> is currently <b>ZZ</b>.
+
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="increaseSellLegalFees">Increase by 1</button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="decreaseSellLegalFees">Decrease by 1</button>
+        </div>
+    </div>
+
+    <hr>
+
     <div class="row">
         <div class="col-md-2">
             <p>&nbsp;</p>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-2">
             <h4>Scenarios</h4>
         </div>
     </div>
+
     <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-info" id="increaseScheduleIIBuyRisk">Increase Schedule II Risk</button>
-        </div>
         <div class="col-md-4">
-            Each click increase risk of arrest (buying) by 5%.
+            <b>Gangster's Paradise</b>: Risk of arrest (both buying and selling) is minimal. Even if arrested,
+            fines are a joke. Snitches still work.
         </div>
         <div class="col-md-2">
-            <button type="button" class="btn btn-info" id="decreaseScheduleIIBuyRisk">Decrease Schedule II Risk</button>
-        </div>
-        <div class="col-md-4">
-            Each click decreases risk of arrest (buying) by 5%.
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <p>&nbsp;</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-info" id="increaseScheduleIII_VBuyRisk">Increase Schedule III-V Risk
-            </button>
-        </div>
-        <div class="col-md-4">
-            Each click increases risk of arrest (buying) by 5%.
-        </div>
-        <div class="col-md-2">
-            <button type="button" class="btn btn-info" id="decreaseScheduleIII_VBuyRisk">Decrease Schedule III-V Risk
-            </button>
-        </div>
-        <div class="col-md-4">
-            Each click decreases risk of arrest (buying) by 5%.
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <p>&nbsp;</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-info" id="increaseUnscheduledBuyRisk">Increase Unscheduled Risk
-            </button>
-        </div>
-        <div class="col-md-4">
-            Each click increases risk of arrest (buying) by 5%.
-        </div>
-        <div class="col-md-2">
-            <button type="button" class="btn btn-info" id="decreaseUnscheduledBuyRisk">Decrease Unscheduled Risk
-            </button>
-        </div>
-        <div class="col-md-4">
-            Each click decreases risk of arrest (buying) by 5%.
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <p>&nbsp;</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-info" id="increaseSellRisk">Increase Selling Risk</button>
-        </div>
-        <div class="col-md-4">
-            Each click increases risk of arrest (selling) by 5%.
-        </div>
-        <div class="col-md-2">
-            <button type="button" class="btn btn-info" id="decreaseSellRisk">Decrease Selling Risk</button>
-        </div>
-        <div class="col-md-4">
-            Each click decreases risk of arrest (selling) by 5%.
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <p>&nbsp;</p>
+            <button type="button" class="btn btn-info" id="gangster">Set</button>
         </div>
     </div>
 
+    <hr>
+
+
     <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-info" id="gangster">Gangster's Paradise</button>
-        </div>
         <div class="col-md-4">
-            Sets risk of arrest to zero.
+            <b>Decriminalization</b>: Sets demand for illicit drugs to minimum. People see no reason to buy from
+            some punk on the street when they can purchase their drugs legally at WalMart.
         </div>
         <div class="col-md-2">
-            <button type="button" class="btn btn-info" id="decriminalize">Decriminalization</button>
-        </div>
-        <div class="col-md-4">
-            Sets demand of illicit drugs to near zero, as people can get them all legally.
+            <button type="button" class="btn btn-info" id="decriminalize">Set</button>
         </div>
     </div>
+
+    <hr>
+
+
     <div class="row">
         <div class="col-md-2">
             <p>&nbsp;</p>
@@ -144,46 +192,42 @@
             <h4>Resets</h4>
         </div>
     </div>
+
     <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-danger" id="resetButton">Clear History</button>
-        </div>
         <div class="col-md-4">
-            Clears transactions and market history. Does not affect other player settings or drugs.
+            Clear transactions and market history. All players' cash and debt goes to zero.
+            Does not affect the players' inventories or the list of drugs for sale.
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-danger" id="resetButton">Reset</button>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-2">
-            <p>&nbsp;</p>
-        </div>
-    </div>
+    <hr>
 
     <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-danger" id="resetDrugsButton">Reset Drugs</button>
-        </div>
         <div class="col-md-4">
             Clears any modifications to drug list and resets to the base six drugs that come with program. Also
-            clears transaction and market histories. Does not affect player settings.
+            clears transaction and market histories. Does not affect other player settings.
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-danger" id="resetDrugsButton">Reset</button>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-2">
-            <p>&nbsp;</p>
-        </div>
-    </div>
+    <hr>
 
 
     <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-danger" id="resetAllButton">Reset All</button>
-        </div>
         <div class="col-md-4">
-            Clears all players, drugs, transactions and market history. Only the admin account remains unaffected.
+            Returns game to factory settings except that your <i>admin</i> account stays unchanged.
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-danger" id="resetAllButton">Reset</button>
         </div>
     </div>
+
+    <hr>
 
 
 </template>

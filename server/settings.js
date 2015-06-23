@@ -224,7 +224,7 @@ if (Meteor.isServer) Meteor.methods({
             schedule: 'IV',
             awp: 2,
             buyRisk: 10,
-            sellRisk: 20,
+            sellRisk: 10,
             demandMultiplier: 1.5,
             active: true
         });
@@ -233,8 +233,8 @@ if (Meteor.isServer) Meteor.methods({
             name: 'amphetamine',
             schedule: 'II',
             awp: 2,
-            buyRisk: 25,
-            sellRisk: 20,
+            buyRisk: 10,
+            sellRisk: 10,
             demandMultiplier: 2,
             active: true
         });
@@ -242,8 +242,8 @@ if (Meteor.isServer) Meteor.methods({
             name: 'hydrocodone',
             schedule: 'II',
             awp: 8.5,
-            buyRisk: 25,
-            sellRisk: 20,
+            buyRisk: 15,
+            sellRisk: 10,
             demandMultiplier: 2,
             active: true
         });
@@ -252,8 +252,8 @@ if (Meteor.isServer) Meteor.methods({
             name: 'oxandrolone',
             schedule: 'III',
             awp: 1,
-            buyRisk: 10,
-            sellRisk: 20,
+            buyRisk: 5,
+            sellRisk: 5,
             demandMultiplier: 1.5,
             active: true
         });
@@ -264,7 +264,7 @@ if (Meteor.isServer) Meteor.methods({
             schedule: 'II',
             awp: 8.5,
             buyRisk: 25,
-            sellRisk: 20,
+            sellRisk: 10,
             demandMultiplier: 3,
             active: true
         });
@@ -274,8 +274,8 @@ if (Meteor.isServer) Meteor.methods({
             name: 'trazodone',
             schedule: 'unscheduled',
             awp: 1,
-            buyRisk: 10,
-            sellRisk: 10,
+            buyRisk: 5,
+            sellRisk: 5,
             demandMultiplier: 1,
             active: true
         });

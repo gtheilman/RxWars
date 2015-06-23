@@ -306,7 +306,7 @@ Template.buysell.events({
 
         if (diceRoll < calculatedBuyRisk) {
             // busted
-            var legalFees = parseInt(totalSale * buyQuantity / 100 * Math.random() * 10);
+            var legalFees = parseInt(totalSale * (buyQuantity / 100) * Math.random() * 5);  // very high fines were discouraging players
 
             if (legalFees < 1000) {
                 legalFees = 1000;
@@ -315,7 +315,7 @@ Template.buysell.events({
             }
 
             if (legalFees > Session.get('teamCash')) {
-                var loanAmount = legalFees - Session.get('teamCash')
+                var loanAmount = legalFees - Session.get('teamCash');
                 Session.set('teamDebt', Session.get('teamDebt') + legalFees - Session.get('teamCash'));
                 Session.set('teamCash', 0);
             } else {
@@ -405,7 +405,7 @@ Template.buysell.events({
             // busted
 
 
-            var legalFees = parseInt(sellPrice * sellQuantity / 100 * Math.random() * 10);
+            var legalFees = parseInt(sellPrice * sellQuantity / 100 * Math.random() * 5);
 
             if (legalFees < 1000) {
                 legalFees = 1000;
