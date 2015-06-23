@@ -249,5 +249,51 @@ Template.settings.events({
         });
 
 
+    },
+
+    "click #increaseBuyLegalFees": function () {
+        var buyLegalFeeMultiplier = ServerSession.findOne({});
+        ServerSession.update({_id: serversession._id},
+            {
+                $set: {
+                    buyLegalFeeMultiplier: serversession.buyLegalFeeMultiplier + 1
+                }
+            }
+        )
+    },
+
+    "click #decreaseBuyLegalFees": function () {
+        var buyLegalFeeMultiplier = ServerSession.findOne({});
+        ServerSession.update({_id: serversession._id},
+            {
+                $set: {
+                    buyLegalFeeMultiplier: serversession.buyLegalFeeMultiplier - 1
+                }
+            }
+        )
+    },
+
+    "click #increaseSellLegalFees": function () {
+        var buyLegalFeeMultiplier = ServerSession.findOne({});
+        ServerSession.update({_id: serversession._id},
+            {
+                $set: {
+                    sellLegalFeeMultiplier: serversession.sellLegalFeeMultiplier + 1
+                }
+            }
+        )
+    },
+
+    "click #decreaseSellLegalFees": function () {
+        var buyLegalFeeMultiplier = ServerSession.findOne({});
+        ServerSession.update({_id: serversession._id},
+            {
+                $set: {
+                    sellLegalFeeMultiplier: serversession.sellLegalFeeMultiplier - 1
+                }
+            }
+        )
     }
+
+
 });

@@ -20,7 +20,8 @@
 
     <div class="row">
         <div class="col-md-4">
-            Pause and unpause game-play. Useful if you want to stop and explain how a scenario is about to change.
+            Pause and unpause game-play. Useful if you want to stop and explain to the class how a scenario is about to
+            change.
         </div>
         <div class="col-md-2">
             <button type="button" class="btn btn-default" id="startStopMarketButton">{{startStopMarketButton}}</button>
@@ -110,9 +111,11 @@
 
     <div class="row">
         <div class="col-md-4">
-            If arrested while trying to pass a forged prescription, player always loses the money they were trying to
-            spend (<i>totalSale</i>).
-            They also get a "fine" (at least $1000) that is calculated as <i>totalSale x multiplier</i>.<br>
+            If arrested while trying to pass a forged prescription, the player always loses the money they were trying
+            to spend (<i>totalSale</i>).<br>
+            The player also has to pay a lawyer to keep them out of jail.<br>
+            The legal fees (at least $1000) are calculated as <i>totalSale x multiplier/10</i>.<br>
+            So, if the multiplier is <i>10</i>, they have to pay the same amount they were trying to spend.<br>
             The <i>multiplier</i> is currently <b>ZZ</b>.
 
         </div>
@@ -128,12 +131,14 @@
 
     <div class="row">
         <div class="col-md-4">
-            If arrested while trying to sell drugs on the street, player always loses the number of drugs they were
-            trying to sell (<i>numberOfDrugs</i>)..
-            They also get a "fine" (at least $1000) that is calculated as <i>numberOfDrugs x streetPrice x
-            multiplier</i>.<br>
+            If arrested while trying to sell drugs on the street, the player always loses the number of drugs they were
+            trying to sell (<i>numberOfDrugs</i>).<br>
+            The player also has to pay a lawyer to keep them out of jail.<br>
+            The legal fees (at least $1000) are calculated as <br><i>numberOfDrugs x streetPrice x
+            multiplier/10</i>.<br>
+            So, if the multiplier is <i>10</i>, they would have to pay the same amount of money they would have made
+            selling the drugs.<br>
             The <i>multiplier</i> is currently <b>ZZ</b>.
-
         </div>
         <div class="col-md-2">
             <button type="button" class="btn btn-info" id="increaseSellLegalFees">Increase by 1</button>
