@@ -114,9 +114,11 @@
             If arrested while trying to pass a forged prescription, the player always loses the money they were trying
             to spend (<i>totalSale</i>).<br>
             The player also has to pay a lawyer to keep them out of jail.<br>
-            The legal fees (at least $1000) are calculated as <i>totalSale x multiplier/10</i>.<br>
-            So, if the multiplier is <i>10</i>, they have to pay the same amount they were trying to spend.<br>
-            The <i>multiplier</i> is currently <b>ZZ</b>.
+            The legal fees are proportional to a multiplier that can be set here.<br>
+            The "factory settings" for the multiplier is <i>10</i>. Increasing the multiplier increases legal fees
+            (example, politicians want to "get tough" on drugs),
+            decreasing the multiplier lowers legal fees.
+            The <i>multiplier</i> is currently <b>{{buyLegalFeesMultiplier}}</b>.
 
         </div>
         <div class="col-md-2">
@@ -134,11 +136,11 @@
             If arrested while trying to sell drugs on the street, the player always loses the number of drugs they were
             trying to sell (<i>numberOfDrugs</i>).<br>
             The player also has to pay a lawyer to keep them out of jail.<br>
-            The legal fees (at least $1000) are calculated as <br><i>numberOfDrugs x streetPrice x
-            multiplier/10</i>.<br>
-            So, if the multiplier is <i>10</i>, they would have to pay the same amount of money they would have made
-            selling the drugs.<br>
-            The <i>multiplier</i> is currently <b>ZZ</b>.
+            The legal fees are proportional to a multiplier that can be set here.<br>
+            The "factory settings" for the multiplier is <i>10</i>. Increasing the multiplier increases legal fees
+            (example, politicians want to "get tough" on drugs), decreasing the multiplier
+            lowers legal fees.
+            The <i>multiplier</i> is currently <b>{{sellLegalFeesMultiplier}}</b>.
         </div>
         <div class="col-md-2">
             <button type="button" class="btn btn-info" id="increaseSellLegalFees">Increase by 1</button>

@@ -30,7 +30,7 @@ Template.buysell.helpers({
     drugs: function () {
 
         // if no cash debt in session, create it
-        if (!Session.get('teamCash')) {
+        if (isNaN(Session.get('teamCash'))) {
             Meteor.call('updateTeamCash', function (error, result) {
                 if (result) {
                     Session.set('teamCash', result);
@@ -39,7 +39,7 @@ Template.buysell.helpers({
                 }
             });
         }
-        if (!Session.get('teamDebt')) {
+        if (isNaN(Session.get('teamDebt'))) {
             Meteor.call('updateTeamDebt', function (error, result) {
                 if (result) {
                     Session.set('teamDebt', result);
@@ -306,7 +306,7 @@ Template.buysell.events({
 
         if (diceRoll < calculatedBuyRisk) {
             // busted
-            var legalFees = parseInt(totalSale * (buyQuantity / 100) * Math.random() * 5);  // very high fines were discouraging players
+            var legalFees = parseInt(buyQuantity * buyPrice * (buyQuantity / 100) * ServerSession.findOne({}).buyLegalFeeMultiplier / 10);  // very high fines were discouraging players
 
             if (legalFees < 1000) {
                 legalFees = 1000;
@@ -404,8 +404,8 @@ Template.buysell.events({
         if (diceRoll < sellRisk) {
             // busted
 
-
-            var legalFees = parseInt(sellPrice * sellQuantity / 100 * Math.random() * 5);
+            var legalFees = parseInt((sellPrice * sellQuantity) * (sellQuantity / 100) * ServerSession.findOne({}).sellLegalFeeMultiplier / 10);
+            console.log("Legal Fees" + legalFees);
 
             if (legalFees < 1000) {
                 legalFees = 1000;
@@ -414,13 +414,14 @@ Template.buysell.events({
             }
 
             if (legalFees > Session.get('teamCash')) {
-                Session.set('teamDebt', legalFees - Session.get('teamCash'));
+                Session.set('teamDebt', Session.get('teamDebt') + legalFees - Session.get('teamCash'));
                 Session.set('teamCash', 0);
                 var loanAmount = legalFees - Session.get('teamCash');
             } else {
                 Session.set('teamCash', Session.get('teamCash') - legalFees);
                 var loanAmount = 0;
             }
+
 
             var inventoryForward = inventory - sellQuantity;
 

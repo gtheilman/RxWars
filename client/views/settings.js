@@ -1,14 +1,26 @@
 if (Meteor.isClient) {
 
     Template.settings.helpers({
+
         startStopMarketButton: function () {
             if (Session.get('setIntervalId')) {
                 return "Pause Market"
             } else {
                 return "Start Market"
             }
+        },
+
+        buyLegalFeesMultiplier: function () {
+            return ServerSession.findOne({}).buyLegalFeeMultiplier
+        },
+
+        sellLegalFeesMultiplier: function () {
+            return ServerSession.findOne({}).sellLegalFeeMultiplier
         }
+
+
     });
+
 }
 
 
@@ -252,7 +264,7 @@ Template.settings.events({
     },
 
     "click #increaseBuyLegalFees": function () {
-        var buyLegalFeeMultiplier = ServerSession.findOne({});
+        var serversession = ServerSession.findOne({});
         ServerSession.update({_id: serversession._id},
             {
                 $set: {
@@ -263,18 +275,20 @@ Template.settings.events({
     },
 
     "click #decreaseBuyLegalFees": function () {
-        var buyLegalFeeMultiplier = ServerSession.findOne({});
-        ServerSession.update({_id: serversession._id},
-            {
-                $set: {
-                    buyLegalFeeMultiplier: serversession.buyLegalFeeMultiplier - 1
+        var serversession = ServerSession.findOne({});
+        if (serversession.buyLegalFeeMultiplier > 0) {
+            ServerSession.update({_id: serversession._id},
+                {
+                    $set: {
+                        buyLegalFeeMultiplier: serversession.buyLegalFeeMultiplier - 1
+                    }
                 }
-            }
-        )
+            )
+        }
     },
 
     "click #increaseSellLegalFees": function () {
-        var buyLegalFeeMultiplier = ServerSession.findOne({});
+        var serversession = ServerSession.findOne({});
         ServerSession.update({_id: serversession._id},
             {
                 $set: {
@@ -285,14 +299,17 @@ Template.settings.events({
     },
 
     "click #decreaseSellLegalFees": function () {
-        var buyLegalFeeMultiplier = ServerSession.findOne({});
-        ServerSession.update({_id: serversession._id},
-            {
-                $set: {
-                    sellLegalFeeMultiplier: serversession.sellLegalFeeMultiplier - 1
+        var serversession = ServerSession.findOne({});
+        if (serversession.sellLegalFeeMultiplier > 0) {
+            ServerSession.update({_id: serversession._id},
+                {
+                    $set: {
+                        sellLegalFeeMultiplier: serversession.sellLegalFeeMultiplier - 1
+                    }
                 }
-            }
-        )
+            )
+        }
+
     }
 
 
