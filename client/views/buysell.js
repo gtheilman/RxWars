@@ -24,7 +24,7 @@ if (Meteor.isClient) {
 
     }, 30000);
 }
-
+ 
 
 Template.buysell.helpers({
     drugs: function () {
