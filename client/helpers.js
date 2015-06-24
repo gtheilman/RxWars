@@ -146,5 +146,12 @@ if (!Meteor.isClient) {
     };
 
     Template.registerHelper('updateScoreBoard', updateScoreBoard);
+
+    this.disableButtons = function (seconds) {
+        Session.set('buttonsDisabled', true);
+        Meteor.setTimeout(function () {
+            Session.set('buttonsDisabled', false);
+        }, seconds * 1000);
+    }
 }
 

@@ -66,6 +66,14 @@ Template.buysell.helpers({
         return Meteor.user().username;
     },
 
+    enable_disable: function () {
+        if (Session.get('buttonsDisabled')) {
+            return 'btn-default'
+        } else {
+            return 'btn-primary'
+        }
+    },
+
 
     teamCash: function () {
 
@@ -85,6 +93,7 @@ Template.buysell.helpers({
 
         // if no cash debt in session, create it
         if (typeof TEAMCASH == 'undefined') {
+
             Meteor.call('updateTeamCash', function (error, result) {
                 if (result) {
                     TEAMCASH = result;
@@ -189,13 +198,13 @@ Template.buysell.events({
         var randomalert = Math.floor(Math.random() * 4) + 1;
 
         if (randomalert == 1) {
-            alert('Big John loaned you $' + loanAmount + '  The interest rate is astronomical.   You need to make a big sale in a hurry so you can pay him back.');
+            alert('Big John loaned you $' + addCommas(loanAmount) + '  The interest rate is astronomical.   You need to make a big sale in a hurry so you can pay him back.');
         } else if (randomalert == 2) {
-            alert('Against your better judgement, you borrow $' + loanAmount + ' from the loan shark.  If you do not pay him back soon, he is going to break your legs.  Keep an eye on your debt and pay it back as soon you can.');
+            alert('Against your better judgement, you borrow $' + addCommas(loanAmount) + ' from the loan shark.  If you do not pay him back soon, he is going to break your legs.  Keep an eye on your debt and pay it back as soon you can.');
         } else if (randomalert == 3) {
-            alert('You promised Larry the Lizard you would have his $' + loanAmount + ' repaid as soon as you make your first sale.   He looked skeptical and told you to take your time.  He probably wants you to run up as much in interest charges as possible.');
+            alert('You promised Larry the Lizard you would have his $' + addCommas(loanAmount) + ' repaid as soon as you make your first sale.   He looked skeptical and told you to take your time.  He probably wants you to run up as much in interest charges as possible.');
         } else {
-            alert('You have borrowed $' + loanAmount + ' from the loan shark.  The interest rate is very high.   Keep an eye on your debt and pay it back as soon as possible.');
+            alert('You have borrowed $' + addCommas(loanAmount) + ' from the loan shark.  The interest rate is very high.   Keep an eye on your debt and pay it back as soon as possible.');
         }
 
     },
@@ -213,7 +222,6 @@ Template.buysell.events({
             });
             return
         }
-
 
 
         // trying to return more than they borrowed
@@ -256,7 +264,6 @@ Template.buysell.events({
         console.log("loanpayment: " + loanPayment);
 
 
-
         Transactions.insert({
             loanPayment: loanPayment,
             teamDebt: parseFloat(TEAMDEBT),
@@ -270,6 +277,9 @@ Template.buysell.events({
 
     "submit .buyForm": function (event, template) {
         event.preventDefault();
+
+
+        disableButtons(5);
 
 
         var buyPrice = parseInt(event.target.buyPrice.value * 100) / 100;
@@ -292,6 +302,13 @@ Template.buysell.events({
         } else if (event.target.buyQuantity.value > maxPurchase) {
             // asked to buy more than the money they had.  REduce quantity bought
             var buyQuantity = maxPurchase;
+
+            sAlert.info('You only have enough money to buy ' + buyQuantity + ' ' + drug_name + '.', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
+
+
             console.log("Reduce quantity:" + buyQuantity);
         } else {
             // buy what they asked for
@@ -334,7 +351,6 @@ Template.buysell.events({
         } else {
             var diceRoll = parseInt(Math.random() * 100);
         }
-
 
 
         if (diceRoll < calculatedBuyRisk) {
@@ -403,11 +419,17 @@ Template.buysell.events({
 
         }
         updateScoreBoard();
+
     },
 
 
     "submit .sellForm": function (event, template) {
         event.preventDefault();
+
+
+        disableButtons(5);
+
+
         var drug_name = event.target.name.value;
         var drug_id = event.target.drug_id.value;
         var sellPrice = parseInt(event.target.sellPrice.value * 100) / 100;
@@ -507,7 +529,6 @@ Template.buysell.events({
             }
 
 
-
         } else {
             var totalSale = sellQuantity * sellPrice;
             TEAMCASH = parseFloat(TEAMCASH) + totalSale;
@@ -523,7 +544,8 @@ Template.buysell.events({
             updateScoreBoard();
         }
 
-    },
+    }
+    ,
 
 
     'keyup input.buyQuantityInput': function (event, template) {
@@ -540,5 +562,6 @@ Template.buysell.events({
 
     }
 
-});
+})
+;
 

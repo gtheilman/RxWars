@@ -47,9 +47,9 @@
                     <input type="hidden" value="{{buyRisk}}" name="buyRisk" id="buyRisk_{{drug_id}}">
                     <input type="hidden" value="{{name}}" name="name" id="name_{{drug_id}}">
                     {{#if getIntervalId}}
-                        <button type="submit" class="btn btn-primary  btn-xs buyButton">Buy</button>
+                        <button type="submit" class="btn {{enable_disable}}  btn-xs buyButton">Buy</button>
                         &nbsp;
-                        <button type="submit" class="btn btn-primary  btn-xs buyButton">Buy Max</button>
+                        <button type="submit" class="btn  {{enable_disable}}   btn-xs buyButton">Buy Max</button>
                     {{/if}}
                 </form>
             </div>
@@ -65,10 +65,11 @@
                     <input type="hidden" value="{{sellRisk}}" name="sellRisk" id="sellRisk_{{drug_id}}">
                     <input type="hidden" value="{{name}}" name="name" id="name_{{drug_id}}">
                     {{#if getIntervalId}}
-                        <button type="submit" class="btn btn-primary  btn-xs sellButton" id="sellButton">Sell
+                        <button type="submit" class="btn  {{enable_disable}}   btn-xs sellButton" id="sellButton">Sell
                         </button>
                         &nbsp;
-                        <button type="submit" class="btn btn-primary  btn-xs sellButton" id="sellAllButton">Sell
+                        <button type="submit" class="btn  {{enable_disable}}    btn-xs sellButton" id="sellAllButton">
+                            Sell
                             All
                         </button>
                     {{/if}}
@@ -102,7 +103,7 @@
                     </div>
                 </div>
                 {{#if getIntervalId}}
-                    <button type="submit" id="borrowButton" class="btn btn-primary">Borrow</button>
+                    <button type="submit" id="borrowButton" class="btn  {{enable_disable}}  ">Borrow</button>
                 {{/if}}
             </form>
         </div>
@@ -129,13 +130,14 @@
                     </div>
                 </div>
                 {{#if getIntervalId}}
-                    <button type="submit" id="repayButton" class="btn btn-primary">Repay</button>
+                    <button type="submit" id="repayButton" class="btn  {{enable_disable}}  ">Repay</button>
                 {{/if}}
             </form>
         </div>
         <div class="col-md-5">
             {{#if getIntervalId}}
-                <button type="submit" id="repayAllButton" class="btn btn-primary form-inline">Repay All</button>
+                <button type="submit" id="repayAllButton" class="btn  {{enable_disable}}   form-inline">Repay All
+                </button>
             {{/if}}
         </div>
     </div>
