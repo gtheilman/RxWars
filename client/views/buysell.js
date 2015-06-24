@@ -68,9 +68,9 @@ Template.buysell.helpers({
 
     enable_disable: function () {
         if (Session.get('buttonsDisabled')) {
-            return 'btn-default'
+            return ' disabled = "disabled" '
         } else {
-            return 'btn-primary'
+            return ''
         }
     },
 
