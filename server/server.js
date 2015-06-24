@@ -48,7 +48,6 @@ if (Meteor.isServer) Meteor.methods({
     },
 
     'updateTeamCash': function () {
-        this.unblock;
         var teamCash = 0;
         Transactions.find({team_id: Meteor.userId()}, {sort: {epoch: 1}}).forEach(function (transaction) {
             if (transaction.buyPrice) {
@@ -71,7 +70,7 @@ if (Meteor.isServer) Meteor.methods({
             }
         });
 
-        var teamCash = Math.floor(parseInt(teamCash));
+        teamCash = Math.floor(parseInt(teamCash));
 
         Meteor.users.update({_id: Meteor.userId()},
             {
@@ -88,7 +87,6 @@ if (Meteor.isServer) Meteor.methods({
 
 
     'updateTeamDebt': function () {
-        this.unblock;
         var teamDebt = 0;
         Transactions.find({team_id: Meteor.userId()}, {sort: {epoch: 1}}).forEach(function (transaction) {
             if (transaction.loanAmount) {
@@ -102,7 +100,7 @@ if (Meteor.isServer) Meteor.methods({
             }
         });
 
-        var teamDebt = Math.floor(parseInt(teamDebt));
+        teamDebt = Math.floor(parseInt(teamDebt));
 
         Meteor.users.update({_id: Meteor.userId()},
             {

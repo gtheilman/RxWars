@@ -17,8 +17,6 @@ if (Meteor.isClient) {
         sellLegalFeesMultiplier: function () {
             return ServerSession.findOne({}).sellLegalFeeMultiplier
         }
-
-
     });
 
 }
@@ -81,8 +79,6 @@ Template.settings.events({
                 timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
             });
         }
-
-
     },
     "click #goDatabasePage": function () {
         Router.go('/admin');

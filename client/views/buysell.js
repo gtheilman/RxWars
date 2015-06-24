@@ -1,15 +1,26 @@
+if (!TEAMDEBT) {
+    var TEAMDEBT = 0;
+}
+if (!TEAMCASH) {
+    var TEAMCASH = 0;
+}
+
+
+
+
+
 if (Meteor.isClient) {
     // add interest from loan shark
     Meteor.setInterval(function () {
         if (getIntervalId()) {
-            if (Session.get('teamDebt') > 0) {
-                var loanInterest = 0.05 * Session.get('teamDebt');
-                Session.set('teamDebt', Session.get('teamDebt') + loanInterest);
+            if (parseFloat(TEAMDEBT) > 0) {
+                var loanInterest = 0.05 * parseFloat(TEAMDEBT);
+                Cookie.set('teamDebt', parseFloat(TEAMDEBT) + loanInterest);
 
                 Transactions.insert({
                     loanInterest: loanInterest,
-                    teamDebt: Session.get('teamDebt'),
-                    teamCash: Session.get('teamCash')
+                    teamDebt: parseFloat(TEAMDEBT),
+                    teamCash: parseFloat(TEAMCASH)
                 });
 
                 updateScoreBoard();
@@ -30,21 +41,21 @@ Template.buysell.helpers({
     drugs: function () {
 
         // if no cash debt in session, create it
-        if (isNaN(Session.get('teamCash'))) {
+        if (isNaN(parseFloat(TEAMCASH))) {
             Meteor.call('updateTeamCash', function (error, result) {
                 if (result) {
-                    Session.set('teamCash', result);
+                    Cookie.set('teamCash', result);
                 } else {
-                    Session.set('teamCash', 0);
+                    Cookie.set('teamCash', 0);
                 }
             });
         }
-        if (isNaN(Session.get('teamDebt'))) {
+        if (isNaN(parseFloat(TEAMDEBT))) {
             Meteor.call('updateTeamDebt', function (error, result) {
                 if (result) {
-                    Session.set('teamDebt', result);
+                    Cookie.set('teamDebt', result);
                 } else {
-                    Session.set('teamDebt', 0);
+                    Cookie.set('teamDebt', 0);
                 }
             });
         }
@@ -96,12 +107,12 @@ Template.buysell.helpers({
                 drug_id: ''
             });
 
-            Session.set('teamCash', 0);
-            Session.set('teamDebt', 0);
+            Cookie.set('teamCash', 0);
+            Cookie.set('teamDebt', 0);
             updateScoreBoard();
         }
 
-        var teamCash = Math.floor(Session.get('teamCash'));
+        var teamCash = Math.floor(parseFloat(TEAMCASH));
 
         if (teamCash) {
             return "$" + addCommas(teamCash.toFixed(0))
@@ -117,14 +128,14 @@ Template.buysell.helpers({
                 teamDebt: 0,
                 drug_id: ''
             });
-            Session.set('teamCash', 0);
-            Session.set('teamDebt', 0);
+            Cookie.set('teamCash', 0);
+            Cookie.set('teamDebt', 0);
             updateScoreBoard();
         }
 
 
-        if (Session.get('teamDebt')) {
-            return "$" + addCommas(Session.get('teamDebt').toFixed(0))
+        if (parseFloat(TEAMDEBT)) {
+            return "$" + addCommas(parseFloat(TEAMDEBT).toFixed(0))
         } else
             return "$0.00"
 
@@ -156,14 +167,14 @@ Template.buysell.events({
         event.preventDefault();
 
         var loanAmount = parseInt(event.target.loanAmount.value);
-        Session.set('teamCash', Session.get('teamCash') + loanAmount);
-        Session.set('teamDebt', Session.get('teamDebt') + loanAmount);
+        Cookie.set('teamCash', parseFloat(TEAMCASH) + loanAmount);
+        Cookie.set('teamDebt', parseFloat(TEAMDEBT) + loanAmount);
 
 
         Transactions.insert({
             loanAmount: loanAmount,
-            teamDebt: Session.get('teamDebt'),
-            teamCash: Session.get('teamCash')
+            teamDebt: parseFloat(TEAMDEBT),
+            teamCash: parseFloat(TEAMCASH)
         });
 
         updateScoreBoard();
@@ -196,17 +207,17 @@ Template.buysell.events({
 
 
         // trying to return more than they borrowed
-        if (Session.get('teamDebt') < loanPayment) {
-            var loanPayment = Session.get('teamDebt');
+        if (parseFloat(TEAMDEBT) < loanPayment) {
+            var loanPayment = parseFloat(TEAMDEBT);
         }
 
-        Session.set('teamCash', Session.get('teamCash') - loanPayment);
-        Session.set('teamDebt', Session.get('teamDebt') - loanPayment);
+        Cookie.set('teamCash', parseFloat(TEAMCASH) - loanPayment);
+        Cookie.set('teamDebt', parseFloat(TEAMDEBT) - loanPayment);
 
         Transactions.insert({
             loanPayment: loanPayment,
-            teamDebt: Session.get('teamDebt'),
-            teamCash: Session.get('teamCash')
+            teamDebt: parseFloat(TEAMDEBT),
+            teamCash: parseFloat(TEAMCASH)
 
         });
         updateScoreBoard();
@@ -222,14 +233,14 @@ Template.buysell.events({
         event.preventDefault();
 
 
-        if (Session.get('teamDebt') > Session.get('teamCash')) {
-            var loanPayment = Session.get('teamCash');
-            Session.set('teamCash', 0);
-            Session.set('teamDebt', Session.get('teamDebt') - loanPayment);
+        if (parseFloat(TEAMDEBT) > parseFloat(TEAMCASH)) {
+            var loanPayment = parseFloat(TEAMCASH);
+            Cookie.set('teamCash', 0);
+            Cookie.set('teamDebt', parseFloat(TEAMDEBT) - loanPayment);
         } else {
-            var loanPayment = Session.get('teamDebt');
-            Session.set('teamCash', Session.get('teamCash') - loanPayment);
-            Session.set('teamDebt', 0);
+            var loanPayment = parseFloat(TEAMDEBT);
+            Cookie.set('teamCash', parseFloat(TEAMCASH) - loanPayment);
+            Cookie.set('teamDebt', 0);
         }
 
         console.log("loanpayment: " + loanPayment);
@@ -238,8 +249,8 @@ Template.buysell.events({
 
         Transactions.insert({
             loanPayment: loanPayment,
-            teamDebt: Session.get('teamDebt'),
-            teamCash: Session.get('teamCash')
+            teamDebt: parseFloat(TEAMDEBT),
+            teamCash: parseFloat(TEAMCASH)
         });
 
         updateScoreBoard();
@@ -257,7 +268,7 @@ Template.buysell.events({
         var drug_name = event.target.name.value;
 
 
-        var maxPurchase = Math.floor(Session.get('teamCash') / buyPrice);
+        var maxPurchase = Math.floor(parseFloat(TEAMCASH) / buyPrice);
 
         if (!event.target.buyQuantity.value) {
             // Buy as much as the money they have
@@ -282,7 +293,7 @@ Template.buysell.events({
 
         // busted or not, you lose the money
         var totalSale = buyQuantity * buyPrice;
-        Session.set('teamCash', Session.get('teamCash') - totalSale);
+        Cookie.set('teamCash', parseFloat(TEAMCASH) - totalSale);
 
 
         var transaction = Transactions.findOne({
@@ -326,13 +337,13 @@ Template.buysell.events({
                 legalFees = 1000;
             }
 
-            if (legalFees > Session.get('teamCash')) {
-                var loanAmount = legalFees - Session.get('teamCash');
-                Session.set('teamDebt', Session.get('teamDebt') + legalFees - Session.get('teamCash'));
-                Session.set('teamCash', 0);
+            if (legalFees > parseFloat(TEAMCASH)) {
+                var loanAmount = legalFees - parseFloat(TEAMCASH);
+                Cookie.set('teamDebt', parseFloat(TEAMDEBT) + legalFees - parseFloat(TEAMCASH));
+                Cookie.set('teamCash', 0);
             } else {
                 var loanAmount = 0;
-                Session.set('teamCash', Session.get('teamCash') - legalFees);
+                Cookie.set('teamCash', parseFloat(TEAMCASH) - legalFees);
             }
 
 
@@ -343,8 +354,8 @@ Template.buysell.events({
                 inventoryForward: inventory,
                 legalFees: legalFees,
                 loanAmount: loanAmount,
-                teamDebt: Session.get('teamDebt'),
-                teamCash: Session.get('teamCash')
+                teamDebt: parseFloat(TEAMDEBT),
+                teamCash: parseFloat(TEAMCASH)
             });
             updateScoreBoard();
 
@@ -370,8 +381,8 @@ Template.buysell.events({
                 buyQuantity: buyQuantity,
                 buyPrice: buyPrice,
                 inventoryForward: inventory + buyQuantity,
-                teamDebt: Session.get('teamDebt'),
-                teamCash: Session.get('teamCash')
+                teamDebt: parseFloat(TEAMDEBT),
+                teamCash: parseFloat(TEAMCASH)
             };
 
             console.log(buySummary);
@@ -439,12 +450,12 @@ Template.buysell.events({
                 legalFees = 1000;
             }
 
-            if (legalFees > Session.get('teamCash')) {
-                Session.set('teamDebt', Session.get('teamDebt') + legalFees - Session.get('teamCash'));
-                Session.set('teamCash', 0);
-                var loanAmount = legalFees - Session.get('teamCash');
+            if (legalFees > parseFloat(TEAMCASH)) {
+                Cookie.set('teamDebt', parseFloat(TEAMDEBT) + legalFees - parseFloat(TEAMCASH));
+                Cookie.set('teamCash', 0);
+                var loanAmount = legalFees - parseFloat(TEAMCASH);
             } else {
-                Session.set('teamCash', Session.get('teamCash') - legalFees);
+                Cookie.set('teamCash', parseFloat(TEAMCASH) - legalFees);
                 var loanAmount = 0;
             }
 
@@ -458,8 +469,8 @@ Template.buysell.events({
                 inventoryForward: inventoryForward,
                 legalFees: legalFees,
                 loanAmount: loanAmount,
-                teamCash: Session.get('teamCash'),
-                teamDebt: Session.get('teamDebt')
+                teamCash: parseFloat(TEAMCASH),
+                teamDebt: parseFloat(TEAMDEBT)
             };
 
             console.log(sellSummary);
@@ -487,15 +498,15 @@ Template.buysell.events({
 
         } else {
             var totalSale = sellQuantity * sellPrice;
-            Session.set('teamCash', Session.get('teamCash') + totalSale);
+            Cookie.set('teamCash', parseFloat(TEAMCASH) + totalSale);
 
             Transactions.insert({
                 drug_id: drug_id,
                 sellQuantity: sellQuantity,
                 sellPrice: sellPrice,
                 inventoryForward: inventory - sellQuantity,
-                teamCash: Session.get('teamCash'),
-                teamDebt: Session.get('teamDebt')
+                teamCash: parseFloat(TEAMCASH),
+                teamDebt: parseFloat(TEAMDEBT)
             });
             updateScoreBoard();
         }
@@ -519,3 +530,14 @@ Template.buysell.events({
 
 });
 
+
+Template.buysell.onRendered(function () {
+
+
+    $('#teamCash').text('$' + parseFloat(TEAMCASH));
+    $('#teamDebt').text('$' + parseFloat(TEAMDEBT));
+
+    console.log(parseFloat(TEAMCASH));
+    console.log(parseFloat(TEAMDEBT));
+
+});

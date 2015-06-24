@@ -42,17 +42,17 @@ if (Meteor.isClient) {
             var snitchFee = 5000;
 
 
-            if (snitchFee > Session.get('teamCash')) {
+            if (snitchFee > parseFloat(TEAMCASH)) {
                 alert("You don't have enough money to pay the snitch.");
                 return
             } else {
-                Session.set('teamCash', Session.get('teamCash') - snitchFee);
+                Cookie.set('teamCash', parseFloat(TEAMCASH) - snitchFee);
             }
 
             Transactions.insert({
                 snitchFee: snitchFee,
-                teamCash: Session.get('teamCash'),
-                teamDebt: Session.get('teamDebt')
+                teamCash: parseFloat(TEAMCASH),
+                teamDebt: parseFloat(TEAMDEBT)
             });
 
             alert("You paid $" + addCommas(snitchFee) + " to have someone snitch on " + Meteor.users.findOne({_id: team_id}).username + "!!");

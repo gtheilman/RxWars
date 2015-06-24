@@ -57,7 +57,7 @@ if (!Meteor.isClient) {
         }
         teamCash = parseInt(teamCash);
         console.log("TeamCash: " + teamCash);
-        Session.set('teamCash', teamCash);
+        Cookie.set('teamCash', teamCash);
         return teamCash
     };
 
@@ -86,7 +86,7 @@ if (!Meteor.isClient) {
             teamDebt = parseInt(teamDebt);
         }
         // console.log("teamDebt: " + teamDebt);
-        Session.set('teamDebt', teamDebt);
+        Cookie.set('teamDebt', teamDebt);
         return teamDebt
     };
 
@@ -134,13 +134,13 @@ if (!Meteor.isClient) {
 
     this.updateScoreBoard = function () {
         if (Meteor.user().username != 'admin') {
-            if (Session.get('teamCash') < 0) {
-                Session.set('teamCash', 0);
-            } else if (Session.get.teamDebt < 0) {
-                Session.set('teamDebt', 0);
+            if (parseFloat(TEAMCASH) < 0) {
+                Cookie.set('teamCash', 0);
+            } else if (parseFloat(TEAMDEBT) < 0) {
+                Cookie.get('teamDebt', 0);
             }
 
-            var teamNet = Session.get('teamCash') - Session.get('teamDebt');
+            var teamNet = parseFloat(TEAMCASH) - parseFloat(TEAMDEBT);
             Meteor.call('updateScoreBoard', teamNet);
         }
     };
