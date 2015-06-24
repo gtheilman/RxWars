@@ -1,21 +1,10 @@
-if (!TEAMDEBT) {
-    var TEAMDEBT = 0;
-}
-if (!TEAMCASH) {
-    var TEAMCASH = 0;
-}
-
-
-
-
-
 if (Meteor.isClient) {
     // add interest from loan shark
     Meteor.setInterval(function () {
         if (getIntervalId()) {
             if (parseFloat(TEAMDEBT) > 0) {
                 var loanInterest = 0.05 * parseFloat(TEAMDEBT);
-                Cookie.set('teamDebt', parseFloat(TEAMDEBT) + loanInterest);
+                TEAMDEBT = parseFloat(TEAMDEBT) + loanInterest;
 
                 Transactions.insert({
                     loanInterest: loanInterest,
@@ -25,7 +14,7 @@ if (Meteor.isClient) {
 
                 updateScoreBoard();
 
-                sAlert.warning('You owe money to the loanshark!! Pay it off quickly before the interest gets too high...', {
+                sAlert.warning('You owe an additional $' + addCommas(parseInt(loanInterest)) + ' in interest to the loanshark!! Pay it off quickly ...', {
                     effect: 'scale', position: 'top-right',
                     timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
                 });
@@ -40,25 +29,6 @@ if (Meteor.isClient) {
 Template.buysell.helpers({
     drugs: function () {
 
-        // if no cash debt in session, create it
-        if (isNaN(parseFloat(TEAMCASH))) {
-            Meteor.call('updateTeamCash', function (error, result) {
-                if (result) {
-                    Cookie.set('teamCash', result);
-                } else {
-                    Cookie.set('teamCash', 0);
-                }
-            });
-        }
-        if (isNaN(parseFloat(TEAMDEBT))) {
-            Meteor.call('updateTeamDebt', function (error, result) {
-                if (result) {
-                    Cookie.set('teamDebt', result);
-                } else {
-                    Cookie.set('teamDebt', 0);
-                }
-            });
-        }
 
         TeamBuySell.remove({});
 
@@ -107,15 +77,29 @@ Template.buysell.helpers({
                 drug_id: ''
             });
 
-            Cookie.set('teamCash', 0);
-            Cookie.set('teamDebt', 0);
+            TEAMCASH = 0;
+            TEAMDEBT = 0;
             updateScoreBoard();
+        }
+
+
+        // if no cash debt in session, create it
+        if (typeof TEAMCASH == 'undefined') {
+            Meteor.call('updateTeamCash', function (error, result) {
+                if (result) {
+                    TEAMCASH = result;
+                    console.log("TEAMCASH INITIALO: " + TEAMCASH);
+                    return "$" + addCommas(parseFloat(TEAMCASH).toFixed(0))
+                } else {
+                    TEAMCASH = 0;
+                }
+            });
         }
 
         var teamCash = Math.floor(parseFloat(TEAMCASH));
 
         if (teamCash) {
-            return "$" + addCommas(teamCash.toFixed(0))
+            return "$" + addCommas(TEAMCASH.toFixed(0))
         } else
             return "$0.00"
 
@@ -128,11 +112,23 @@ Template.buysell.helpers({
                 teamDebt: 0,
                 drug_id: ''
             });
-            Cookie.set('teamCash', 0);
-            Cookie.set('teamDebt', 0);
+            TEAMCASH = 0;
+            TEAMDEBT = 0;
             updateScoreBoard();
         }
 
+        if (typeof TEAMDEBT == 'undefined') {
+            Meteor.call('updateTeamDebt', function (error, result) {
+                if (result) {
+                    TEAMDEBT = result;
+                    console.log("TEAMDEBT INITIALL: " + TEAMDEBT);
+                    return "$" + addCommas(parseFloat(result).toFixed(0))
+                } else {
+                    TEAMDEBT = 0;
+                }
+            });
+
+        }
 
         if (parseFloat(TEAMDEBT)) {
             return "$" + addCommas(parseFloat(TEAMDEBT).toFixed(0))
@@ -167,8 +163,17 @@ Template.buysell.events({
         event.preventDefault();
 
         var loanAmount = parseInt(event.target.loanAmount.value);
-        Cookie.set('teamCash', parseFloat(TEAMCASH) + loanAmount);
-        Cookie.set('teamDebt', parseFloat(TEAMDEBT) + loanAmount);
+
+        if (!loanAmount) {
+            sAlert.info('You have to specify how much you want to borrow...', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
+            return
+        }
+
+        TEAMCASH = parseFloat(TEAMCASH) + loanAmount;
+        TEAMDEBT = parseFloat(TEAMDEBT) + loanAmount;
 
 
         Transactions.insert({
@@ -199,11 +204,16 @@ Template.buysell.events({
     "submit #repayForm": function (event, template) {
         event.preventDefault();
 
-        if (!event.target.loanPayment.value) {
+        var loanPayment = parseInt(event.target.loanPayment.value);
+
+        if (!loanPayment) {
+            sAlert.info('You have to specify how much you want to repay...', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
             return
         }
 
-        var loanPayment = parseInt(event.target.loanPayment.value);
 
 
         // trying to return more than they borrowed
@@ -211,8 +221,8 @@ Template.buysell.events({
             var loanPayment = parseFloat(TEAMDEBT);
         }
 
-        Cookie.set('teamCash', parseFloat(TEAMCASH) - loanPayment);
-        Cookie.set('teamDebt', parseFloat(TEAMDEBT) - loanPayment);
+        TEAMCASH = parseFloat(TEAMCASH) - loanPayment;
+        TEAMDEBT = parseFloat(TEAMDEBT) - loanPayment;
 
         Transactions.insert({
             loanPayment: loanPayment,
@@ -235,12 +245,12 @@ Template.buysell.events({
 
         if (parseFloat(TEAMDEBT) > parseFloat(TEAMCASH)) {
             var loanPayment = parseFloat(TEAMCASH);
-            Cookie.set('teamCash', 0);
-            Cookie.set('teamDebt', parseFloat(TEAMDEBT) - loanPayment);
+            TEAMCASH = 0;
+            TEAMDEBT = parseFloat(TEAMDEBT) - loanPayment;
         } else {
             var loanPayment = parseFloat(TEAMDEBT);
-            Cookie.set('teamCash', parseFloat(TEAMCASH) - loanPayment);
-            Cookie.set('teamDebt', 0);
+            TEAMCASH = parseFloat(TEAMCASH) - loanPayment;
+            TEAMDEBT = 0;
         }
 
         console.log("loanpayment: " + loanPayment);
@@ -293,7 +303,7 @@ Template.buysell.events({
 
         // busted or not, you lose the money
         var totalSale = buyQuantity * buyPrice;
-        Cookie.set('teamCash', parseFloat(TEAMCASH) - totalSale);
+        TEAMCASH = parseFloat(TEAMCASH) - totalSale;
 
 
         var transaction = Transactions.findOne({
@@ -339,11 +349,12 @@ Template.buysell.events({
 
             if (legalFees > parseFloat(TEAMCASH)) {
                 var loanAmount = legalFees - parseFloat(TEAMCASH);
-                Cookie.set('teamDebt', parseFloat(TEAMDEBT) + legalFees - parseFloat(TEAMCASH));
-                Cookie.set('teamCash', 0);
+                TEAMDEBT = parseFloat(TEAMDEBT) + legalFees - parseFloat(TEAMCASH);
+                TEAMCASH = 0;
+
             } else {
                 var loanAmount = 0;
-                Cookie.set('teamCash', parseFloat(TEAMCASH) - legalFees);
+                TEAMCASH = parseFloat(TEAMCASH) - legalFees;
             }
 
 
@@ -357,7 +368,6 @@ Template.buysell.events({
                 teamDebt: parseFloat(TEAMDEBT),
                 teamCash: parseFloat(TEAMCASH)
             });
-            updateScoreBoard();
 
             var randomalert = Math.floor(Math.random() * 5) + 1;
 
@@ -376,6 +386,8 @@ Template.buysell.events({
             }
 
         } else {
+
+
             var buySummary = {
                 drug_id: drug_id,
                 buyQuantity: buyQuantity,
@@ -388,9 +400,9 @@ Template.buysell.events({
             console.log(buySummary);
 
             Transactions.insert(buySummary);
-            updateScoreBoard();
-        }
 
+        }
+        updateScoreBoard();
     },
 
 
@@ -451,11 +463,11 @@ Template.buysell.events({
             }
 
             if (legalFees > parseFloat(TEAMCASH)) {
-                Cookie.set('teamDebt', parseFloat(TEAMDEBT) + legalFees - parseFloat(TEAMCASH));
-                Cookie.set('teamCash', 0);
+                TEAMDEBT = parseFloat(TEAMDEBT) + legalFees - parseFloat(TEAMCASH);
                 var loanAmount = legalFees - parseFloat(TEAMCASH);
+                TEAMCASH = 0;
             } else {
-                Cookie.set('teamCash', parseFloat(TEAMCASH) - legalFees);
+                TEAMCASH = parseFloat(TEAMCASH) - legalFees;
                 var loanAmount = 0;
             }
 
@@ -498,7 +510,7 @@ Template.buysell.events({
 
         } else {
             var totalSale = sellQuantity * sellPrice;
-            Cookie.set('teamCash', parseFloat(TEAMCASH) + totalSale);
+            TEAMCASH = parseFloat(TEAMCASH) + totalSale;
 
             Transactions.insert({
                 drug_id: drug_id,
@@ -530,14 +542,3 @@ Template.buysell.events({
 
 });
 
-
-Template.buysell.onRendered(function () {
-
-
-    $('#teamCash').text('$' + parseFloat(TEAMCASH));
-    $('#teamDebt').text('$' + parseFloat(TEAMDEBT));
-
-    console.log(parseFloat(TEAMCASH));
-    console.log(parseFloat(TEAMDEBT));
-
-});

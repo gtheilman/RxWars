@@ -46,7 +46,7 @@ if (Meteor.isClient) {
                 alert("You don't have enough money to pay the snitch.");
                 return
             } else {
-                Cookie.set('teamCash', parseFloat(TEAMCASH) - snitchFee);
+                TEAMCASH = parseFloat(TEAMCASH) - snitchFee;
             }
 
             Transactions.insert({

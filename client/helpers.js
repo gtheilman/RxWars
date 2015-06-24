@@ -57,7 +57,7 @@ if (!Meteor.isClient) {
         }
         teamCash = parseInt(teamCash);
         console.log("TeamCash: " + teamCash);
-        Cookie.set('teamCash', teamCash);
+        TEAMCASH = teamCash;
         return teamCash
     };
 
@@ -86,7 +86,7 @@ if (!Meteor.isClient) {
             teamDebt = parseInt(teamDebt);
         }
         // console.log("teamDebt: " + teamDebt);
-        Cookie.set('teamDebt', teamDebt);
+        TEAMDEBT = teamDebt;
         return teamDebt
     };
 
@@ -135,9 +135,9 @@ if (!Meteor.isClient) {
     this.updateScoreBoard = function () {
         if (Meteor.user().username != 'admin') {
             if (parseFloat(TEAMCASH) < 0) {
-                Cookie.set('teamCash', 0);
+                TEAMCASH = 0;
             } else if (parseFloat(TEAMDEBT) < 0) {
-                Cookie.get('teamDebt', 0);
+                TEAMDEBT = 0;
             }
 
             var teamNet = parseFloat(TEAMCASH) - parseFloat(TEAMDEBT);
