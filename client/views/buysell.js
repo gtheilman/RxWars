@@ -66,6 +66,7 @@ Template.buysell.helpers({
         return Meteor.user().username;
     },
 
+
     enable_disable: function () {
         if (Session.get('buttonsDisabled')) {
             return ' disabled = "disabled" '
@@ -91,26 +92,30 @@ Template.buysell.helpers({
         }
 
 
-        // if no cash debt in session, create it
+        // if no cash debt in global scope, create it
         if (typeof TEAMCASH == 'undefined') {
 
+
             Meteor.call('updateTeamCash', function (error, result) {
+                console.log(result);
                 if (result) {
                     TEAMCASH = result;
-                    console.log("TEAMCASH INITIALO: " + TEAMCASH);
-                    return "$" + addCommas(parseFloat(TEAMCASH).toFixed(0))
+                    console.log("TEAMCASH INITIALO: " + result);
                 } else {
                     TEAMCASH = 0;
+                    console.log("TeachCashError: " + error);
                 }
             });
         }
+        TEAMCASH = TEAMCASH + 1;
 
         var teamCash = Math.floor(parseFloat(TEAMCASH));
 
         if (teamCash) {
             return "$" + addCommas(TEAMCASH.toFixed(0))
-        } else
+        } else {
             return "$0.00"
+        }
 
     },
     teamDebt: function () {
@@ -130,8 +135,7 @@ Template.buysell.helpers({
             Meteor.call('updateTeamDebt', function (error, result) {
                 if (result) {
                     TEAMDEBT = result;
-                    console.log("TEAMDEBT INITIALL: " + TEAMDEBT);
-                    return "$" + addCommas(parseFloat(result).toFixed(0))
+                    console.log("TEAMDEBT INITIAL: " + result);
                 } else {
                     TEAMDEBT = 0;
                 }
@@ -141,8 +145,10 @@ Template.buysell.helpers({
 
         if (parseFloat(TEAMDEBT)) {
             return "$" + addCommas(parseFloat(TEAMDEBT).toFixed(0))
-        } else
+        } else {
             return "$0.00"
+        }
+
 
     },
 
