@@ -121,62 +121,7 @@ Template.buysell.helpers({
     },
 
 
-    /*
-    teamCash: function () {
-
-
-        if (!Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}})) {
-            Transactions.insert({
-                time: new Date,
-                teamCash: 0,
-                teamDebt: 0,
-                drug_id: ''
-            });
-
-            TEAMCASH = 0;
-            TEAMDEBT = 0;
-            updateScoreBoard();
-        }
-
-
-        TEAMCASH = Meteor.call('updateTeamCash');
-        TEAMCASH = 100;
-
-
-        var teamCash = Math.floor(parseFloat(TEAMCASH));
-
-        return "$" + addCommas(TEAMCASH.toFixed(0))
-
-
-    },
-    teamDebt: function () {
-
-        if (!Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}})) {
-            Transactions.insert({
-                teamCash: 0,
-                teamDebt: 0,
-                drug_id: ''
-            });
-            TEAMCASH = 0;
-            TEAMDEBT = 0;
-            updateScoreBoard();
-        }
-
-        if (typeof TEAMDEBT == 'undefined') {
-            Meteor.call('updateTeamDebt', function (error, result) {
-                if (result) {
-                    TEAMDEBT = result;
-                } else {
-                    TEAMDEBT = 0;
-                }
-            });
-        }
-
-        return "$" + addCommas(parseFloat(TEAMDEBT).toFixed(0))
-
-    },
-
-     */enterExit: function () {
+    enterExit: function () {
         Meteor.users.find({"status.online": true}).observe({
             added: function (id) {
                 sAlert.success(id.username + ' has joined the game.', {
