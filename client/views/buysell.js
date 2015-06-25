@@ -78,6 +78,52 @@ Template.buysell.helpers({
 
     teamCash: function () {
 
+        if (!Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}})) {
+            Transactions.insert({
+                time: new Date,
+                teamCash: 0,
+                teamDebt: 0,
+                drug_id: ''
+            });
+        }
+
+        if (typeof TEAMCASH == 'undefined') {
+            TEAMCASH = Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}}).teamCash;
+        }
+        //   updateScoreBoard();
+        if (TEAMCASH) {
+            return "$" + addCommas(parseFloat(TEAMCASH).toFixed(0))
+        } else
+            return "$0.00"
+
+    },
+
+    teamDebt: function () {
+
+        if (!Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}})) {
+            Transactions.insert({
+                time: new Date,
+                teamCash: 0,
+                teamDebt: 0,
+                drug_id: ''
+            });
+        }
+
+        if (typeof TEAMDEBT == 'undefined') {
+            TEAMDEBT = Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}}).teamDebt;
+        }
+        //   updateScoreBoard();
+        if (TEAMDEBT) {
+            return "$" + addCommas(parseFloat(TEAMDEBT).toFixed(0))
+        } else
+            return "$0.00"
+
+    },
+
+
+    /*
+    teamCash: function () {
+
 
         if (!Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}})) {
             Transactions.insert({
@@ -130,7 +176,7 @@ Template.buysell.helpers({
 
     },
 
-    enterExit: function () {
+     */enterExit: function () {
         Meteor.users.find({"status.online": true}).observe({
             added: function (id) {
                 sAlert.success(id.username + ' has joined the game.', {
