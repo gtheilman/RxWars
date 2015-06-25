@@ -401,8 +401,8 @@ Template.buysell.events({
     "submit .sellForm": function (event, template) {
         event.preventDefault();
 
-
         disableButtons(5);
+
 
 
         var drug_name = event.target.name.value;
@@ -496,7 +496,7 @@ Template.buysell.events({
             } else if (randomalert == 3) {
                 alert('Your courier was mugged!   They stole the ' + drug_name + ' as well as the $' + addCommas(legalFees) + ' that he was carrying.');
             } else if (randomalert == 4) {
-                alert('Your minion took a handfull of the ' + drug_name + ' you told him to sell.   While tripping, he tried to sell the rest to a uniformed police officer.  It cost $' + addCommas(legalFees) + ' to get him out of jail.');
+                alert('Your minion took some of the ' + drug_name + ' you told him to sell.   While tripping, he tried to sell the rest to a uniformed police officer.  It cost $' + addCommas(legalFees) + ' to get him out of jail.');
             } else if (randomalert == 5) {
                 alert('Your not-very-bright minion tried to sell the ' + drug_name + ' back to the pharmacist who dispensed it.  The police were called and bail was set at $' + addCommas(legalFees));
             } else {
@@ -517,6 +517,7 @@ Template.buysell.events({
                 teamDebt: parseFloat(TEAMDEBT)
             });
             updateScoreBoard();
+
         }
 
     }
