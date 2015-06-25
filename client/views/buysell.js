@@ -78,6 +78,7 @@ Template.buysell.helpers({
 
     teamCash: function () {
 
+
         if (!Transactions.findOne({team_id: Meteor.userId()}, {sort: {epoch: -1}})) {
             Transactions.insert({
                 time: new Date,
@@ -92,30 +93,14 @@ Template.buysell.helpers({
         }
 
 
-        // if no cash debt in global scope, create it
-        if (typeof TEAMCASH == 'undefined') {
+        TEAMCASH = Meteor.call('updateTeamCash');
+        TEAMCASH = 100;
 
-
-            Meteor.call('updateTeamCash', function (error, result) {
-                console.log(result);
-                if (result) {
-                    TEAMCASH = result;
-                    console.log("TEAMCASH INITIALO: " + result);
-                } else {
-                    TEAMCASH = 0;
-                    console.log("TeachCashError: " + error);
-                }
-            });
-        }
-        TEAMCASH = TEAMCASH + 1;
 
         var teamCash = Math.floor(parseFloat(TEAMCASH));
 
-        if (teamCash) {
-            return "$" + addCommas(TEAMCASH.toFixed(0))
-        } else {
-            return "$0.00"
-        }
+        return "$" + addCommas(TEAMCASH.toFixed(0))
+
 
     },
     teamDebt: function () {
@@ -135,20 +120,13 @@ Template.buysell.helpers({
             Meteor.call('updateTeamDebt', function (error, result) {
                 if (result) {
                     TEAMDEBT = result;
-                    console.log("TEAMDEBT INITIAL: " + result);
                 } else {
                     TEAMDEBT = 0;
                 }
             });
-
         }
 
-        if (parseFloat(TEAMDEBT)) {
-            return "$" + addCommas(parseFloat(TEAMDEBT).toFixed(0))
-        } else {
-            return "$0.00"
-        }
-
+        return "$" + addCommas(parseFloat(TEAMDEBT).toFixed(0))
 
     },
 
@@ -570,4 +548,3 @@ Template.buysell.events({
 
 })
 ;
-
