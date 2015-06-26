@@ -29,7 +29,6 @@ if (Meteor.isClient) {
 Template.buysell.helpers({
     drugs: function () {
 
-
         TeamBuySell.remove({});
 
         Drugs.find({active: true}, {sort: {name: 1}}).forEach(function (drug) {
