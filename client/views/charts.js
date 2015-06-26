@@ -20,9 +20,9 @@ Template.layout.drugPriceTrends = function () {
             data.push(element);
         });
 
-        console.log(data);
-        return data
-
+        if (!jQuery.isEmptyObject(data)) {
+            return data
+        }
     }
 
 
@@ -35,7 +35,7 @@ Template.layout.drugPriceTrends = function () {
             },
         subtitle: {
             text: 'Average Street Prices'
-        },
+            },
         xAxis: {
             type: 'datetime',
             dateTimeLabelFormats: { // don't display the dummy year
@@ -57,13 +57,13 @@ Template.layout.drugPriceTrends = function () {
         },
 
 
-        series: drugPriceTrends()
+        series: [drugPriceTrends()]
 
     }
 
 
 
-
-
 }
 ;
+
+
