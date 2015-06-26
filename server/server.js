@@ -156,9 +156,9 @@ if (Meteor.isServer) Meteor.methods({
             var price = 0;
 
             DrugPrice.find({drug_id: drug._id}, {sort: {epoch: 1}}).forEach(function (pricePoint) {
-                if (pricePoint.time != '' && pricePoint.price != '') {
-                    time = parseInt(moment(pricePoint.time).format('X'));
-                    price = pricePoint.price;
+                if (pricePoint.time != '' && pricePoint.price != '' && pricePoint.price > 1 && pricePoint.price < 100) {
+                    time = parseInt(moment(pricePoint.time).subtract(5, "hours").format('x'));
+                    price = Math.round(parseFloat(pricePoint.price) * 100) / 100;
                     element.data.push([time, price]);
                 }
             });
