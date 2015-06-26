@@ -143,6 +143,30 @@ if (Meteor.isServer) Meteor.methods({
     },
     'removeTeam': function (username) {
         ScoreBoard.remove({username: username});
+    },
+
+    'drugPriceTrends': function () {
+        var data = [];
+
+        Drugs.find({active: true}, {sort: {name: 1}}).forEach(function (drug) {
+            var element = {};
+            element.name = drug.name;
+            element.data = [];
+            var time = 0;
+            var price = 0;
+
+            DrugPrice.find({drug_id: drug._id}, {sort: {name: 1}}).forEach(function (pricePoint) {
+                if (pricePoint.time != '' && pricePoint.price != '') {
+                    time = parseInt(moment(pricePoint.time).format('X'));
+                    price = pricePoint.price;
+                    element.data.push([time, price]);
+                }
+            });
+            data.push(element);
+        });
+
+        return data
+
     }
 
 
