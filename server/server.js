@@ -155,7 +155,7 @@ if (Meteor.isServer) Meteor.methods({
             var time = 0;
             var price = 0;
 
-            DrugPrice.find({drug_id: drug._id}, {sort: {name: 1}}).forEach(function (pricePoint) {
+            DrugPrice.find({drug_id: drug._id}, {sort: {epoch: 1}}).forEach(function (pricePoint) {
                 if (pricePoint.time != '' && pricePoint.price != '') {
                     time = parseInt(moment(pricePoint.time).format('X'));
                     price = pricePoint.price;
