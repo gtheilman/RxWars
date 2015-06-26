@@ -1,34 +1,35 @@
-Template.layout.topGenresChart = function () {
+Template.layout.drugPriceTrends = function () {
 
     return {
         chart: {
             type: 'spline'
         },
         title: {
-            text: 'Monthly Average Temperature'
+            text: 'Prescription Drug Prices'
         },
         subtitle: {
-            text: 'Source: WorldClimate.com'
+            text: 'Average Street Prices'
         },
         xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            type: 'datetime',
+            dateTimeLabelFormats: { // don't display the dummy year
+                Time: '%H:%M'
+            }
         },
         yAxis: {
             title: {
-                text: 'Temperature'
+                text: 'Street Price ($)'
             },
-            labels: {
-                formatter: function () {
-                    return this.value + '°';
-                }
-            }
+            min: 0
         },
         tooltip: {
-            crosshairs: true,
-            shared: true
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%H:%M', this.x) + '</b><br/>' +
+                    '$' + this.y;
+            }
         },
-        plotOptions: {
+        /*        plotOptions: {
             spline: {
                 marker: {
                     radius: 4,
@@ -36,7 +37,7 @@ Template.layout.topGenresChart = function () {
                     lineWidth: 1
                 }
             }
-        },
+         },*/
         series: [{
             name: 'Tokyo',
             marker: {
