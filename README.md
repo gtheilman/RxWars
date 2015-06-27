@@ -6,7 +6,7 @@ Players take on the role of gangs that buy medicines from pharmacies and then re
 
 ![Scoreboard](https://raw.githubusercontent.com/gtheilman/RxWars/master/media/scoreboard.png)
 
-The six baseline medications are alprazolam, hydrocodone, oxycodone, amphetamine, oxandrolone and trazodone.  Oxandrolone is an anabolic steroid (Schedule III) that is sometimes used illicitly by athletes.  Trazodone, while prescription-only, is not a controlled substance.   However, people have been known to [crush and insufflate](http://www.bluelight.org/vb/archive/index.php/t-188496.html) the tablets.
+The six baseline medications are alprazolam, hydrocodone, oxycodone, amphetamine, oxandrolone and trazodone.  Oxandrolone is an anabolic steroid (Schedule III) that is sometimes used illicitly by athletes.  Trazodone, while prescription-only, is not a controlled substance.   However, people have been known to [crush and insufflate](http://www.bluelight.org/vb/archive/index.php/t-188496.html) the tablets.  The administrator (faculty member) can tailor the drug list however they like.
 
 ![admin](https://raw.githubusercontent.com/gtheilman/RxWars/master/media/drugs.png)
 
@@ -19,10 +19,10 @@ Players initially borrow money from the loan shark so that they can purchase med
 ![BuySell](https://raw.githubusercontent.com/gtheilman/RxWars/master/media/buySell.png)
 
 
-If the player purchases the drugs without getting arrested, they can then sell them on the street.   The street price fluctuates based on how many units are available for sale from all the players.   If all the players are buying up alprazolam, there is going to be glut on the market and the street price goes down.   However, if only one or two players have any alprazolam, the street price will likely be higher.   
+If the player purchases the drugs without getting arrested, they can then sell them on the street.   The street price fluctuates based on how many units are available for sale from all the players.   If all the players are buying up alprazolam, there is going to be glut on the market and the street price goes down.   However, if only one or two players have any alprazolam, the street price will likely be higher.     Street prices are always at least a little bit higher than pharmacy prices (no criminal is going to engage in "loss-leaders"!).
 
 
-I use this game as a framing device during pharmacy school classes dealing with prescription drug abuse as a public health problem.  While students play the game I change the market environment to illustrate [various strategies](http://journalofethics.ama-assn.org/2013/05/hlaw1-1305.html) that governments have used to combat the prescription drug abuse problem.   These changes might include increasing surveillance of Schedule II drugs, increasing the risk of arrest when selling on the street, efforts to decrease demand, etc.   
+I use this game as a framing device during pharmacy school classes dealing with prescription drug abuse as a public health issue.  While students play the game I change the market environment to illustrate [various strategies](http://journalofethics.ama-assn.org/2013/05/hlaw1-1305.html) that governments have used to combat the problem.   These changes might include increasing surveillance of Schedule II drugs, increasing the risk of arrest when selling on the street, efforts to decrease demand, etc.   
 
 
 ![settings](https://raw.githubusercontent.com/gtheilman/RxWars/master/media/settings1.png)
@@ -32,14 +32,15 @@ Street price can also be influenced by a "demand multiplier" that can be set for
 
 ![Prices](https://github.com/gtheilman/RxWars/blob/master/media/streetPrices.png)
 
- The students playing the game are first oriented to the interface and gameplay.
- *  When they borrow from the loan shark, interest accrues roughly every 30 seconds.   They need to pay back their loans as quickly as possible.
- *  The risk of being arrested buying drugs from pharmacies is random, but the likelihood is increased the more units they try to buy.   Risk of arrest goes up dramatically once they exceed purchasing 100 units.
- *  If arrested, the player loses whatever money they were trying to spend (and, of course, they don't get the drugs).   They also are assessed "legal fees" to pay lawyers to keep them out of jail.  The legal fees are proportional to the value of the transaction.   If they were trying to buy 300 oxycodone tablets, the legal fees will be higher than if they were trying to buy 10 trazodone.   If they don't have enough money to pay the legal feels, the amount needed is automatically borrowed from the loan shark.
- *  The risk of selling on the street is constant (although it can be adjusted by the administrator).   The thought is that if someone is selling to an undercover policeman, it doesn't really matter if they were trying to sell 10 pills or 100...they are still going to get arrested.   But, as when buying, the legal fees that are assessed after being arrested for selling are proportional to the value of the transaction.
- *  Because of the relationships between size of transactions, risk of arrest and legal fees, students are strongly encouraged to "go slow" and keep their transactions small.   Trying to make "big deals" with hundreds of tablets at a time is a sure way to get in deep with the loan shark.
+ I spend the first part of the exercise orienting the students to the interface and gameplay.
+ *  I usually recommend that the work in teams of three persons sitting in front of one laptop.   The idea is to get them talking to each other about what's going on rather than just clicking buttons.
+ *  When they borrow from the loan shark, interest accrues roughly every 30 seconds.   They need to pay back their loans as quickly as possible.   A message pops up every thirty seconds telling them about the interest and urging them to pay back the loan.
+ *  Being arrested buying drugs from pharmacies is random, but the risk is increased the more units they try to buy.   Risk of arrest goes up dramatically once they try to purchase more than 100 units.  The risk of arrest is displayed next to the number of tablets they are planning to buy.
+ *  If arrested, the player loses whatever money they were trying to spend (and, of course, they don't get the drugs).   They also are assessed "legal fees" to pay lawyers to keep their minions out of jail.  The legal fees are proportional to the value of the transaction.   If they were trying to buy 300 oxycodone tablets, the legal fees will be higher than if they were trying to buy 10 trazodone.   If they don't have enough money to pay the legal fees, the amount needed is automatically borrowed from the loan shark.
+ *  The risk of selling on the street is constant (although it can be adjusted by the administrator).   The thought is that if someone is selling to an undercover policeman, it doesn't really matter if they were trying to sell 10 pills or 100...they are still going to get arrested.   But, as when buying, the legal fees that are assessed after being arrested for selling are proportional to the value of the transaction.   Being busted when carrying out a big transaction carries a larger penalty than being busted when selling just a few tablets.
+ *  Because of the relationships between size of transactions, risk of arrest and legal fees, students are strongly encouraged to "go low, go slow" and keep their transactions small.   Trying to make "big deals" with hundreds of tablets at a time is a sure way to get in deep with the loan shark.
  *  There is a 5 second 'lockout' period after each transaction.   This is to encourage strategic thinking rather than simply pressing buttons as quickly as possible.
- *  Players can also "snitch" on other players.   For a fee of $5,000, a player can arrange that the other player will be arrested during their next transaction.   While the player who was "snitched on" gets a notice that their being arrested was the result of action by another player, they aren't told who did it.
+ *  Players can also "snitch" on other players.   For a fee of $5,000, a player can arrange that the other player will be arrested during their next transaction.   While the player who was "snitched on" gets a notice that their being arrested was the result of action by another player, they aren't told who did it.   
 
 
 ![busted](https://raw.githubusercontent.com/gtheilman/RxWars/master/media/buySell3.png)
@@ -57,7 +58,7 @@ The program is written in JavaScript using Bootstrap and the Meteor framework.  
 
 Meteor lends itself well to deployment using a [Platform as a Service](https://en.wikipedia.org/wiki/Platform_as_a_service) (Paas) provider.  These are services where the server itself is managed by the company and the user is simply responsible for uploading and maintaining the application running on it. 
 
-Deploying to [Meteor's own hosting service](https://www.meteor.com/try/6)   is the simplest option (and it is free!).  However, "for pay" options such as [Modulus](http://help.modulus.io/customer/portal/articles/1647770-using-meteor-with-modulus), [Heroku](https://github.com/jordansissel/heroku-buildpack-meteor) or [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-meteor-js-application-on-ubuntu-14-04-with-nginx) provide additional capabilities.
+Deploying to [Meteor's own hosting service](https://www.meteor.com/try/6)   is the simplest option **(and it is free!)**.  However, "for pay" options such as [Modulus](http://help.modulus.io/customer/portal/articles/1647770-using-meteor-with-modulus), [Heroku](https://github.com/jordansissel/heroku-buildpack-meteor) or [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-meteor-js-application-on-ubuntu-14-04-with-nginx) provide additional capabilities.
 
 ###Installation
 
