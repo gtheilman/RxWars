@@ -38,6 +38,9 @@ Street price can also be influenced by a "demand multiplier" that can be set for
  *  Players can also "snitch" on other players.   For a fee of $5,000, a player can arrange that the other player will be arrested during their next transaction.   While the player who was "snitched on" gets a notice that their being arrested was the result of action by another player, they aren't told who did it.
 
 
+![busted](https://raw.githubusercontent.com/gtheilman/RxWars/master/media/buySell3.png)
+
+
 While the administrator can set risk of arrest, prices, demand, etc for individual drugs, there are also several pre-programmed scenarios.
 *  **Gangster's Paradise**  Practically no law enforcement.   Can be thought to be analogous to a time before laws such as the Controlled Substance Act were passed.   Would be a good initial scenario to allow students to get used to game play and build up a little bit a money.
 *  **Decriminalization**  The demand multiplier goes to near zero because people won't buy drugs illegally when they can get them legally.   Street prices drop to a minimum.
