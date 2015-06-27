@@ -19,6 +19,8 @@ I use this game as a framing device during pharmacy school classes dealing with 
 
 Street price can also be influenced by a "demand multiplier" that can be set for each individual drug.   For example, when [tamper-resistant oxycodone](http://www.medicaldaily.com/crush-proof-oxycontin-pills-have-done-little-curb-americas-problem-drug-abuse-325262) tablets were introduced, the demand for oxycodone tablets went down.   However, the demand for other opiates (especially heroin) went up.
 
+![Prices](https://github.com/gtheilman/RxWars/blob/master/media/streetPrices.png)
+
  The students playing the game are first oriented to the interface and gameplay.
  *  When they borrow from the loan shark, interest accrues roughly every 30 seconds.   They need to pay back their loans as quickly as possible.
  *  The risk of being arrested buying drugs from pharmacies is random, but the likelihood is increased the more units they try to buy.   Risk of arrest goes up dramatically once they exceed purchasing 100 units.
