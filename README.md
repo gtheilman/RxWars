@@ -101,7 +101,7 @@ This involves going into Terminal (or Windows command prompt) and changing to th
 
 3. From with Windows _File Manager_ (or OSX _Finder_) locate the folder with the files you just downloaded and unzipped.  It probably starts with "OnCallAssignments-".  Don't move it from its original location.
 
-4. [Drag](http://osxdaily.com/2009/11/23/copy-a-files-path-to-the-terminal-by-dragging-and-dropping/) the folder _name_ with little folder icon in front of it into the Terminal/command prompt window.   You are not selecting a bunch of files, but just that one line with the folder name.  Make sure you choose the folder immediately above the collection of files.
+4. [Drag](http://osxdaily.com/2009/11/23/copy-a-files-path-to-the-terminal-by-dragging-and-dropping/) the folder _name_ with little folder icon in front of it into the Terminal/command prompt window.   You are not selecting a bunch of files, but just that one line with the folder name.  Make sure you choose the folder immediately above the collection of files.  **The screenshot below is from another application I wrote.   In this case, the folder will probably be named "rxwars...something".**
 
 ![](https://github.com/gtheilman/OncallAssignments/blob/master/media/folders.jpg) 
  
@@ -145,7 +145,7 @@ Change the admin password right away by clicking on the word _admin_ in the manu
 
 **Step 2:**  Go to the Settings page
 
-This page is in the form http://foo.meteor.com**/settings** where *http://foo.meteor.com* is wherever you set up the program.
+This page is in the form <code>http://foo.meteor.com/settings</code> where <code>http://foo.meteor.com</code> is wherever you set up the program.
 
 
 
