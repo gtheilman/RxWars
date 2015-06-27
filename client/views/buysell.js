@@ -235,7 +235,7 @@ Template.buysell.events({
             TEAMDEBT = 0;
         }
 
-        console.log("loanpayment: " + loanPayment);
+        //  console.log("loanpayment: " + loanPayment);
 
 
         Transactions.insert({
@@ -267,12 +267,12 @@ Template.buysell.events({
         if (!event.target.buyQuantity.value) {
             // Buy as much as the money they have
             var buyQuantity = maxPurchase;
-            console.log("Not:" + buyQuantity);
+            //   console.log("Not:" + buyQuantity);
         } else if (isNaN(parseInt(event.target.buyQuantity.value))) {
             // Buy as much as the money they have
-            console.log("NaN");
+            //    console.log("NaN");
             return
-            console.log("NaN:" + buyQuantity);
+            //     console.log("NaN:" + buyQuantity);
         } else if (event.target.buyQuantity.value > maxPurchase) {
             // asked to buy more than the money they had.  REduce quantity bought
             var buyQuantity = maxPurchase;
@@ -283,19 +283,14 @@ Template.buysell.events({
             });
 
 
-            console.log("Reduce quantity:" + buyQuantity);
+            //  console.log("Reduce quantity:" + buyQuantity);
         } else {
             // buy what they asked for
             var buyQuantity = parseInt(event.target.buyQuantity.value);
         }
 
 
-        console.log("buyQuantity: " + buyQuantity);
-
-        // busted or not, you lose the money
-        var totalSale = buyQuantity * buyPrice;
-        TEAMCASH = parseFloat(TEAMCASH) - totalSale;
-
+        //  console.log("buyQuantity: " + buyQuantity);
 
         var transaction = Transactions.findOne({
             team_id: Meteor.userId(),
@@ -311,7 +306,7 @@ Template.buysell.events({
         // Busted?
 
         var calculatedBuyRisk = buyRisk(buyQuantity, drug_id);
-        console.log("Buy Risk: " + calculatedBuyRisk);
+        //  console.log("Buy Risk: " + calculatedBuyRisk);
 
 
         var snitch = Snitches.findOne({});
@@ -330,23 +325,43 @@ Template.buysell.events({
         if (diceRoll < calculatedBuyRisk) {
             // busted
             var legalFees = parseInt(buyQuantity * buyPrice * (buyQuantity / 100) * ServerSession.findOne({}).buyLegalFeeMultiplier / 10);  // very high fines were discouraging players
+            //  console.log("legalFees1: " + legalFees);
+
+
+
 
             if (legalFees < 1000) {
                 legalFees = 1000;
+                //      console.log("legalFees2: " + legalFees);
             } else if (isNaN(legalFees)) {
                 legalFees = 1000;
+                //    console.log("legalFees3: " + legalFees);
             } else if (legalFees > 1.5 * TEAMCASH) {
-                legalFees = 1.5 * TEAMCASH
+                //   console.log("legalFees4A: " + legalFees);
+                //   console.log("TEAMCASH4A: " + TEAMCASH);
+                legalFees = 1.5 * TEAMCASH;
+                //     console.log("legalFees4: " + legalFees);
             }
+
+
+            // busted or not, you lose the money
+            var totalSale = buyQuantity * buyPrice;
+            TEAMCASH = parseFloat(TEAMCASH) - totalSale;
+
+
 
             if (legalFees > parseFloat(TEAMCASH)) {
                 var loanAmount = legalFees - parseFloat(TEAMCASH);
+                //  console.log("loanAmount1: " + loanAmount);
                 TEAMDEBT = parseFloat(TEAMDEBT) + legalFees - parseFloat(TEAMCASH);
+                //   console.log("TEAMDEBT1: " + TEAMDEBT);
                 TEAMCASH = 0;
+                //   console.log("TEAMCASH1: " + TEAMCASH);
 
             } else {
                 var loanAmount = 0;
                 TEAMCASH = parseFloat(TEAMCASH) - legalFees;
+                //  console.log("TEAMCASH2: " + TEAMCASH);
             }
 
 
@@ -364,22 +379,27 @@ Template.buysell.events({
             var randomalert = Math.floor(Math.random() * 5) + 1;
 
             var fine = addCommas(parseInt(legalFees));
+            var saleLoss = addCommas(parseInt(totalSale));
 
             if (randomalert == 1) {
-                alert('Someone snitched!  The police were waiting for your buyer when they left the pharmacy with the ' + drug_name + '.  Your legal costs were $' + fine);
+                alert('Someone snitched!  The police were waiting for your buyer when they left the pharmacy with the ' + drug_name + '. They confiscated the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
             } else if (randomalert == 2) {
-                alert('The pharmacist was suspicious of a prescription for so many ' + drug_name + '.  After you got lawyered-up, your legal costs were $' + fine);
+                alert('The pharmacist was suspicious of a prescription for so many ' + drug_name + '.   The police confiscated the $' + saleLoss + ' you were trying to spend.   After you got lawyered-up, your legal costs were $' + fine);
             } else if (randomalert == 3) {
-                alert('The Board of Pharmacy had sent out an alert about the stolen prescription pad you were using to get ' + drug_name + '.  The pharmacist noticed it and called the police.  Your legal costs were $' + fine);
+                alert('The Board of Pharmacy had sent out an alert about the stolen prescription pad you were using to get ' + drug_name + '.  The pharmacist noticed it and called the police.  They confiscated the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
             } else if (randomalert == 4) {
-                alert('Your buyer acted very nervous and the pharmacist became suspicious.   When the buyer could not explain what the ' + drug_name + ' was for, the police were alerted.  Your legal costs were $' + fine);
+                alert('Your buyer acted very nervous and the pharmacist became suspicious.   When the buyer could not explain what the ' + drug_name + ' was for, the police were alerted.  You lose the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
             } else if (randomalert == 5) {
-                alert('The pharmacist recognized your buyer as someone who had come in earlier in the month with a different prescription for ' + drug_name + '.  The police were called and an arrest was made.  Your legal costs were $' + fine);
+                alert('The pharmacist recognized your buyer as someone who had come in earlier in the month with a different prescription for ' + drug_name + '.  The police were called and an arrest was made.  They confiscated the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
             } else {
-                alert('Your minion was arrested while trying to pass a fake prescription for ' + drug_name + ' at the pharmacy.  Your legal costs were $' + fine);
+                alert('Your minion was arrested while trying to pass a fake prescription for ' + drug_name + ' at the pharmacy.  In an attempt to hide the evidence, he swallowed the $' + saleLoss + ' you gave him.  Your legal costs were $' + fine);
             }
 
         } else {
+
+            var totalSale = buyQuantity * buyPrice;
+            TEAMCASH = parseFloat(TEAMCASH) - totalSale;
+
 
 
             var buySummary = {
@@ -391,7 +411,7 @@ Template.buysell.events({
                 teamCash: parseFloat(TEAMCASH)
             };
 
-            console.log(buySummary);
+
 
             Transactions.insert(buySummary);
 
@@ -412,7 +432,7 @@ Template.buysell.events({
         var drug_id = event.target.drug_id.value;
         var sellPrice = parseInt(event.target.sellPrice.value * 100) / 100;
 
-        console.log("Inventory: " + parseInt(event.target.inventory.value));
+        //  console.log("Inventory: " + parseInt(event.target.inventory.value));
 
         if (!parseInt(event.target.sellQuantity.value)) {
             var sellQuantity = parseInt((event.target.inventory.value));
@@ -454,7 +474,7 @@ Template.buysell.events({
             // busted
 
             var legalFees = parseInt((sellPrice * sellQuantity) * (sellQuantity / 100) * ServerSession.findOne({}).sellLegalFeeMultiplier / 10);
-            console.log("Legal Fees" + legalFees);
+            // console.log("Legal Fees" + legalFees);
 
             if (legalFees < 1000) {
                 legalFees = 1000;
@@ -488,7 +508,7 @@ Template.buysell.events({
                 teamDebt: parseFloat(TEAMDEBT)
             };
 
-            console.log(sellSummary);
+            // console.log(sellSummary);
 
             Transactions.insert(sellSummary);
             updateScoreBoard();
