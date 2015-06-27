@@ -8,6 +8,8 @@ Players take on the role of gangs that buy medicines from pharmacies and then re
 
 The six baseline medications are alprazolam, hydrocodone, oxycodone, amphetamine, oxandrolone and trazodone.  Oxandrolone is an anabolic steroid (Schedule III) that is sometimes used illicitly by athletes.  Trazodone, while prescription-only, is not a controlled substance.   However, people have been known to [crush and insufflate](http://www.bluelight.org/vb/archive/index.php/t-188496.html) the tablets.
 
+![BuySell](https://raw.githubusercontent.com/gtheilman/RxWars/master/media/buySell.png)
+
 Players initially borrow money from the loan shark so that they can purchase medicines from pharmacies using fake prescriptions.  While the cost of buying drugs from pharmacies stays constant, the risk of getting arrested increases with the number of units bought.   Think of it as the pharmacist being much more suspicious when someone comes in with a prescription for 300 oxycodone tablets than they would be if the person was only getting 10 tablets.
 
 If the player purchases the drugs without getting arrested, they can then sell them on the street.   The street price fluctuates based on how many units are available for sale from all the players.   If all the players are buying up alprazolam, there is going to be glut on the market and the street price goes down.   However, if only one or two players have any alprazolam, the street price will likely be higher.   
