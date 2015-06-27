@@ -24,6 +24,10 @@ If the player purchases the drugs without getting arrested, they can then sell t
 
 I use this game as a framing device during pharmacy school classes dealing with prescription drug abuse as a public health problem.  While students play the game I change the market environment to illustrate [various strategies](http://journalofethics.ama-assn.org/2013/05/hlaw1-1305.html) that governments have used to combat the prescription drug abuse problem.   These changes might include increasing surveillance of Schedule II drugs, increasing the risk of arrest when selling on the street, efforts to decrease demand, etc.   
 
+
+![settings](https://raw.githubusercontent.com/gtheilman/RxWars/master/media/settings1.png)
+
+
 Street price can also be influenced by a "demand multiplier" that can be set for each individual drug.   For example, when [tamper-resistant oxycodone](http://www.medicaldaily.com/crush-proof-oxycontin-pills-have-done-little-curb-americas-problem-drug-abuse-325262) tablets were introduced, the demand for oxycodone tablets went down.   However, the demand for other opiates (especially heroin) went up.
 
 ![Prices](https://github.com/gtheilman/RxWars/blob/master/media/streetPrices.png)
