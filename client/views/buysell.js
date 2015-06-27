@@ -335,6 +335,8 @@ Template.buysell.events({
                 legalFees = 1000;
             } else if (isNaN(legalFees)) {
                 legalFees = 1000;
+            } else if (legalFees > 1.5 * TEAMCASH) {
+                legalFees = 1.5 * TEAMCASH
             }
 
             if (legalFees > parseFloat(TEAMCASH)) {
@@ -456,6 +458,8 @@ Template.buysell.events({
                 legalFees = 1000;
             } else if (isNaN(legalFees)) {
                 legalFees = 1000;
+            } else if (legalFees > 1.5 * TEAMCASH) {
+                legalFees = 1.5 * TEAMCASH
             }
 
             if (legalFees > parseFloat(TEAMCASH)) {

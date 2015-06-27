@@ -10,10 +10,10 @@ Template.drugPriceTrends.onRendered(function () {
                         type: 'spline'
                     },
                     title: {
-                        text: 'Prescription Drug Prices'
+                        text: 'Street Prices'
                     },
                     subtitle: {
-                        text: 'Average Street Prices'
+                        text: 'Updated once-a-minute'
                     },
                     xAxis: {
                         type: 'datetime',
