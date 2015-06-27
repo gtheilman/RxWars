@@ -363,18 +363,20 @@ Template.buysell.events({
 
             var randomalert = Math.floor(Math.random() * 5) + 1;
 
+            var fine = addCommas(parseInt(legalFees));
+
             if (randomalert == 1) {
-                alert('Someone snitched!  The police were waiting for your buyer when they left the pharmacy with the ' + drug_name + '.  Your legal costs were $' + addCommas(legalFees));
+                alert('Someone snitched!  The police were waiting for your buyer when they left the pharmacy with the ' + drug_name + '.  Your legal costs were $' + fine);
             } else if (randomalert == 2) {
-                alert('The pharmacist was suspicious of a prescription for so many ' + drug_name + '.  After you got lawyered-up, your legal costs were $' + addCommas(legalFees));
+                alert('The pharmacist was suspicious of a prescription for so many ' + drug_name + '.  After you got lawyered-up, your legal costs were $' + fine);
             } else if (randomalert == 3) {
-                alert('The Board of Pharmacy had sent out an alert about the stolen prescription pad you were using to get ' + drug_name + '.  The pharmacist noticed it and called the police.  Your legal costs were $' + addCommas(legalFees));
+                alert('The Board of Pharmacy had sent out an alert about the stolen prescription pad you were using to get ' + drug_name + '.  The pharmacist noticed it and called the police.  Your legal costs were $' + fine);
             } else if (randomalert == 4) {
-                alert('Your buyer acted very nervous and the pharmacist became suspicious.   When the buyer could not explain what the ' + drug_name + ' was for, the police were alerted.  Your legal costs were $' + addCommas(legalFees));
+                alert('Your buyer acted very nervous and the pharmacist became suspicious.   When the buyer could not explain what the ' + drug_name + ' was for, the police were alerted.  Your legal costs were $' + fine);
             } else if (randomalert == 5) {
-                alert('The pharmacist recognized your buyer as someone who had come in earlier in the month with a different prescription for ' + drug_name + '.  The police were called and an arrest was made.  Your legal costs were $' + addCommas(legalFees));
+                alert('The pharmacist recognized your buyer as someone who had come in earlier in the month with a different prescription for ' + drug_name + '.  The police were called and an arrest was made.  Your legal costs were $' + fine);
             } else {
-                alert('Your minion was arrested while trying to pass a fake prescription for ' + drug_name + ' at the pharmacy.  Your legal costs were $' + addCommas(legalFees));
+                alert('Your minion was arrested while trying to pass a fake prescription for ' + drug_name + ' at the pharmacy.  Your legal costs were $' + fine);
             }
 
         } else {
@@ -462,6 +464,7 @@ Template.buysell.events({
                 legalFees = 1.5 * TEAMCASH
             }
 
+
             if (legalFees > parseFloat(TEAMCASH)) {
                 TEAMDEBT = parseFloat(TEAMDEBT) + legalFees - parseFloat(TEAMCASH);
                 var loanAmount = legalFees - parseFloat(TEAMCASH);
@@ -492,18 +495,20 @@ Template.buysell.events({
 
             var randomalert = Math.floor(Math.random() * 5) + 1;
 
+            var fine = addCommas(parseInt(legalFees));
+
             if (randomalert == 1) {
-                alert('A rival pill mill tipped the police off and they caught you trying to sell the ' + drug_name + '.  Your legal costs were $' + addCommas(legalFees));
+                alert('A rival pill mill tipped the police off and they caught you trying to sell the ' + drug_name + '.  Your legal costs were $' + fine);
             } else if (randomalert == 2) {
-                alert('An customer ratted you out to the police in return for immunity from prosecution.  They took away your ' + drug_name + ' and fined you $' + addCommas(legalFees));
+                alert('An customer ratted you out to the police in return for immunity from prosecution.  They took away your ' + drug_name + ' and fined you $' + fine);
             } else if (randomalert == 3) {
-                alert('Your courier was mugged!   They stole the ' + drug_name + ' as well as the $' + addCommas(legalFees) + ' that he was carrying.');
+                alert('Your courier was mugged!   They stole the ' + drug_name + ' as well as the $' + fine + ' that he was carrying.');
             } else if (randomalert == 4) {
-                alert('Your minion took some of the ' + drug_name + ' you told him to sell.   While tripping, he tried to sell the rest to a uniformed police officer.  It cost $' + addCommas(legalFees) + ' to get him out of jail.');
+                alert('Your minion took some of the ' + drug_name + ' you told him to sell.   While tripping, he tried to sell the rest to a uniformed police officer.  It cost $' + fine + ' to get him out of jail.');
             } else if (randomalert == 5) {
-                alert('Your not-very-bright minion tried to sell the ' + drug_name + ' back to the pharmacist who dispensed it.  The police were called and bail was set at $' + addCommas(legalFees));
+                alert('Your not-very-bright minion tried to sell the ' + drug_name + ' back to the pharmacist who dispensed it.  The police were called and bail was set at $' + fine);
             } else {
-                alert('Your minion was caught while trying to sell ' + drug_name + ' to an undercover police officer.  Your legal costs were $' + addCommas(legalFees));
+                alert('Your minion was caught while trying to sell ' + drug_name + ' to an undercover police officer.  Your legal costs were $' + fine);
             }
 
 
