@@ -4,6 +4,8 @@
 
 Players take on the role of gangs that buy medicines from pharmacies and then re-sell them for non-therapeutic uses (on the street).   The goal is to make more money than other players.   Each teams' net profit (or loss) is displayed in real-time on the screen.
 
+![ScreenShot.png](https://github.com/gtheilman/OncallAssignments/blob/master/media/ScreenShot.png)
+
 The six baseline medications are alprazolam, hydrocodone, oxycodone, amphetamine, oxandrolone and trazodone.  Oxandrolone is an anabolic steroid (Schedule III) that is sometimes used illicitly by athletes.  Trazodone, while prescription-only, is not a controlled substance.   However, people have been known to [crush and insufflate](http://www.bluelight.org/vb/archive/index.php/t-188496.html) the tablets.
 
 Players initially borrow money from the loan shark so that they can purchase medicines from pharmacies using fake prescriptions.  While the cost of buying drugs from pharmacies stays constant, the risk of getting arrested increases with the number of units bought.   Think of it as the pharmacist being much more suspicious when someone comes in with a prescription for 300 oxycodone tablets than they would be if the person was only getting 10 tablets.
