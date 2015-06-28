@@ -170,6 +170,35 @@ if (Meteor.isServer) Meteor.methods({
     },
 
 
+    'drugVolumeTrends': function () {
+        var data = [];
+
+        Drugs.find({active: true}, {sort: {name: 1}}).forEach(function (drug) {
+            var element = {};
+            element.name = drug.name;
+            element.data = [];
+            var quantity = 0;
+            var time = 0;
+
+            Transactions.find({
+                drug_id: drug._id, epoch: {
+                    $gte: parseInt(moment().subtract(301, "minutes").format('x')),
+                    $lte: parseInt(moment().subtract(300, "minutes").format('x'))
+                }
+            }).forEach(function (transaction) {
+                if (transaction.sellQuantity != '') {
+                    quantity = quantity + transaction.sellQuantity;
+                    time = parseInt(moment().subtract(5, "hours").format('x'));
+                    element.data.push([time, quantity]);
+                }
+            });
+            data.push(element);
+        });
+
+        return data
+
+    },
+
     'keepAlive': function () {
 
         var restURL = "http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/precip_15/MapServer?f=pjson";

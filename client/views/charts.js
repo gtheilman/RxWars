@@ -13,7 +13,7 @@ Template.drugPriceTrends.onRendered(function () {
                         text: 'Street Prices'
                     },
                     subtitle: {
-                        text: 'Updated once-a-minute'
+                        text: 'Proportional to units available'
                     },
                     xAxis: {
                         type: 'datetime',
@@ -48,3 +48,58 @@ Template.drugPriceTrends.onRendered(function () {
 
 
 });
+
+
+Template.drugVolumeTrends.onRendered(function () {
+
+    Meteor.setInterval(function () {
+
+        Meteor.call('drugVolumeTrends', function (error, result) {
+            if (result) {
+
+                $('#container-drugVolumeTrends').highcharts({
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: 'Units Sold'
+                    },
+                    subtitle: {
+                        text: 'Updated every minute'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        dateTimeLabelFormats: { // don't display the dummy year
+                            Time: '%H:%M'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number sold'
+                        },
+                        min: 0
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                Highcharts.dateFormat('%H:%M', this.x) + '</b><br/>'
+                                + this.y + ' units';
+                        }
+                    },
+
+                    series: result
+                });
+
+            } else {
+                console.log(error);
+            }
+
+
+        });
+    }, 60000);
+
+
+});
+
+
+
