@@ -7,6 +7,15 @@
         </div>
     </div>
 
+    {{#if admin }}
+        <div class="row">
+            <div class=" col-md-2">
+                <a href="/settings">Settings</a>
+
+                <p>&nbsp;</p>
+            </div>
+        </div>
+    {{ else}}
     <div class="row">
         <div class="alert alert-success col-md-2" role="alert">
             Cash: {{teamCash}}
@@ -18,6 +27,8 @@
             Debt: {{teamDebt}}
         </div>
     </div>
+
+    {{/if}}
 
     <div class="row">
         <div class="col-md-1 buySellHeader">Name</div>

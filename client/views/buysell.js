@@ -74,6 +74,13 @@ Template.buysell.helpers({
         }
     },
 
+    admin: function () {
+        if (Meteor.user().username == 'admin') {
+            return true
+        } else {
+            return false
+        }
+    },
 
     teamCash: function () {
 
@@ -123,16 +130,20 @@ Template.buysell.helpers({
     enterExit: function () {
         Meteor.users.find({"status.online": true}).observe({
             added: function (id) {
-                sAlert.success(id.username + ' has joined the game.', {
-                    effect: 'scale', position: 'bottom-right',
-                    timeout: '4000', onRouteClose: false, stack: true, offset: '0px'
-                });
+                if (username != 'admin') {
+                    sAlert.success(id.username + ' has joined the game.', {
+                        effect: 'scale', position: 'bottom-right',
+                        timeout: '4000', onRouteClose: false, stack: true, offset: '0px'
+                    });
+                }
             },
             removed: function (id) {
-                sAlert.error(id.username + ' has left the game.', {
-                    effect: 'scale', position: 'bottom-right',
-                    timeout: '4000', onRouteClose: false, stack: true, offset: '0px'
-                });
+                if (username != 'admin') {
+                    sAlert.error(id.username + ' has left the game.', {
+                        effect: 'scale', position: 'bottom-right',
+                        timeout: '4000', onRouteClose: false, stack: true, offset: '0px'
+                    });
+                }
                 Meteor.call('removeTeam', id.username);
             }
         });

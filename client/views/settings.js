@@ -3,7 +3,7 @@ if (Meteor.isClient) {
     Template.settings.helpers({
 
         startStopMarketButton: function () {
-            if (Session.get('setIntervalId')) {
+            if (ServerSession.findOne({}).setIntervalId) {
                 return "Pause Market"
             } else {
                 return "Start Market"
@@ -42,7 +42,7 @@ Template.settings.events({
     },
 
     "click #startStopMarketButton": function () {
-        var setIntervalId = ServerSession_id = ServerSession.findOne({}).setIntervalId;
+        var setIntervalId = ServerSession.findOne({}).setIntervalId;
         if (!setIntervalId) {
             var setIntervalId = Meteor.setInterval(function () {
                 Meteor.call('updatePrices');
