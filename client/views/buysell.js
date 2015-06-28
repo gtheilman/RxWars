@@ -265,12 +265,17 @@ Template.buysell.events({
         var maxPurchase = Math.floor(parseFloat(TEAMCASH) / buyPrice);
 
         if (!event.target.buyQuantity.value) {
-            // Buy as much as the money they have
-            var buyQuantity = maxPurchase;
+            sAlert.info('You need to indicate how many you wish to buy.', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
+            return
             //   console.log("Not:" + buyQuantity);
         } else if (isNaN(parseInt(event.target.buyQuantity.value))) {
-            // Buy as much as the money they have
-            //    console.log("NaN");
+            sAlert.info('You need to indicate how many you wish to buy...', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
             return
             //     console.log("NaN:" + buyQuantity);
         } else if (event.target.buyQuantity.value > maxPurchase) {
@@ -281,8 +286,6 @@ Template.buysell.events({
                 effect: 'scale', position: 'top-right',
                 timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
             });
-
-
             //  console.log("Reduce quantity:" + buyQuantity);
         } else {
             // buy what they asked for
@@ -328,8 +331,6 @@ Template.buysell.events({
             //  console.log("legalFees1: " + legalFees);
 
 
-
-
             if (legalFees < 1000) {
                 legalFees = 1000;
                 //      console.log("legalFees2: " + legalFees);
@@ -347,7 +348,6 @@ Template.buysell.events({
             // busted or not, you lose the money
             var totalSale = buyQuantity * buyPrice;
             TEAMCASH = parseFloat(TEAMCASH) - totalSale;
-
 
 
             if (legalFees > parseFloat(TEAMCASH)) {
@@ -401,7 +401,6 @@ Template.buysell.events({
             TEAMCASH = parseFloat(TEAMCASH) - totalSale;
 
 
-
             var buySummary = {
                 drug_id: drug_id,
                 buyQuantity: buyQuantity,
@@ -411,6 +410,148 @@ Template.buysell.events({
                 teamCash: parseFloat(TEAMCASH)
             };
 
+
+            Transactions.insert(buySummary);
+
+        }
+        updateScoreBoard();
+
+    },
+
+
+    "submit .buyMaxForm": function (event, template) {
+        event.preventDefault();
+
+
+        disableButtons(5);
+
+
+        var buyPrice = parseInt(event.target.buyPrice.value * 100) / 100;
+
+        var drug_id = event.target.drug_id.value;
+        var drug_name = event.target.name.value;
+
+
+        var maxPurchase = Math.floor(parseFloat(TEAMCASH) / buyPrice);
+
+        var buyQuantity = maxPurchase;
+
+        //  console.log("buyQuantity: " + buyQuantity);
+
+        var transaction = Transactions.findOne({
+            team_id: Meteor.userId(),
+            drug_id: drug_id
+        }, {sort: {epoch: -1}});
+        if (!transaction) {
+            var inventory = 0;
+        } else {
+            var inventory = parseInt(transaction.inventoryForward);
+        }
+
+
+        // Busted?
+
+        var calculatedBuyRisk = buyRisk(buyQuantity, drug_id);
+        //  console.log("Buy Risk: " + calculatedBuyRisk);
+
+
+        var snitch = Snitches.findOne({});
+        if (snitch) {
+            var diceRoll = -1;
+            Snitches.remove({_id: snitch._id});
+            sAlert.error('Someone snitched on you!', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
+        } else {
+            var diceRoll = parseInt(Math.random() * 100);
+        }
+
+
+        if (diceRoll < calculatedBuyRisk) {
+            // busted
+            var legalFees = parseInt(buyQuantity * buyPrice * (buyQuantity / 100) * ServerSession.findOne({}).buyLegalFeeMultiplier / 10);  // very high fines were discouraging players
+            //  console.log("legalFees1: " + legalFees);
+
+
+            if (legalFees < 1000) {
+                legalFees = 1000;
+                //      console.log("legalFees2: " + legalFees);
+            } else if (isNaN(legalFees)) {
+                legalFees = 1000;
+                //    console.log("legalFees3: " + legalFees);
+            } else if (legalFees > 1.5 * TEAMCASH) {
+                //   console.log("legalFees4A: " + legalFees);
+                //   console.log("TEAMCASH4A: " + TEAMCASH);
+                legalFees = 1.5 * TEAMCASH;
+                //     console.log("legalFees4: " + legalFees);
+            }
+
+
+            // busted or not, you lose the money
+            var totalSale = buyQuantity * buyPrice;
+            TEAMCASH = parseFloat(TEAMCASH) - totalSale;
+
+
+            if (legalFees > parseFloat(TEAMCASH)) {
+                var loanAmount = legalFees - parseFloat(TEAMCASH);
+                //  console.log("loanAmount1: " + loanAmount);
+                TEAMDEBT = parseFloat(TEAMDEBT) + legalFees - parseFloat(TEAMCASH);
+                //   console.log("TEAMDEBT1: " + TEAMDEBT);
+                TEAMCASH = 0;
+                //   console.log("TEAMCASH1: " + TEAMCASH);
+
+            } else {
+                var loanAmount = 0;
+                TEAMCASH = parseFloat(TEAMCASH) - legalFees;
+                //  console.log("TEAMCASH2: " + TEAMCASH);
+            }
+
+
+            Transactions.insert({
+                drug_id: drug_id,
+                buyQuantity: 0,
+                buyPrice: buyPrice,
+                inventoryForward: inventory,
+                legalFees: legalFees,
+                loanAmount: loanAmount,
+                teamDebt: parseFloat(TEAMDEBT),
+                teamCash: parseFloat(TEAMCASH)
+            });
+
+            var randomalert = Math.floor(Math.random() * 5) + 1;
+
+            var fine = addCommas(parseInt(legalFees));
+            var saleLoss = addCommas(parseInt(totalSale));
+
+            if (randomalert == 1) {
+                alert('Someone snitched!  The police were waiting for your buyer when they left the pharmacy with the ' + drug_name + '. They confiscated the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
+            } else if (randomalert == 2) {
+                alert('The pharmacist was suspicious of a prescription for so many ' + drug_name + '.   The police confiscated the $' + saleLoss + ' you were trying to spend.   After you got lawyered-up, your legal costs were $' + fine);
+            } else if (randomalert == 3) {
+                alert('The Board of Pharmacy had sent out an alert about the stolen prescription pad you were using to get ' + drug_name + '.  The pharmacist noticed it and called the police.  They confiscated the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
+            } else if (randomalert == 4) {
+                alert('Your buyer acted very nervous and the pharmacist became suspicious.   When the buyer could not explain what the ' + drug_name + ' was for, the police were alerted.  You lose the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
+            } else if (randomalert == 5) {
+                alert('The pharmacist recognized your buyer as someone who had come in earlier in the month with a different prescription for ' + drug_name + '.  The police were called and an arrest was made.  They confiscated the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
+            } else {
+                alert('Your minion was arrested while trying to pass a fake prescription for ' + drug_name + ' at the pharmacy.  In an attempt to hide the evidence, he swallowed the $' + saleLoss + ' you gave him.  Your legal costs were $' + fine);
+            }
+
+        } else {
+
+            var totalSale = buyQuantity * buyPrice;
+            TEAMCASH = parseFloat(TEAMCASH) - totalSale;
+
+
+            var buySummary = {
+                drug_id: drug_id,
+                buyQuantity: buyQuantity,
+                buyPrice: buyPrice,
+                inventoryForward: inventory + buyQuantity,
+                teamDebt: parseFloat(TEAMDEBT),
+                teamCash: parseFloat(TEAMCASH)
+            };
 
 
             Transactions.insert(buySummary);
@@ -425,7 +566,6 @@ Template.buysell.events({
         event.preventDefault();
 
         disableButtons(5);
-
 
 
         var drug_name = event.target.name.value;

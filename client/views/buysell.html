@@ -38,7 +38,7 @@
             <div class="col-md-1">{{inventory}}</div>
             <div class="col-md-1">{{dollarFormat awp}}</div>
             <div class="col-md-1"><span id="calculatedBuyRisk_{{drug_id}}">{{buyRisk}}%</span></div>
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <form id="{{drug_id}}" name="{{drug_id}}" class="form-inline buyForm">
                     <input type="text" style="width:50px" name="buyQuantity" id="buyQuantity_{{drug_id}}"
                            class="buyQuantityInput">
@@ -47,12 +47,26 @@
                     <input type="hidden" value="{{buyRisk}}" name="buyRisk" id="buyRisk_{{drug_id}}">
                     <input type="hidden" value="{{name}}" name="name" id="name_{{drug_id}}">
                     {{#if getIntervalId}}
-                        <button type="submit" class="btn {{enable_disable}} btn-primary   btn-xs buyButton">Buy</button>
+                        <button type="submit" id="buySomeButton"
+                                class="btn {{enable_disable}} btn-primary   btn-xs buyButton">Buy
+                        </button>
                         &nbsp;
-                        <button type="submit" class="btn  {{enable_disable}} btn-primary    btn-xs buyButton">Buy Max
+                    {{/if}}
+                </form>
+            </div>
+            <div class="col-md-1">
+                <form id="{{drug_id}}" name="{{drug_id}}" class="form-inline buyMaxForm">
+                    <input type="hidden" value="{{drug_id}}" name="drug_id" id="drug_id">
+                    <input type="hidden" value="{{awp}}" name="buyPrice" id="buyPrice">
+                    <input type="hidden" value="{{buyRisk}}" name="buyRisk" id="buyRisk_{{drug_id}}">
+                    <input type="hidden" value="{{name}}" name="name" id="name_{{drug_id}}">
+                    {{#if getIntervalId}}
+                        <button type="submit" id="buyMaxButton"
+                                class="btn  {{enable_disable}} btn-primary    btn-xs buyButton">Buy Max
                         </button>
                     {{/if}}
                 </form>
+
             </div>
 
             <div class="col-md-1">{{dollarFormat price}}</div>
