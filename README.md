@@ -137,16 +137,30 @@ Once your application is up and running, you can delete the folder containing th
 
 **Step 1:** Open the application in your web browser using the provided URL  
 
-When the application is initially set up, the _login | password_  is _admin | admin_.   
-
-
-Change the admin password right away by clicking on the word _admin_ in the manu.  **Make sure you also provide a real email address**.  The only way to recover a password is by requesting that the application send a password reset link by email.   If you forget your password and have not provided a recovery email address, you are locked out of the application.  You change the admin email address by clicking on the _Faculty_ menu item and then _View/Edit/Delete_. 
+When the application is initially set up, the _login | password_  is _admin | admin_.
 
 
 
 **Step 2:**  Go to the Settings page
 
 This page is in the form <code>http://foo.meteor.com/settings</code> where <code>http://foo.meteor.com</code> is wherever you set up the program.
+
+
+Alternatively, there is a link in the upper-left corner of the screen to the "settings" page.
+
+
+Once on the settings page, there is a link to the "database" page.
+
+
+Go into "Users" and change the admin password to something private.   **Make sure you also provide a real email address**.  The only way to recover a password is by requesting that the application send a password reset link by email.   If you forget your password and have not provided a recovery email address, you are locked out of the application.  You change the admin email address by clicking on the _Faculty_ menu item and then _View/Edit/Delete_.
+
+
+**Step 3:** Start the market
+
+Go back to the "Settings" page.   There is a link to Start/Pause the marketplace.
+
+
+**Step 4:** Have players create accounts and login.
 
 
 
