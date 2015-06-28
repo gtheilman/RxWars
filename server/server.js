@@ -167,6 +167,21 @@ if (Meteor.isServer) Meteor.methods({
 
         return data
 
+    },
+
+
+    'keepAlive': function () {
+
+        var restURL = "http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/precip_15/MapServer?f=pjson";
+
+        var result = Meteor.http.get(restURL);
+
+
+        if (result.statusCode == 200) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
 
