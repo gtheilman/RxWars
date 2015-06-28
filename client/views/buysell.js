@@ -382,7 +382,7 @@ Template.buysell.events({
             var saleLoss = addCommas(parseInt(totalSale));
 
             if (randomalert == 1) {
-                alert('Someone snitched!  The police were waiting for your buyer when they left the pharmacy with the ' + drug_name + '. They confiscated the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
+                alert('The police were waiting for your buyer when they left the pharmacy with the ' + drug_name + '. They confiscated the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
             } else if (randomalert == 2) {
                 alert('The pharmacist was suspicious of a prescription for so many ' + drug_name + '.   The police confiscated the $' + saleLoss + ' you were trying to spend.   After you got lawyered-up, your legal costs were $' + fine);
             } else if (randomalert == 3) {
@@ -525,7 +525,7 @@ Template.buysell.events({
             var saleLoss = addCommas(parseInt(totalSale));
 
             if (randomalert == 1) {
-                alert('Someone snitched!  The police were waiting for your buyer when they left the pharmacy with the ' + drug_name + '. They confiscated the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
+                alert('The police were waiting for your buyer when they left the pharmacy with the ' + drug_name + '. They confiscated the $' + saleLoss + ' you were trying to spend.  Your legal costs were $' + fine);
             } else if (randomalert == 2) {
                 alert('The pharmacist was suspicious of a prescription for so many ' + drug_name + '.   The police confiscated the $' + saleLoss + ' you were trying to spend.   After you got lawyered-up, your legal costs were $' + fine);
             } else if (randomalert == 3) {
