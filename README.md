@@ -2,6 +2,13 @@
 
 *Prescription Wars* is a variation on the old [DrugWars](https://en.wikipedia.org/wiki/Drugwars) DOS game where players buy and sell illicit drugs.  
 
+
+I use this game as a framing device during pharmacy school classes dealing with prescription drug abuse as a public health issue.  While students play the game I change the market environment to illustrate [various strategies](http://journalofethics.ama-assn.org/2013/05/hlaw1-1305.html) that governments have used to combat the problem.   These changes might include increasing surveillance of Schedule II drugs, increasing the risk of arrest when selling on the street, efforts to decrease demand, etc.   
+
+
+
+
+
 Players take on the role of gangs that buy medicines from pharmacies and then re-sell them for non-therapeutic uses (on the street).   The goal is to make more money than other players.   Each teams' net profit (or loss) is displayed in real-time on the screen.
 
 ![Scoreboard](https://raw.githubusercontent.com/gtheilman/RxWars/master/media/scoreboard.png)
@@ -21,8 +28,6 @@ Players initially borrow money from the loan shark so that they can purchase med
 
 If the player purchases the drugs without getting arrested, they can then sell them on the street.   The street price fluctuates based on how many units are available for sale from all the players.   If all the players are buying up alprazolam, there is going to be glut on the market and the street price goes down.   However, if only one or two players have any alprazolam, the street price will likely be higher.     Street prices are always at least a little bit higher than pharmacy prices (no criminal is going to engage in "loss-leaders"!).
 
-
-I use this game as a framing device during pharmacy school classes dealing with prescription drug abuse as a public health issue.  While students play the game I change the market environment to illustrate [various strategies](http://journalofethics.ama-assn.org/2013/05/hlaw1-1305.html) that governments have used to combat the problem.   These changes might include increasing surveillance of Schedule II drugs, increasing the risk of arrest when selling on the street, efforts to decrease demand, etc.   
 
 
 ![settings](https://raw.githubusercontent.com/gtheilman/RxWars/master/media/settings1.png)
