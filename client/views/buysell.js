@@ -263,6 +263,10 @@ Template.buysell.events({
     "submit .buyForm": function (event, template) {
         event.preventDefault();
 
+        if (Session.get('buttonsDisabled')) {
+            return
+        }
+
 
         disableButtons(5);
 
@@ -433,6 +437,10 @@ Template.buysell.events({
     "submit .buyMaxForm": function (event, template) {
         event.preventDefault();
 
+        if (Session.get('buttonsDisabled')) {
+            return
+        }
+
 
         disableButtons(5);
 
@@ -575,6 +583,10 @@ Template.buysell.events({
 
     "submit .sellForm": function (event, template) {
         event.preventDefault();
+
+        if (Session.get('buttonsDisabled')) {
+            return
+        }
 
         disableButtons(5);
 
