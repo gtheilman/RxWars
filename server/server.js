@@ -7,12 +7,10 @@ if (Meteor.isServer) Meteor.methods({
             var numberAvailable = 1;
             var numberPlayers = 0;
             var price = 0;
-            //  console.log("Drug:  " + drug);
-            // https://github.com/mizzao/meteor-user-status
+
             Meteor.users.find({"status.online": true}).forEach(function (player) {
                 if (player.username != 'admin') {
 
-                    //  console.log(player.username);
                     numberPlayers = numberPlayers + 1;
 
                     var transaction = Transactions.findOne({
@@ -145,6 +143,7 @@ if (Meteor.isServer) Meteor.methods({
         ScoreBoard.remove({username: username});
     },
 
+
     'drugPriceTrends': function () {
         var data = [];
 
@@ -155,13 +154,42 @@ if (Meteor.isServer) Meteor.methods({
             var time = 0;
             var price = 0;
 
-            DrugPrice.find({drug_id: drug._id}, {sort: {epoch: 1}}).forEach(function (pricePoint) {
-                if (pricePoint.time != '' && pricePoint.price != '' && pricePoint.price > 1 && pricePoint.price < 100) {
-                    time = parseInt(moment(pricePoint.time).subtract(5, "hours").format('x'));
-                    price = Math.round(parseFloat(pricePoint.price) * 100) / 100;
+            var pipeline = [
+                {
+                    $match: {
+                        price: {
+                            $gt: 0,
+                            $lt: 100
+                        },
+                        drug_id: drug._id
+                    }
+                },
+                {
+                    $group: {
+                        _id: {day: {$dayOfYear: "$time"}, hour: {$hour: "$time"}, minute: {$minute: "$time"}},
+                        price: {$avg: "$price"}
+                    }
+                }, {
+                    $sort: {
+                        '_id.day': 1,
+                        '_id.hour': 1,
+                        '_id.minute': 1
+                    }
+                }
+            ];
+
+
+            DrugPrice.aggregate(pipeline).forEach(function (pricePoint) {
+                price = Math.round(pricePoint.price);
+                time = parseInt(moment('1970-01-01T' + pricePoint._id.hour + ':' + pricePoint._id.minute + ":00.000+0500").format('x'));
+
+
+                if (!isNaN(time)) {
                     element.data.push([time, price]);
                 }
+
             });
+
             data.push(element);
         });
 
@@ -169,6 +197,56 @@ if (Meteor.isServer) Meteor.methods({
 
     },
 
+    'drugVolumeTrends': function () {
+        var data = [];
+
+        Drugs.find({active: true}, {sort: {name: 1}}).forEach(function (drug) {
+            var element = {};
+            element.name = drug.name;
+            element.data = [];
+            var quantity = 0;
+            var time = 0;
+
+
+            var pipeline = [
+                {
+                    $match: {
+                        drug_id: drug._id
+                    }
+                },
+                {
+                    $group: {
+                        _id: {day: {$dayOfYear: "$time"}, hour: {$hour: "$time"}, minute: {$minute: "$time"}},
+                        quantity: {$sum: "$sellQuantity"}
+                    }
+                }, {
+                    $sort: {
+                        '_id.day': 1,
+                        '_id.hour': 1,
+                        '_id.minute': 1
+                    }
+                }
+            ];
+
+
+            Transactions.aggregate(
+                pipeline).forEach(function (transaction) {
+                    quantity = transaction.quantity;
+                    time = parseInt(moment('1970-01-01T' + transaction._id.hour + ':' + transaction._id.minute + ":00.000+0500").format('x'));
+                    if (!isNaN(time)) {
+                        element.data.push([time, quantity]);
+                    }
+
+                });
+
+
+
+            data.push(element);
+        });
+
+        return data
+
+    },
 
     'keepAlive': function () {
 
@@ -183,7 +261,22 @@ if (Meteor.isServer) Meteor.methods({
             return 0;
         }
     }
+    ,
+    'resetServer': function () {
+        //reset server
+        if (Roles.userIsInRole(this.userId, 'admin')) {
+
+            Meteor.setTimeout(function () {
+                process.exit();
+            }, 1000);
+
+            return true
+
+        }
+
+    }
 
 
-});
+})
+;
 

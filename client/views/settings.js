@@ -97,6 +97,18 @@ Template.settings.events({
 
     },
 
+    "click #restartButton": function (event) {
+        event.preventDefault();
+        if (confirm("Do you really want to restart the server?")) {
+            Meteor.call('resetServer', function (error, result) {
+                    if (result) {
+                        alert("Restarting...");
+                    }
+                }
+            );
+        }
+    },
+
     "click #resetAllButton": function () {
         if (confirm("Are you sure you really want to reset everything except the admin account?")) {
             Meteor.call('resetMarket');
