@@ -51,7 +51,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            Risk of being arrested when buying Schedule II drugs.
+            Risk of being arrested when buying <b>Schedule II</b> drugs.
         </div>
         <div class="col-md-2">
             <button type="button" class="btn btn-info" id="increaseScheduleIIBuyRisk">Increase 5%</button>
@@ -65,7 +65,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            Risk of being arrested when buying Schedule III-V drugs.
+            Risk of being arrested when buying <b>Schedule III-V</b> drugs.
         </div>
         <div class="col-md-2">
             <button type="button" class="btn btn-info" id="increaseScheduleIII_VBuyRisk">Increase 5%</button>
@@ -79,7 +79,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            Risk of being arrested when buying unscheduled drugs.
+            Risk of being arrested when buying <b>unscheduled</b> drugs.
         </div>
         <div class="col-md-2">
             <button type="button" class="btn btn-info" id="increaseUnscheduledBuyRisk">Increase 5%</button>
@@ -94,7 +94,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            Risk of being arrested when selling. Since police don't know what's being sold before gang member is
+            <b>Risk of being arrested when selling.</b> Since police don't know what's being sold before gang member is
             caught, this changes the risk for all drugs at the same time.
         </div>
         <div class="col-md-2">
@@ -113,7 +113,7 @@
             If arrested while trying to pass a forged prescription, the player always loses the money they were trying
             to spend (<i>totalSale</i>).<br>
             The player also has to pay a lawyer to keep them out of jail.<br>
-            The legal fees are proportional to a multiplier that can be set here.<br>
+            The <b>buying legal fees</b> are proportional to a multiplier that can be set here.<br>
             The "factory settings" for the multiplier is <i>10</i>. Increasing the multiplier increases legal fees
             (example, politicians want to "get tough" on drugs),
             decreasing the multiplier lowers legal fees.
@@ -135,7 +135,7 @@
             If arrested while trying to sell drugs on the street, the player always loses the number of drugs they were
             trying to sell (<i>numberOfDrugs</i>).<br>
             The player also has to pay a lawyer to keep them out of jail.<br>
-            The legal fees are proportional to a multiplier that can be set here.<br>
+            The <b>selling legal fees</b> are proportional to a multiplier that can be set here.<br>
             The "factory settings" for the multiplier is <i>10</i>. Increasing the multiplier increases legal fees
             (example, politicians want to "get tough" on drugs), decreasing the multiplier
             lowers legal fees.
@@ -146,6 +146,23 @@
         </div>
         <div class="col-md-2">
             <button type="button" class="btn btn-info" id="decreaseSellLegalFees">Decrease by 1</button>
+        </div>
+    </div>
+
+    <hr>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <b>Demand</b> affects street prices. While you can tweak demand for individual drugs on the database page,
+            these
+            buttons affect all drugs at once.
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="increaseDemand">Increase 10%</button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info" id="decreaseDemand">Decrease 10%</button>
         </div>
     </div>
 

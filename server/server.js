@@ -24,7 +24,7 @@ if (Meteor.isServer) Meteor.methods({
                 }
             });
 
-            price = parseFloat(drug.awp) * parseFloat(drug.demandMultiplier) * 200 * numberPlayers / numberAvailable;
+            price = parseFloat(drug.awp) * parseFloat(drug.demandMultiplier) / 100 * 200 * numberPlayers / numberAvailable;
 
             if (price < (1.1 * parseFloat(drug.awp))) {
                 price = 1.1 * parseFloat(drug.awp);

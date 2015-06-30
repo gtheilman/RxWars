@@ -209,7 +209,30 @@ if (Meteor.isServer) Meteor.methods({
                 }
             }, {multi: true})
     },
-
+    'increaseDemand': function () {
+        this.unblock;
+        Drugs.find({}).forEach(function (drug) {
+            Drugs.update({_id: drug._id},
+                {
+                    $set: {
+                        demandMultiplier: drug.demandMultiplier + (drug.demandMultiplier * 0.1)
+                    }
+                });
+        });
+        return true
+    },
+    'decreaseDemand': function () {
+        this.unblock;
+        Drugs.find({}).forEach(function (drug) {
+            Drugs.update({_id: drug._id},
+                {
+                    $set: {
+                        demandMultiplier: drug.demandMultiplier - (drug.demandMultiplier * 0.1)
+                    }
+                });
+        });
+        return true
+    },
     'controlledSubstancesAct': function () {
         this.unblock;
         Drugs.update({schedule: 'II'},
@@ -271,7 +294,7 @@ if (Meteor.isServer) Meteor.methods({
             awp: 2,
             buyRisk: 10,
             sellRisk: 10,
-            demandMultiplier: 1.5,
+            demandMultiplier: 150,
             active: true
         });
 
@@ -281,7 +304,7 @@ if (Meteor.isServer) Meteor.methods({
             awp: 2,
             buyRisk: 10,
             sellRisk: 10,
-            demandMultiplier: 2,
+            demandMultiplier: 200,
             active: true
         });
         Drugs.insert({
@@ -290,7 +313,7 @@ if (Meteor.isServer) Meteor.methods({
             awp: 8.5,
             buyRisk: 15,
             sellRisk: 10,
-            demandMultiplier: 2,
+            demandMultiplier: 200,
             active: true
         });
 
@@ -300,7 +323,7 @@ if (Meteor.isServer) Meteor.methods({
             awp: 1,
             buyRisk: 5,
             sellRisk: 5,
-            demandMultiplier: 1.5,
+            demandMultiplier: 150,
             active: true
         });
 
@@ -311,7 +334,7 @@ if (Meteor.isServer) Meteor.methods({
             awp: 8.5,
             buyRisk: 25,
             sellRisk: 10,
-            demandMultiplier: 3,
+            demandMultiplier: 300,
             active: true
         });
 
@@ -322,7 +345,7 @@ if (Meteor.isServer) Meteor.methods({
             awp: 1,
             buyRisk: 5,
             sellRisk: 5,
-            demandMultiplier: 1,
+            demandMultiplier: 100,
             active: true
         });
 

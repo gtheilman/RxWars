@@ -248,6 +248,41 @@ Template.settings.events({
 
     },
 
+    "click #increaseDemand": function () {
+
+        Meteor.call('increaseDemand', function (error, result) {
+            if (result) {
+                sAlert.success('Demand for drugs has been increased by 10%', {
+                    effect: 'scale', position: 'top-right',
+                    timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+                });
+            } else {
+                console.log("Error: " + error);
+            }
+        });
+
+
+    },
+
+
+    "click #decreaseDemand": function () {
+
+        Meteor.call('decreaseDemand', function (error, result) {
+            if (result) {
+                sAlert.success('Demand for drugs has been decreased by 10%.', {
+                    effect: 'scale', position: 'top-right',
+                    timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+                });
+            } else {
+                console.log("Error: " + error);
+            }
+        });
+
+
+    },
+
+
+
     "click #increaseSellRisk": function () {
 
         Meteor.call('increaseSellRisk', function (error, result) {
