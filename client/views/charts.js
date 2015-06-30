@@ -4,7 +4,6 @@ Template.drugPriceTrends.onRendered(function () {
 
         Meteor.call('drugPriceTrends', function (error, result) {
             if (result) {
-                console.log(result);
 
                 $('#container-drugPriceTrends').highcharts({
                     chart: {
@@ -56,7 +55,6 @@ Template.drugVolumeTrends.onRendered(function () {
     Meteor.setInterval(function () {
 
         Meteor.call('drugVolumeTrends', function (error, result) {
-            console.log(result);
             if (result) {
 
                 $('#container-drugVolumeTrends').highcharts({

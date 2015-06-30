@@ -7,12 +7,10 @@ if (Meteor.isServer) Meteor.methods({
             var numberAvailable = 1;
             var numberPlayers = 0;
             var price = 0;
-            //  console.log("Drug:  " + drug);
-            // https://github.com/mizzao/meteor-user-status
+
             Meteor.users.find({"status.online": true}).forEach(function (player) {
                 if (player.username != 'admin') {
 
-                    //  console.log(player.username);
                     numberPlayers = numberPlayers + 1;
 
                     var transaction = Transactions.findOne({
