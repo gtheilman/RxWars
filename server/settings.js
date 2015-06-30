@@ -209,6 +209,29 @@ if (Meteor.isServer) Meteor.methods({
                 }
             }, {multi: true})
     },
+
+    'PDMP': function () {
+        this.unblock;
+        Drugs.find({schedule: {$ne: 'unscheduled'}}).forEach(function (drug) {
+            if (drug.buyRisk < 100) {
+                if ((drug.buyRisk * 2) < 100) {
+                    var buyRisk = drug.buyRisk * 2;
+                } else {
+                    var buyRisk = 100;
+                }
+                Drugs.update({_id: drug._id},
+                    {
+                        $set: {
+                            buyRisk: buyRisk
+                        }
+                    });
+            }
+
+        });
+
+
+        return
+    },
     'increaseDemand': function () {
         this.unblock;
         Drugs.find({}).forEach(function (drug) {

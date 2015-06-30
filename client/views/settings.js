@@ -151,6 +151,15 @@ Template.settings.events({
     },
 
 
+    "click #PDMP": function () {
+        Meteor.call('PDMP');
+        sAlert.success('Risks of arrest while buying doubled.', {
+            effect: 'scale', position: 'top-right',
+            timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+        });
+    },
+
+
 
     "click #increaseScheduleIIBuyRisk": function () {
 
