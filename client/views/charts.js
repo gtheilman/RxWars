@@ -4,6 +4,7 @@ Template.drugPriceTrends.onRendered(function () {
 
         Meteor.call('drugPriceTrends', function (error, result) {
             if (result) {
+                console.log(result);
 
                 $('#container-drugPriceTrends').highcharts({
                     chart: {
@@ -55,10 +56,7 @@ Template.drugVolumeTrends.onRendered(function () {
     Meteor.setInterval(function () {
 
         Meteor.call('drugVolumeTrends', function (error, result) {
-            console.log("Result ");
             console.log(result);
-            console.log("Error ");
-            console.log(error);
             if (result) {
 
                 $('#container-drugVolumeTrends').highcharts({
@@ -66,10 +64,10 @@ Template.drugVolumeTrends.onRendered(function () {
                         type: 'spline'
                     },
                     title: {
-                        text: 'Units Sold'
+                        text: 'Number Sold'
                     },
                     subtitle: {
-                        text: 'Updated every minute'
+                        text: 'Updated each minute'
                     },
                     xAxis: {
                         type: 'datetime',
@@ -86,8 +84,8 @@ Template.drugVolumeTrends.onRendered(function () {
                     tooltip: {
                         formatter: function () {
                             return '<b>' + this.series.name + '</b><br/>' +
-                                Highcharts.dateFormat('%H:%M', this.x) + '</b><br/>'
-                                + this.y + ' units';
+                                Highcharts.dateFormat('%H:%M', this.x) + '</b><br/>' +
+                                this.y + ' units';
                         }
                     },
 

@@ -145,6 +145,7 @@ if (Meteor.isServer) Meteor.methods({
         ScoreBoard.remove({username: username});
     },
 
+
     'drugPriceTrends': function () {
         var data = [];
 
@@ -155,20 +156,48 @@ if (Meteor.isServer) Meteor.methods({
             var time = 0;
             var price = 0;
 
-            DrugPrice.find({drug_id: drug._id}, {sort: {epoch: 1}}).forEach(function (pricePoint) {
-                if (pricePoint.time != '' && pricePoint.price != '' && pricePoint.price > 1 && pricePoint.price < 100) {
-                    time = parseInt(moment(pricePoint.time).subtract(5, "hours").format('x'));
-                    price = Math.round(parseFloat(pricePoint.price) * 100) / 100;
+            var pipeline = [
+                {
+                    $match: {
+                        price: {
+                            $gt: 0,
+                            $lt: 100
+                        },
+                        drug_id: drug._id
+                    }
+                },
+                {
+                    $group: {
+                        _id: {day: {$dayOfYear: "$time"}, hour: {$hour: "$time"}, minute: {$minute: "$time"}},
+                        price: {$avg: "$price"}
+                    }
+                }, {
+                    $sort: {
+                        '_id.day': 1,
+                        '_id.hour': 1,
+                        '_id.minute': 1
+                    }
+                }
+            ];
+
+
+            DrugPrice.aggregate(pipeline).forEach(function (pricePoint) {
+                price = Math.round(pricePoint.price);
+                time = parseInt(moment('1970-01-01T' + pricePoint._id.hour + ':' + pricePoint._id.minute + ":00.000+0500").format('x'));
+
+
+                if (!isNaN(time)) {
                     element.data.push([time, price]);
                 }
+
             });
+
             data.push(element);
         });
 
         return data
 
     },
-
 
     'drugVolumeTrends': function () {
         var data = [];
@@ -179,24 +208,14 @@ if (Meteor.isServer) Meteor.methods({
             element.data = [];
             var quantity = 0;
             var time = 0;
-            /*
 
-             Transactions.find({
-             drug_id: drug._id, epoch: {
-             $gte: parseInt(moment().subtract(301, "minutes").format('x')),
-             $lte: parseInt(moment().subtract(300, "minutes").format('x'))
-             }
-             }).forEach(function (transaction) {
-             if (transaction.sellQuantity != '') {
-             quantity = quantity + transaction.sellQuantity;
-             time = parseInt(moment().subtract(5, "hours").format('x'));
-             element.data.push([time, quantity]);
-             }
-             });
 
-             */
-         
             var pipeline = [
+                {
+                    $match: {
+                        drug_id: drug._id
+                    }
+                },
                 {
                     $group: {
                         _id: {day: {$dayOfYear: "$time"}, hour: {$hour: "$time"}, minute: {$minute: "$time"}},
@@ -214,24 +233,18 @@ if (Meteor.isServer) Meteor.methods({
 
             Transactions.aggregate(
                 pipeline).forEach(function (transaction) {
-
-                    console.log("Transaction ");
-                    console.log(transaction);
-
                     quantity = transaction.quantity;
-                    time = parseInt(moment('1970-01-01 ' + transaction._id.hour + ':' + transaction._id.minute).format('x'));
-                    element.data.push([time, quantity]);
+                    time = parseInt(moment('1970-01-01T' + transaction._id.hour + ':' + transaction._id.minute + ":00.000+0500").format('x'));
+                    if (!isNaN(time)) {
+                        element.data.push([time, quantity]);
+                    }
 
                 });
 
 
-            console.log("Element ");
-            console.log(element);
-
 
             data.push(element);
         });
-
 
         return data
 
