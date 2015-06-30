@@ -55,6 +55,10 @@ Template.drugVolumeTrends.onRendered(function () {
     Meteor.setInterval(function () {
 
         Meteor.call('drugVolumeTrends', function (error, result) {
+            console.log("Result ");
+            console.log(result);
+            console.log("Error ");
+            console.log(error);
             if (result) {
 
                 $('#container-drugVolumeTrends').highcharts({

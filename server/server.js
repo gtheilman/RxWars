@@ -179,21 +179,54 @@ if (Meteor.isServer) Meteor.methods({
             element.data = [];
             var quantity = 0;
             var time = 0;
+            /*
 
-            Transactions.find({
-                drug_id: drug._id, epoch: {
-                    $gte: parseInt(moment().subtract(301, "minutes").format('x')),
-                    $lte: parseInt(moment().subtract(300, "minutes").format('x'))
-                }
-            }).forEach(function (transaction) {
-                if (transaction.sellQuantity != '') {
-                    quantity = quantity + transaction.sellQuantity;
-                    time = parseInt(moment().subtract(5, "hours").format('x'));
+             Transactions.find({
+             drug_id: drug._id, epoch: {
+             $gte: parseInt(moment().subtract(301, "minutes").format('x')),
+             $lte: parseInt(moment().subtract(300, "minutes").format('x'))
+             }
+             }).forEach(function (transaction) {
+             if (transaction.sellQuantity != '') {
+             quantity = quantity + transaction.sellQuantity;
+             time = parseInt(moment().subtract(5, "hours").format('x'));
+             element.data.push([time, quantity]);
+             }
+             });
+
+             */
+
+            Transactions.aggregate(
+                {
+                    $group: {
+                        _id: {day: {$dayOfYear: "$time"}, hour: {$hour: "$time"}, minute: {$minute: "$time"}},
+                        quantity: {$sum: "$sellQuantity"}
+                    }
+                }, {
+                    $sort: {
+                        '_id.day': 1,
+                        '_id.hour': 1,
+                        '_id.minute': 1
+                    }
+                }).forEach(function (transaction) {
+
+                    console.log("Transaction ");
+                    console.log(transaction);
+
+                    quantity = transaction.quantity;
+                    time = parseInt(moment('1970-01-01 ' + transaction._id.hour + ':' + transaction._id.minute).format('x'));
                     element.data.push([time, quantity]);
-                }
-            });
+
+                });
+
+
+            console.log("Element ");
+            console.log(element);
+
+
             data.push(element);
         });
+
 
         return data
 
@@ -211,7 +244,8 @@ if (Meteor.isServer) Meteor.methods({
         } else {
             return 0;
         }
-    },
+    }
+    ,
     'resetServer': function () {
         //reset server
         if (Roles.userIsInRole(this.userId, 'admin')) {
@@ -227,5 +261,6 @@ if (Meteor.isServer) Meteor.methods({
     }
 
 
-});
+})
+;
 
