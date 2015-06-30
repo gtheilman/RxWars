@@ -13,7 +13,7 @@ Template.drugPriceTrends.onRendered(function () {
                         text: 'Street Prices'
                     },
                     subtitle: {
-                        text: 'Proportional to units available'
+                        text: 'Proportional to units purchased'
                     },
                     xAxis: {
                         type: 'datetime',
