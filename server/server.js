@@ -195,8 +195,8 @@ if (Meteor.isServer) Meteor.methods({
              });
 
              */
-
-            Transactions.aggregate(
+         
+            var pipeline = [
                 {
                     $group: {
                         _id: {day: {$dayOfYear: "$time"}, hour: {$hour: "$time"}, minute: {$minute: "$time"}},
@@ -208,7 +208,12 @@ if (Meteor.isServer) Meteor.methods({
                         '_id.hour': 1,
                         '_id.minute': 1
                     }
-                }).forEach(function (transaction) {
+                }
+            ];
+
+
+            Transactions.aggregate(
+                pipeline).forEach(function (transaction) {
 
                     console.log("Transaction ");
                     console.log(transaction);
