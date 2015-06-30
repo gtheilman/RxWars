@@ -142,6 +142,15 @@ Template.settings.events({
         }
     },
 
+    "click #controlledSubstancesAct": function () {
+        Meteor.call('controlledSubstancesAct');
+        sAlert.success('Risks of arrest while buying set.', {
+            effect: 'scale', position: 'top-right',
+            timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+        });
+    },
+
+
 
     "click #increaseScheduleIIBuyRisk": function () {
 
@@ -280,6 +289,22 @@ Template.settings.events({
                 }
             }
         )
+    },
+
+    "click #penalties1984": function () {
+        var serversession = ServerSession.findOne({});
+        ServerSession.update({_id: serversession._id},
+            {
+                $set: {
+                    buyLegalFeeMultiplier: serversession.buyLegalFeeMultiplier * 2,
+                    sellLegalFeeMultiplier: serversession.sellLegalFeeMultiplier * 2
+                }
+            }
+        );
+        sAlert.success('We are getting tough on crime...', {
+            effect: 'scale', position: 'top-right',
+            timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+        });
     },
 
     "click #decreaseBuyLegalFees": function () {

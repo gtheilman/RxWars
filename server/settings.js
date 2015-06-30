@@ -209,6 +209,52 @@ if (Meteor.isServer) Meteor.methods({
                 }
             }, {multi: true})
     },
+
+    'controlledSubstancesAct': function () {
+        this.unblock;
+        Drugs.update({schedule: 'II'},
+            {
+                $set: {
+                    buyRisk: 25,
+                    sellRisk: 10
+                }
+            }, {multi: true});
+
+        Drugs.update({schedule: 'III'},
+            {
+                $set: {
+                    buyRisk: 15,
+                    sellRisk: 10
+                }
+            }, {multi: true});
+
+        Drugs.update({schedule: 'IV'},
+            {
+                $set: {
+                    buyRisk: 15,
+                    sellRisk: 10
+                }
+            }, {multi: true});
+
+
+        Drugs.update({schedule: 'V'},
+            {
+                $set: {
+                    buyRisk: 15,
+                    sellRisk: 10
+                }
+            }, {multi: true});
+
+
+        Drugs.update({schedule: 'unscheduled'},
+            {
+                $set: {
+                    buyRisk: 5,
+                    sellRisk: 10
+                }
+            }, {multi: true});
+
+    },
     'resetMarket': function () {
         Transactions.remove({});
         DrugPrice.remove({});
