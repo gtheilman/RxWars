@@ -53,6 +53,9 @@ Street price can also be influenced by a "demand multiplier" that can be set for
 
 While the administrator can set risk of arrest, prices, demand, etc for individual drugs, there are also several pre-programmed scenarios.
 *  **Gangster's Paradise**  Practically no law enforcement.   Can be thought to be analogous to a time before laws such as the Controlled Substance Act were passed.   Would be a good initial scenario to allow students to get used to game play and build up a little bit of money.
+* **Controlled Substances Act** In 1970 the U.S. government set up the 5 controlled substances "schedules" and forbade refills on Schedule II prescriptions. Baseline risk of arrest while buying Schedule II drugs is set at 25%. Baseline risk for Schedules III-V set at 15%. Risk of arrest when buying unscheduled drugs is 5%. Risk of arrest while selling is set at 10% for all. 
+* **Controlled Substances Penalties Amendments Act of 1984** This 1984 legislation increased penalties for repeat-offenders and for selling drugs within 1000 feet of a school. Increases the legal fees assessed when arrested for buying or selling.
+* **Prescription Drug Monitoring Programs**  Wide availablity of networked computers in early 21st century increased the ability of prescription drug monitoring programs to detect non-therapeutic prescribing.  Increases the risk of being arrested when buying any scheduled drugs.
 *  **Decriminalization**  The demand multiplier goes to near zero because people won't buy drugs illegally when they can get them legally.   Street prices drop to a minimum.
  
 
