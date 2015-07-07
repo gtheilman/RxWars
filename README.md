@@ -1,9 +1,9 @@
 ##Prescription Wars
 
-*Prescription Wars* is a variation on the old [DrugWars](https://en.wikipedia.org/wiki/Drugwars) DOS game where players buy and sell illicit drugs.  
+*Prescription Wars* is a multiplayer variation on the old [DrugWars](https://en.wikipedia.org/wiki/Drugwars) DOS game where players buy and sell illicit drugs.  
 
 
-I use this game as a framing device during pharmacy school classes dealing with prescription drug abuse as a public health issue.  While students play the game I change the market environment to illustrate [various strategies](http://journalofethics.ama-assn.org/2013/05/hlaw1-1305.html) that governments have used to combat the problem.   These changes might include increasing surveillance of Schedule II drugs, increasing the risk of arrest when selling on the street, efforts to decrease demand, etc.   
+I use this game as a framing device during pharmacy school classes dealing with prescription drug abuse as a public health issue.  While students play the game I change the market environment to illustrate [various strategies](http://journalofethics.ama-assn.org/2013/05/hlaw1-1305.html) that governments have used to combat the problem.   These changes might include increasing surveillance of Schedule II drugs, increasing the risk of arrest when selling on the street, efforts to decrease demand, etc.   Students can then try to see how these strategies might affect the illicit prescription drug trade.
 
 
 
