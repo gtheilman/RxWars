@@ -6,6 +6,9 @@
 I use this game as a framing device during pharmacy school classes dealing with prescription drug abuse as a public health issue.  While students play the game I change the market environment to illustrate [various strategies](http://journalofethics.ama-assn.org/2013/05/hlaw1-1305.html) that governments have used to combat the problem.   These changes might include increasing surveillance of Schedule II drugs, increasing the risk of arrest when selling on the street, efforts to decrease demand, etc.   Students can then try to see how these strategies might affect the illicit prescription drug trade.
 
 
+Some of the slides I use during the class are [here](https://github.com/gtheilman/RxWars/blob/master/media/RxWars_PowerPoint.pptx?raw=true).
+
+
 
 
 
