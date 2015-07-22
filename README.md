@@ -163,8 +163,8 @@ Alternatively, there is a link in the upper-left corner of the screen to the "se
 Once on the settings page, there is a link to the "database" page.
 
 
-Go into "Users" and change the admin password to something private.   **Make sure you also provide a real email address**.  The only way to recover a password is by requesting that the application send a password reset link by email.   If you forget your password and have not provided a recovery email address, you are locked out of the application.  You change the admin email address by clicking on the _Faculty_ menu item and then _View/Edit/Delete_.
-
+Go into "Users" and change the admin password to something private.   The only way to recover a password is by requesting that the application send a password reset link by email.   If you forget your password and have not provided a recovery email address, you are locked out of the application. Since the package I'm using for the database view doesn't seem to allow changing the admin account email address, I'd strongly suggest immediately creating a new account (with a valid email address) and giving it admin rights.    If you forget the admin password, use that new account to login.   If you forget the *new* account password as well, you can have the system email a password reset link to the new account's email address.
+ 
 
 **Step 3:** Start the market
 
