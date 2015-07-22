@@ -166,8 +166,18 @@ Template.buysell.events({
             return
         }
 
-        TEAMCASH = parseFloat(TEAMCASH) + loanAmount;
-        TEAMDEBT = parseFloat(TEAMDEBT) + loanAmount;
+        try {
+
+            TEAMCASH = parseFloat(TEAMCASH) + loanAmount;
+            TEAMDEBT = parseFloat(TEAMDEBT) + loanAmount;
+        }
+        catch (err) {
+            sAlert.info('There is a problem trying to borrow.  If you have admin rights, create a different account in order to be a player.', {
+                effect: 'scale', position: 'top-right',
+                timeout: '8000', onRouteClose: false, stack: true, offset: '0px'
+            });
+            return
+        }
 
 
         Transactions.insert({

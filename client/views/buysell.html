@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    {{#if admin }}
+    {{#if isInRole 'admin'}}
         <div class="row">
             <div class=" col-md-2">
                 <a href="/settings">Settings</a>
@@ -109,68 +109,71 @@
     {{/each}}
 
 
-
-    <div class="row">
-        <div class="col-md-5">
-            <h4>Loan Shark</h4>
+    {{#unless isInRole 'admin'}}
+        <div class="row">
+            <div class="col-md-5">
+                <h4>Loan Shark</h4>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-5">
-            <form class="form-inline" id="borrowForm">
-                <div class="form-group">
-                    <label class="sr-only" for="borrowAmount">Amount (in dollars)</label>
+        <div class="row">
+            <div class="col-md-5">
+                <form class="form-inline" id="borrowForm">
+                    <div class="form-group">
+                        <label class="sr-only" for="borrowAmount">Amount (in dollars)</label>
 
-                    <div class="input-group">
-                        <div class="input-group-addon">$</div>
-                        <input type="text" class="form-control" name="loanAmount" id="loanAmount"
-                               placeholder="Amount">
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="text" class="form-control" name="loanAmount" id="loanAmount"
+                                   placeholder="Amount">
 
-                        <div class="input-group-addon">.00</div>
+                            <div class="input-group-addon">.00</div>
+                        </div>
                     </div>
+                    {{#if getIntervalId}}
+                        <button type="submit" id="borrowButton" class="btn  {{enable_disable}}  btn-primary   ">Borrow
+                        </button>
+                    {{/if}}
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                &nbsp;
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <form class="form-inline" id="repayForm">
+                    <div class="form-group">
+                        <label class="sr-only" for="repayAmount">Amount (in dollars)</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="text" class="form-control" id="loanPayment" placeholder="Amount">
+
+                            <div class="input-group-addon">.00</div>
+                        </div>
+                    </div>
+                    {{#if getIntervalId}}
+                        <button type="submit" id="repayButton" class="btn  {{enable_disable}} btn-primary   ">Repay
+                        </button>
+                    {{/if}}
+                </form>
                 </div>
+            <div class="col-md-5">
                 {{#if getIntervalId}}
-                    <button type="submit" id="borrowButton" class="btn  {{enable_disable}}  btn-primary   ">Borrow
+                    <button type="submit" id="repayAllButton" class="btn  {{enable_disable}} btn-primary  form-inline">
+                        Repay
+                        All
                     </button>
                 {{/if}}
-            </form>
+            </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-5">
-            &nbsp;
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-md-3">
-            <form class="form-inline" id="repayForm">
-                <div class="form-group">
-                    <label class="sr-only" for="repayAmount">Amount (in dollars)</label>
-
-                    <div class="input-group">
-                        <div class="input-group-addon">$</div>
-                        <input type="text" class="form-control" id="loanPayment" placeholder="Amount">
-
-                        <div class="input-group-addon">.00</div>
-                    </div>
-                </div>
-                {{#if getIntervalId}}
-                    <button type="submit" id="repayButton" class="btn  {{enable_disable}} btn-primary   ">Repay</button>
-                {{/if}}
-            </form>
-        </div>
-        <div class="col-md-5">
-            {{#if getIntervalId}}
-                <button type="submit" id="repayAllButton" class="btn  {{enable_disable}} btn-primary  form-inline">Repay
-                    All
-                </button>
-            {{/if}}
-        </div>
-    </div>
+    {{/unless}}
     <hr>
 
 
