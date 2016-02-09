@@ -2,15 +2,15 @@
 
     <div class="panel panel-info">
         <div class="row">
-            <div class="col-md-4"><h4>Gang</h4></div>
-            <div class="col-md-4"><h4>Net Profits</h4></div>
+            <div class="col-md-6"><h4>Gang</h4></div>
+            <div class="col-md-2"><h4>Net Profits</h4></div>
         </div>
 
 
         {{#each teamScores}}
             <div class="row">
-                <div class="col-md-4">{{username}}</div>
-                <div class="col-md-4 {{profitLoss teamNet}}">{{teamNetFormatted teamNet}}</div>
+                <div class="col-md-6">{{username}}</div>
+                <div class="col-md-2 {{profitLoss teamNet}}">{{teamNetFormatted teamNet}}</div>
                 <div class="col-md-4">
                     <button type="submit" class="btn  {{enable_disable}} btn-primary     btn-xs snitchButton"
                             id="snitchButton_{{team_id}}">

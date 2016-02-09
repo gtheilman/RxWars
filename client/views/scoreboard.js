@@ -34,20 +34,21 @@ if (Meteor.isClient) {
     Template.scoreboard.events({
         "click .snitchButton": function (event, template) {
 
-            team_id = event.target.id.replace("snitchButton_", "");
-            snitchTeam = Meteor.users.findOne({_id: team_id});
-            Snitches.insert({
-                team_id: team_id
-            });
-            var snitchFee = 5000;
+            var team_id = event.target.id.replace("snitchButton_", "");
+            var snitchTeam = Meteor.users.findOne({_id: team_id});
 
+            var snitchFee = 5000;
 
             if (snitchFee > parseFloat(TEAMCASH)) {
                 alert("You don't have enough money to pay the snitch.");
                 return
             } else {
                 TEAMCASH = parseFloat(TEAMCASH) - snitchFee;
+                Snitches.insert({
+                    team_id: team_id
+                });
             }
+
 
             Transactions.insert({
                 snitchFee: snitchFee,

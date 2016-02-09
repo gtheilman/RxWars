@@ -195,7 +195,9 @@ if (Meteor.isServer) Meteor.methods({
         Drugs.update({},
             {
                 $set: {
-                    demandMultiplier: 0.0001
+                    demandMultiplier: 1,
+                    buyRisk: 0,
+                    sellRisk: 0
                 }
             }, {multi: true})
     },
@@ -247,10 +249,16 @@ if (Meteor.isServer) Meteor.methods({
     'decreaseDemand': function () {
         this.unblock;
         Drugs.find({}).forEach(function (drug) {
+            var basedemandMultiplier;
+            if (drug.demandMultiplier < 1.1) {
+                basedemandMultiplier = 1.1;
+            } else {
+                basedemandMultiplier = drug.demandMultiplier;
+            }
             Drugs.update({_id: drug._id},
                 {
                     $set: {
-                        demandMultiplier: drug.demandMultiplier - (drug.demandMultiplier * 0.1)
+                        demandMultiplier: basedemandMultiplier - (drug.demandMultiplier * 0.1)
                     }
                 });
         });
