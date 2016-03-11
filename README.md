@@ -69,7 +69,9 @@ The program is written in JavaScript using Bootstrap and the Meteor framework.  
 
 Meteor lends itself well to deployment using a [Platform as a Service](https://en.wikipedia.org/wiki/Platform_as_a_service) (Paas) provider.  These are services where the server itself is managed by the company and the user is simply responsible for uploading and maintaining the application running on it. 
 
-Deploying to [Meteor's own hosting service](https://www.meteor.com/try/6)   is the simplest option **(and it is free!)**.  However, "for pay" options such as [Modulus](http://help.modulus.io/customer/portal/articles/1647770-using-meteor-with-modulus), [Heroku](https://github.com/jordansissel/heroku-buildpack-meteor) or [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-meteor-js-application-on-ubuntu-14-04-with-nginx) provide additional capabilities.
+ _**Meteor hosting is no longer free. You can still deploy to another, paid hosting service, though**_
+
+[Modulus](http://help.modulus.io/customer/portal/articles/1647770-using-meteor-with-modulus), [Heroku](https://github.com/jordansissel/heroku-buildpack-meteor) or [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-meteor-js-application-on-ubuntu-14-04-with-nginx) 
 
 ###Installation
 
@@ -130,18 +132,8 @@ The program is now running on your local computer.    You can access it by point
 
 While you can open the application in a web browser while it is running on your local computer, you'll likely have problems getting other people to connect to it if it is not accessible to the outside world.   So, we're going to stop the program on your local computer by holding down the <code>Ctrl</code> (or <code>control</code>) key and tapping <code>c</code> twice
  
-
-We are going to [install your application]  (http://docs.meteor.com/#/basic/quickstart)  on Meteor's free hosting service to try it out for real.  
-
-Think of a unique one-word name for the application. Suppose you decide to call it <code>foo</code>.
-
-From the command prompt (or Terminal) type <code>meteor deploy foo </code> (or whatever name you chose).    Press the <code>Enter/return</code> key.
-
-You will likely be asked for your Meteor username and password during this process.   When you type your password, it won't look like anything is happening on the screen.  Don't worry, it _is_ being entered.  Type your password, then press the <code>Enter/return</code> key.
-
-After you successfully deploy to Meteor, a URL where your application can be accessed will be displayed in the Terminal/command prompt window.  It will very likely be something like <code>http://foo.meteor.com</code>.  Make a note of it.
-
-Once your application is up and running, you can delete the folder containing the files you downloaded.
+_**Meteor hosting is no longer free. You can still deploy to another, paid hosting service, though**_
+ 
 
 
 ###Initial Use
@@ -154,8 +146,7 @@ When the application is initially set up, the _login | password_  is _admin | ad
 
 **Step 2:**  Go to the Settings page
 
-This page is in the form <code>http://foo.meteor.com/settings</code> where <code>http://foo.meteor.com</code> is wherever you set up the program.
-
+_**Meteor hosting is no longer free. You can still deploy to another, paid hosting service, though**_
 
 Alternatively, there is a link in the upper-left corner of the screen to the "settings" page.
 
@@ -184,4 +175,3 @@ Go back to the "Settings" page.   There is a link to Start/Pause the marketplace
 I have not installed any "backdoors" that would allow me to access your installation of the application.   You can review the source code to see for yourself.   If you wish me to provide some sort of assistance once you have the application set-up, you would have to provide me with credentials to access your application.
 
 Please review the software's license regarding lack of warranty and liability.    We are not responsible for anything bad that happens as a result of your using this software.
-
